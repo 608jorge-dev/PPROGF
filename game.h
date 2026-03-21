@@ -16,6 +16,7 @@
 #include "object.h"
 #include "space.h"
 #include "character.h"
+#include "link.h"
 #include "types.h"
 
 /**Game structure type definition

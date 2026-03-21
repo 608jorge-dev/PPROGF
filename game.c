@@ -29,6 +29,8 @@ struct _Game
   int n_spaces;                          /*Total amount of spaces created*/
   Character *characters[MAX_CHARACTERS]; /*Character structure pointer*/
   int n_characters;                      /*Total amount of characters created*/
+  Link *links[MAX_LINKS];                /*Link structure pointer*/
+  int n_links;                           /*Total amount of links created*/
   Command *last_cmd;                     /*Command structure pointer*/
   Bool finished;                         /*States the finished status in the game*/
 };
@@ -551,6 +553,36 @@ Bool game_get_finished(Game *game)
 {
   return game->finished;
 }
+
+/* LINK FUNCTIONS : */
+  Id game_get_connection (Game *game, Id actual_space, Direction link_dir) {
+    int i;
+    if (!game || actual_space == NO_ID || link_dir > 3 || link_dir <0)  {
+      return NO_ID;
+    }
+    
+    for (i=0; i<game->n_links; i++) {
+      if (link_get_origin(game->links[i]) == actual_space && link_get_direction(game->links[i]) == link_dir)  {
+        return link_get_destination(game->links[i]);
+      }
+    }
+    
+    return NO_ID;
+  }
+
+  Bool game_connection_is_open (Game *game, Id actual_space, Direction link_dir)  {
+    int i;
+    if (!game || actual_space == NO_ID || link_dir > 3 || link_dir <0)  {
+      return FALSE;
+    }
+    
+    for (i=0; i<game->n_links; i++) {
+      if (link_get_origin(game->links[i]) == actual_space && link_get_direction(game->links[i]) == link_dir)  {
+        return link_get_open(game->links[i]);
+      }
+    }
+    return FALSE;
+  }
 
 /** It prints the game information
  */

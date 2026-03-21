@@ -25,6 +25,7 @@
 #define MAX_SPACES 100
 #define MAX_CHARACTERS 50
 #define MAX_OBJECTS 4
+#define MAX_LINKS 100
 
 /* Graphic engine fields macros */
 #define WIDTH_MAP 65

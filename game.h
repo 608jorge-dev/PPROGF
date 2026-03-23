@@ -18,6 +18,7 @@
 #include "character.h"
 #include "link.h"
 #include "types.h"
+#include "inventory.h"
 
 /**Game structure type definition
  */
@@ -280,6 +281,12 @@ Status game_set_finished(Game *game, Bool finished);
  * @return A boolean, specifying if the game finishes (TRUE) or not (FALSE)
  */
 Bool game_get_finished(Game *game);
+
+/* LINK FUNCTIONS : */
+
+Id game_get_connection (Game *game, Id actual_space, Direction link_dir);
+Bool game_connection_is_open (Game *game, Id actual_space, Direction link_dir);
+Link *game_get_link_with_id(Game *game, Id id);
 
 /**
  * @brief It prints the game information

@@ -36,6 +36,38 @@ Status game_reader_load_spaces(Game *game, char *filename);
  */
 Status game_reader_load_objects(Game *game, char *filename);
 
+
+/**
+ * @brief Loads the player read on file
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ * @param filename A pointer to the name of the data file
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status game_reader_load_characters(Game *game, char *filename);
+
+/**
+ * @brief Loads the player read on file
+ * @author Guillermo Nuñez Bravo
+ *
+ * @param game A pointer to the game data
+ * @param filename A pointer to the name of the data file
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status game_reader_load_player(Game *game, char *filename);
+
+/**
+ * @brief Loads the link read on file
+ * @author Guillermo Nuñez Bravo
+ *
+ * @param game A pointer to the game data
+ * @param filename A pointer to the name of the data file
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status game_reader_load_link(Game *game, char *filename);
+
+
 /**
  * @brief Initializes the game structure members starting from the file
  * @author Profesores PPROG

@@ -13,6 +13,7 @@
 
 #include "types.h"
 #include "set.h"
+#include "inventory.h"
 
 /** Player structure type definition
  */
@@ -78,14 +79,14 @@ const char *player_get_name(Player *player);
  * @brief It adds the object to the player set
  * @author Jorge Torrijos de la Cruz
  *
- * @param player A pointer to the player
+ * @param player A pointer to the inventory
  * @param id The id of the object to add
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
 Status player_add_object(Player *player, Id id);
 
 /**
- * @brief It deletes the object from the player set
+ * @brief It deletes the object from the player inventory
  * @author Jorge Torrijos de la Cruz
  *
  * @param player A pointer to the player
@@ -111,7 +112,7 @@ Bool player_find_object(Player *player, Id id);
  * @param player A pointer to the player
  * @return A pointer to the set of objects structure
  */
-Set *player_get_objects(Player *player);
+Inventory *player_get_objects(Player *player);
 
 /**
  * @brief It sets the id of a player's location

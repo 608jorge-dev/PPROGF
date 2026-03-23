@@ -24,7 +24,7 @@ Status game_reader_load_spaces(Game *game, char *filename)
   char name[WORD_SIZE] = "";
   char g1[WORD_SIZE] = "", g2[WORD_SIZE] = "", g3[WORD_SIZE] = "", g4[WORD_SIZE] = "", g5[WORD_SIZE] = "";
   char *toks = NULL;
-  Id id = NO_ID, north = NO_ID, east = NO_ID, south = NO_ID, west = NO_ID;
+  Id id = NO_ID;
   Space *space = NULL;
   Status status = OK;
 
@@ -48,14 +48,6 @@ Status game_reader_load_spaces(Game *game, char *filename)
       toks = strtok(NULL, "|");
       strcpy(name, toks);
       toks = strtok(NULL, "|");
-      north = atol(toks);
-      toks = strtok(NULL, "|");
-      east = atol(toks);
-      toks = strtok(NULL, "|");
-      south = atol(toks);
-      toks = strtok(NULL, "|");
-      west = atol(toks);
-      toks = strtok(NULL, "|");
       strcpy(g1, toks);
       toks = strtok(NULL, "|");
       strcpy(g2, toks);
@@ -66,16 +58,11 @@ Status game_reader_load_spaces(Game *game, char *filename)
       toks = strtok(NULL, "|");
       strcpy(g5, toks);
 #ifdef DEBUG
-      printf("Leido: s:%ld|%s|%ld|%ld|%ld|%ld\n", id, name, north, east, south, west);
+      printf("Leido: s:%ld|%s|\n", id, name);
 #endif
       space = space_create(id);
       if (space != NULL)
       {
-        space_set_name(space, name);
-        space_set_north(space, north);
-        space_set_east(space, east);
-        space_set_south(space, south);
-        space_set_west(space, west);
         space_set_gdesc(space, 0, g1);
         space_set_gdesc(space, 1, g2);
         space_set_gdesc(space, 2, g3);
@@ -219,7 +206,7 @@ Status game_reader_load_characters(Game *game, char *filename)
     }
   }
 #ifdef DEBUG
-  printf("Leido: o:%ld|%s|%ld\n", object_id, name, space_id);
+  printf("Leido: c:%ld|%s|%ld|%s\n", object_id, name, space_id, message);
 #endif
 
   if (ferror(file))
@@ -231,6 +218,137 @@ Status game_reader_load_characters(Game *game, char *filename)
 
   return status;
 }
+
+/**
+  Loads the player read on the .dat file
+*/
+Status game_reader_load_player(Game *game, char *filename)
+{
+  FILE *file = NULL;
+  Player *player = NULL;
+  Inventory *inventory = NULL;
+  char *toks = NULL;
+  char line[WORD_SIZE] = "\0";
+  char name[WORD_SIZE] = "\0";
+  char gdesc[WORD_SIZE] = "\0";
+  Id player_id = NO_ID, space_id = NO_ID;
+  Status status = OK;
+  int health = 0, max_inventory = 0;
+
+  if (!filename)
+  {
+    return ERROR;
+  }
+
+  file = fopen(filename, "r");
+  if (file == NULL)
+  {
+    return ERROR;
+  }
+
+  while (fgets(line, WORD_SIZE, file))
+  {
+    if (strncmp("#p:", line, 3) == 0)
+    {
+      toks = strtok(line + 3, "|");
+      player_id = atol(toks);
+      toks = strtok(NULL, "|");
+      strcpy(name, toks);
+      toks = strtok(NULL, "|");
+      strcpy(gdesc, toks);
+      toks = strtok(NULL, "|");
+      health = atol(toks);
+      toks = strtok(NULL, "|");
+      space_id = atol(toks);
+      toks = strtok(NULL, "|");
+      max_inventory = atol(toks);
+
+      player = player_create(player_id);
+      inventory = inventory_create();
+      if (player != NULL)
+      {
+        player_set_name(player, name);
+        player_set_gdesc(player, gdesc);
+        player_set_health(player, health);
+        //*game_add_player(game, player);*//
+        game_set_player_location(game, space_id);
+        inventory_set_max_objs(inventory, max_inventory);
+      }
+    }
+  }
+#ifdef DEBUG
+  printf("Leido: p:%ld|%s|%ld|%ld\n", player_id, name, space_id, inventory);
+#endif
+
+  if (ferror(file))
+  {
+    status = ERROR;
+    free(player);
+    free(inventory);
+  }
+  fclose(file);
+
+  return status;
+}
+
+Status game_reader_load_link(Game *game, char *filename)
+{
+  FILE *file = NULL;
+  Link *link = NULL;
+  char *toks = NULL;
+  char line[WORD_SIZE] = "\0";
+  char name[WORD_SIZE] = "\0";
+  Id link_id = NO_ID, space_id_orig = NO_ID, space_id_dest = NO_ID;
+  Status status = OK;
+
+  if (!filename)
+  {
+    return ERROR;
+  }
+
+  file = fopen(filename, "r");
+  if (file == NULL)
+  {
+    return ERROR;
+  }
+
+  while (fgets(line, WORD_SIZE, file))
+  {
+    if (strncmp("#p:", line, 3) == 0)
+    {
+      toks = strtok(line + 3, "|");
+      link_id = atol(toks);
+      toks = strtok(NULL, "|");
+      strcpy(name, toks);
+      toks = strtok(NULL, "|");
+      space_id_orig = atol(toks);
+      toks = strtok(NULL, "|");
+      space_id_dest = atol(toks);
+
+      link = link_create(link_id);
+      if (link != NULL)
+      {
+        game_add_link(game, link);
+        link_set_name(link, name);
+        link_set_origin(link, space_id_orig);
+        link_set_destination(link, space_id_dest);
+      }
+    }
+  }
+#ifdef DEBUG
+  printf("Leido: l:%ld|%s|%ld|%ld\n", link_id, name, space_id_orig, space_id_dest);
+#endif
+
+  if (ferror(file))
+  {
+    status = ERROR;
+    free(link);
+  }
+  fclose(file);
+
+  return status;
+}
+
 
 /** It creates a new game data structure, allocating memory and initializing its members starting from the .dat file
  */
@@ -247,6 +365,16 @@ Status game_reader_create_from_file(Game *game, char *filename)
   }
 
   if (game_reader_load_characters(game, filename) == ERROR)
+  {
+    return ERROR;
+  }
+
+  if (game_reader_load_player(game, filename) == ERROR)
+  {
+    return ERROR;
+  }
+
+  if (game_reader_load_link(game, filename) == ERROR)
   {
     return ERROR;
   }

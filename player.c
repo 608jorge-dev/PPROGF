@@ -10,6 +10,7 @@
 
 #include "player.h"
 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,7 +25,7 @@ struct _Player
   Id id;                     /*!< Id number of the player, it must be unique */
   char name[WORD_SIZE + 1];  /*!< Name of the player */
   Id location;               /*!< Id of player's location */
-  Set *objects;              /*!< Set of the player object's */
+  Inventory *objects;        /*!< Set of the player object's */
   int n_objects;             /*!< Total amount of objects created */
   int health;                /*!< Amount of health the player has */
   char gdesc[WORD_SIZE + 1]; /*!< Description of the lpayer */
@@ -49,7 +50,7 @@ Player *player_create(Id id)
   newPlayer->id = id;
   newPlayer->name[0] = '\0';
   newPlayer->location = NO_ID;
-  newPlayer->objects = set_create();
+  newPlayer->objects = inventory_create();
   newPlayer->n_objects = 0;
   newPlayer->health = 4;
   newPlayer->gdesc[0] = '^';
@@ -150,12 +151,15 @@ Id player_get_location(Player *player)
  */
 Status player_add_object(Player *player, Id id)
 {
-  if (!player || !player_get_objects(player) || set_get_n_ids(player_get_objects(player)) == MAX_OBJECTS)
+  if (!player || !player_get_objects(player) || inventory_get_max_objs(player_get_objects(player)) == MAX_OBJECTS)
   {
     return ERROR;
   }
 
-  set_add(player_get_objects(player), id);
+  if(inventory_add_object(player_get_objects(player), id) == ERROR )
+  {
+     return ERROR;
+  }
 
   return OK;
 }
@@ -164,8 +168,8 @@ Status player_add_object(Player *player, Id id)
  */
 Status player_del_object(Player *player, Id id)
 {
-  Set *objects;
-  int n_ids;
+  Inventory *objects;
+  int n_invents;
 
   if (!player || id == NO_ID)
   {
@@ -178,22 +182,26 @@ Status player_del_object(Player *player, Id id)
     return ERROR;
   }
 
-  n_ids = set_get_n_ids(objects);
-  if (n_ids == 0)
+  /*n_invents = set_get_n_ids(objects);  */
+   n_invents = inventory_get_max_objs(objects);
+  if (n_invents == 0)
   {
     return ERROR;
   }
 
-  set_del(objects, id);
+  if(inventory_del_object(objects, id)==ERROR)
+  {
+     return ERROR;
+  }
 
   return OK;
 }
 
-/* It finds the object in the player set
+/* It finds the object in the player inventory
  */
 Bool player_find_object(Player *player, Id id)
 {
-  Set *objects;
+  Inventory *objects;
   int location;
 
   if (!player || id == NO_ID)
@@ -207,7 +215,7 @@ Bool player_find_object(Player *player, Id id)
     return FALSE;
   }
 
-  location = set_find(objects, id);
+  location = inventory_find_object(objects, id);
 
   if (location != -1)
   {
@@ -219,7 +227,7 @@ Bool player_find_object(Player *player, Id id)
 
 /* It gets the player objects
  */
-Set *player_get_objects(Player *player)
+Inventory* player_get_objects(Player *player)
 {
   if (!player)
   {
@@ -301,9 +309,9 @@ Status player_print(Player *player)
   fprintf(stdout, "---> Location: %ld.\n", idaux);
 
   /* 3. Print the objects in the player or not */
-  if (set_get_n_ids(player->objects) > 0)
+  if (inventory_get_max_objs(player->objects) > 0)
   {
-    set_print(player->objects);
+    inventory_print(player->objects);
   }
   else
   {

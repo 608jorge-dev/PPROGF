@@ -88,10 +88,10 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
   if ((id_act = game_get_player_location(game)) != NO_ID)
   {
     space_act = game_get_space(game, id_act);
-    id_back = space_get_north(space_act);
-    id_next = space_get_south(space_act);
-    id_left = space_get_west(space_act);
-    id_right = space_get_east(space_act);
+    id_back = link_get_destination(game_get_link_with_id(game, game_get_connection(game, id_act, N)));
+    id_next = link_get_destination(game_get_link_with_id(game, game_get_connection(game, id_act, S)));
+    id_left = link_get_destination(game_get_link_with_id(game, game_get_connection(game, id_act, W)));
+    id_right = link_get_destination(game_get_link_with_id(game, game_get_connection(game, id_act, E)));
 
     /* Paint back space */
     c_gdesc[0] = ' ';
@@ -296,7 +296,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
   screen_area_clear(ge->help);
   sprintf(str, " The commands you can use are:");
   screen_area_puts(ge->help, str);
-  sprintf(str, "    next or n, back or b, left or l, right or r, take or t, drop or d, attack or a, chat or c, exit or e");
+  sprintf(str, "    move or m, take or t, drop or d, attack or a, chat or c, exit or e");
   screen_area_puts(ge->help, str);
 
   /* Paint in the feedback area */

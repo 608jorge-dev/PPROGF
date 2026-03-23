@@ -76,82 +76,6 @@ Status space_set_name(Space *space, char *name);
 const char *space_get_name(Space *space);
 
 /**
- * @brief It sets the id of the space located at the north
- * @author Profesores PPROG
- *
- * @param space A pointer to the space
- * @param id The id number of the space located at the north
- * @return OK, if everything goes well or ERROR if there was some mistake
- */
-Status space_set_north(Space *space, Id id);
-
-/**
- * @brief It gets the id of the space located at the north
- * @author Profesores PPROG
- *
- * @param space A pointer to the space
- * @return The id number of the space located at the north
- */
-Id space_get_north(Space *space);
-
-/**
- * @brief It sets the id of the space located at the south
- * @author Profesores PPROG
- *
- * @param space A pointer to the space
- * @param id The id number of the space located at the south
- * @return OK, if everything goes well or ERROR if there was some mistake
- */
-Status space_set_south(Space *space, Id id);
-
-/**
- * @brief It gets the id of the space located at the south
- * @author Profesores PPROG
- *
- * @param space A pointer to the space
- * @return The id number of the space located at the south
- */
-Id space_get_south(Space *space);
-
-/**
- * @brief It sets the id of the space located at the east
- * @author Profesores PPROG
- *
- * @param space A pointer to the space
- * @param id The id number of the space located at the east
- * @return OK, if everything goes well or ERROR if there was some mistake
- */
-Status space_set_east(Space *space, Id id);
-
-/**
- * @brief It gets the id of the space located at the east
- * @author Profesores PPROG
- *
- * @param space A pointer to the space
- * @return The id number of the space located at the east
- */
-Id space_get_east(Space *space);
-
-/**
- * @brief It sets the id of the space located at the west
- * @author Profesores PPROG
- *
- * @param space A pointer to the space
- * @param id The id number of the space located at the west
- * @return OK, if everything goes well or ERROR if there was some mistake
- */
-Status space_set_west(Space *space, Id id);
-
-/**
- * @brief It gets the id of the space located at the west
- * @author Profesores PPROG
- *
- * @param space A pointer to the space
- * @return The id number of the space located at the west
- */
-Id space_get_west(Space *space);
-
-/**
  * @brief It adds the id of an object to the object set
  * @author Profesores PPROG
  *
@@ -244,7 +168,7 @@ const char *space_get_gdesc(Space *space, int row);
  * @brief It prints the space information
  * @author Profesores PPROG
  *
- * This fucntion shows the id and name of the space, the spaces that surrounds it and wheter it has an object or not.
+ * This fucntion shows the id and name of the space, wheter it has an object or not.
  * @param space A pointer to the space
  * @return OK, if everything goes well or ERROR if there was some mistake
  */

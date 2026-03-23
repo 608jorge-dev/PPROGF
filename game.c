@@ -22,7 +22,8 @@
  */
 struct _Game
 {
-  Player *player;                        /*Player structure pointer*/
+  Player *player[MAX_OBJECTS];           /*Player structure pointer*/
+  int n_players;                         /*Total amount of players created*/
   Object *objects[MAX_OBJECTS];          /*Object structure pointer */
   int n_objects;                         /*Total amount of objects created*/
   Space *spaces[MAX_SPACES];             /*Space structure pointer*/
@@ -43,7 +44,11 @@ Game *game_create()
 
   game = (Game *)malloc(sizeof(Game) * 1);
 
-  game->player = player_create(1);
+  for (i = 0; i < MAX_PLAYERS; i++)
+  {
+    game->player[i] = NULL;
+  }
+  game->n_players = 0;
 
   for (i = 0; i < MAX_OBJECTS; i++)
   {
@@ -74,7 +79,10 @@ Status game_destroy(Game *game)
 {
   int i = 0;
 
-  player_destroy(game->player);
+  for (i = 0; i < MAX_PLAYERS; i++)
+  {
+    player_destroy(game->objects[i]);
+  }
 
   for (i = 0; i < MAX_OBJECTS; i++)
   {
@@ -105,11 +113,14 @@ Status game_set_player(Game *game, Player *player)
   {
     return ERROR;
   }
+
   if (!player)
   {
     return ERROR;
   }
+
   game->player = player;
+
   return OK;
 }
 
@@ -120,6 +131,7 @@ Player *game_get_player(Game *game)
   {
     return ERROR;
   }
+  
   return game->player;
 }
 
@@ -132,6 +144,7 @@ Status game_add_object(Game *game, Object *object)
   {
     return ERROR;
   }
+  
   aux_n_objects = game_get_n_objects(game);
 
   game->objects[aux_n_objects] = object;
@@ -301,6 +314,7 @@ Id game_get_object_location(Game *game, Id object_id)
       return space_get_id(game->spaces[i]);
     }
   }
+  
   return NO_ID;
 }
 
@@ -582,6 +596,20 @@ Bool game_get_finished(Game *game)
       }
     }
     return FALSE;
+  }
+
+  Link *game_get_link_with_id(Game *game, Id id)  {
+    int i;
+    if (!game || id == NO_ID)  {
+      return NULL;
+    }
+    
+    for (i=0; i<game->n_links; i++) {
+      if (link_get_id(game->links[i]) == id)  {
+        return game->links[i];
+      }
+    }
+    return NULL;
   }
 
 /** It prints the game information

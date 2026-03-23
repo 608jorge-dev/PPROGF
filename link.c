@@ -32,7 +32,6 @@ struct _Link
 Link *link_create(Id id)
 {
     Link *newLink = NULL;
-    int i, j;
 
     /* Error control */
     if (id == NO_ID)
@@ -213,7 +212,7 @@ Status link_print(Link *link)
   fprintf(stdout, "--> Link (Id: %ld; Name: %s)\n", link->id, link->name);
 
   /* 2. Prints the link origin, destination and direction */
-  fprintf(stdout, "--> Origin: %ld  Destination: %ld Direction: %ld\n", link->origin, link->destination, link->direction);
+  fprintf(stdout, "--> Origin: %ld  Destination: %ld Direction: %hu\n", link->origin, link->destination, link->direction);
 
   /* 3. Prints wether it has been opened or not */
   if (link->open == 0)

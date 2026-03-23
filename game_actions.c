@@ -21,10 +21,7 @@
  */
 void game_actions_unknown(Game *game);
 void game_actions_exit(Game *game);
-Status game_actions_next(Game *game);
-Status game_actions_back(Game *game);
-Status game_actions_left(Game *game);
-Status game_actions_right(Game *game);
+Status game_actions_move(Game *game);
 Status game_actions_take(Game *game);
 Status game_actions_drop(Game *game);
 Status game_actions_attack(Game *game);
@@ -53,29 +50,8 @@ Status game_actions_update(Game *game, Command *command)
 		command_set_status(command, -1);
 		break;
 
-	case NEXT:
-		if (game_actions_next(game) == ERROR)
-		{
-			command_set_status(command, ERROR);
-		};
-		break;
-
-	case BACK:
-		if (game_actions_back(game) == ERROR)
-		{
-			command_set_status(command, ERROR);
-		}
-		break;
-
-	case LEFT:
-		if (game_actions_left(game) == ERROR)
-		{
-			command_set_status(command, ERROR);
-		}
-		break;
-
-	case RIGHT:
-		if (game_actions_right(game) == ERROR)
+	case MOVE:
+		if (game_actions_move(game) == ERROR)
 		{
 			command_set_status(command, ERROR);
 		};
@@ -135,115 +111,6 @@ void game_actions_unknown(Game *game) { return; }
  * @param game A pointer to the game data
  */
 void game_actions_exit(Game *game) { return; }
-
-/**
- * @brief Executes the next command
- * @author Profesores PPROG
- *
- * @param game A pointer to the game data
- */
-Status game_actions_next(Game *game)
-{
-	Id current_id = NO_ID;
-	Id space_id = NO_ID;
-
-	space_id = game_get_player_location(game);
-	if (space_id == NO_ID)
-	{
-		return ERROR;
-	}
-
-	current_id = space_get_south(game_get_space(game, space_id));
-	if (current_id != NO_ID)
-	{
-		game_set_player_location(game, current_id);
-		return OK;
-	}
-
-	return ERROR;
-}
-
-/**
- * @brief Executes the back command
- * @author Profesores PPROG
- *
- * @param game A pointer to the game data
- */
-Status game_actions_back(Game *game)
-{
-	Id current_id = NO_ID;
-	Id space_id = NO_ID;
-
-	space_id = game_get_player_location(game);
-
-	if (space_id == NO_ID)
-	{
-		return ERROR;
-	}
-
-	current_id = space_get_north(game_get_space(game, space_id));
-	if (current_id != NO_ID)
-	{
-		game_set_player_location(game, current_id);
-		return OK;
-	}
-
-	return ERROR;
-}
-
-/**
- * @brief Executes the left command
- * @author Jorge Torrijos de la Cruz
- *
- * @param game A pointer to the game data
- */
-Status game_actions_left(Game *game)
-{
-	Id current_id = NO_ID;
-	Id space_id = NO_ID;
-
-	space_id = game_get_player_location(game);
-	if (space_id == NO_ID)
-	{
-		return ERROR;
-	}
-
-	current_id = space_get_west(game_get_space(game, space_id));
-	if (current_id != NO_ID)
-	{
-		game_set_player_location(game, current_id);
-		return OK;
-	}
-
-	return ERROR;
-}
-
-/**
- * @brief Executes the right command
- * @author Jorge Torrijos de la Cruz
- *
- * @param game A pointer to the game data
- */
-Status game_actions_right(Game *game)
-{
-	Id current_id = NO_ID;
-	Id space_id = NO_ID;
-
-	space_id = game_get_player_location(game);
-	if (space_id == NO_ID)
-	{
-		return ERROR;
-	}
-
-	current_id = space_get_east(game_get_space(game, space_id));
-	if (current_id != NO_ID)
-	{
-		game_set_player_location(game, current_id);
-		return OK;
-	}
-
-	return ERROR;
-}
 
 /**
  * @brief Executes the take command
@@ -492,6 +359,87 @@ Status game_actions_chat(Game *game)
 	if (character_get_friendly(character))
 	{
 		return -2;
+	}
+
+	return ERROR;
+}
+
+/**
+ * @brief Executes the move command depending on the string sent
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ */
+Status game_actions_move(Game *game)
+{
+	Id player_space_id = NO_ID, current_id = NO_ID;
+	Command *cmd;
+	char *direction;
+	Player *player;
+
+	if (!game)
+	{
+		return ERROR;
+	}
+
+	player = game_get_player(game);
+	if (!player)
+	{
+		return ERROR;
+	}
+
+	cmd = game_get_last_command(game);
+	if (!cmd)
+	{
+		return ERROR;
+	}
+
+	direction = command_get_argstr(cmd);
+	if (!direction)
+	{
+		return ERROR;
+	}
+
+	player_space_id = game_get_player_location(game);
+	if (player_space_id == NO_ID)
+	{
+		return ERROR;
+	}
+
+	if (strcmp("next", direction) == 0 && game_connection_is_open(game, player_space_id, S) == TRUE)	{
+		current_id = link_get_destination(game_get_link_with_id(game, game_get_connection(game, player_space_id, S)));
+		if (current_id != NO_ID)
+		{
+			game_set_player_location(game, current_id);
+			return OK;
+		}
+	}
+
+	if (strcmp("back", direction) == 0 && game_connection_is_open(game, player_space_id, N) == TRUE)	{
+		current_id = link_get_destination(game_get_link_with_id(game, game_get_connection(game, player_space_id, N)));
+		if (current_id != NO_ID)
+		{
+			game_set_player_location(game, current_id);
+			return OK;
+		}
+	}
+
+	if (strcmp("left", direction) == 0 && game_connection_is_open(game, player_space_id, W) == TRUE)	{
+		current_id = link_get_destination(game_get_link_with_id(game, game_get_connection(game, player_space_id, W)));
+		if (current_id != NO_ID)
+		{
+			game_set_player_location(game, current_id);
+			return OK;
+		}
+	}
+
+	if (strcmp("right", direction) == 0 && game_connection_is_open(game, player_space_id, E) == TRUE) 	{
+		current_id = link_get_destination(game_get_link_with_id(game, game_get_connection(game, player_space_id, E)));
+		if (current_id != NO_ID)
+		{
+			game_set_player_location(game, current_id);
+			return OK;
+		}
 	}
 
 	return ERROR;

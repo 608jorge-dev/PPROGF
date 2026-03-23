@@ -23,13 +23,10 @@ struct _Space
 {
   Id id;                    /*!< Id number of the space, it must be unique */
   char name[WORD_SIZE + 1]; /*!< Name of the space */
-  Id north;                 /*!< Id of the space at the north */
-  Id south;                 /*!< Id of the space at the south */
-  Id east;                  /*!< Id of the space at the east */
-  Id west;                  /*!< Id of the space at the west */
   Set *objects;             /*!< The object id array */
   Id character;             /*!< The character id  */
   char gdesc[MAX_S][MAX_C]; /*!< Description of the space */
+  Bool discovered;           /*!< Discovered state of the space */
 };
 
 /** space_create allocates memory for a new space and initializes its members */
@@ -51,10 +48,6 @@ Space *space_create(Id id)
   /* Initialization of an empty space*/
   newSpace->id = id;
   newSpace->name[0] = '\0';
-  newSpace->north = NO_ID;
-  newSpace->south = NO_ID;
-  newSpace->east = NO_ID;
-  newSpace->west = NO_ID;
   newSpace->objects = set_create();
   newSpace->character = NO_ID;
   for (i = 0; i < MAX_S; i++)
@@ -127,94 +120,10 @@ const char *space_get_name(Space *space)
   return space->name;
 }
 
-/* It sets the id of the space located at the north*/
-Status space_set_north(Space *space, Id id)
-{
-  if (!space || id == NO_ID)
-  {
-    return ERROR;
-  }
-  space->north = id;
-  return OK;
-}
-
-/* It gets the id of the space located at the north*/
-Id space_get_north(Space *space)
-{
-  if (!space)
-  {
-    return NO_ID;
-  }
-  return space->north;
-}
-
-/* It sets the id of the space located at the south*/
-Status space_set_south(Space *space, Id id)
-{
-  if (!space || id == NO_ID)
-  {
-    return ERROR;
-  }
-  space->south = id;
-  return OK;
-}
-
-/* It gets the id of the space located at the south*/
-Id space_get_south(Space *space)
-{
-  if (!space)
-  {
-    return NO_ID;
-  }
-  return space->south;
-}
-
-/* It sets the id of the space located at the east*/
-Status space_set_east(Space *space, Id id)
-{
-  if (!space || id == NO_ID)
-  {
-    return ERROR;
-  }
-  space->east = id;
-  return OK;
-}
-
-/* It gets the id of the space located at the east*/
-Id space_get_east(Space *space)
-{
-  if (!space)
-  {
-    return NO_ID;
-  }
-  return space->east;
-}
-
-/* It sets the id of the space located at the west*/
-Status space_set_west(Space *space, Id id)
-{
-  if (!space || id == NO_ID)
-  {
-    return ERROR;
-  }
-  space->west = id;
-  return OK;
-}
-
-/* It gets the id of the space located at the west*/
-Id space_get_west(Space *space)
-{
-  if (!space)
-  {
-    return NO_ID;
-  }
-  return space->west;
-}
-
 /* It adds the id of an object to the object set*/
 Status space_add_object(Space *space, Id id)
 {
-  if (!space)
+  if (!space || id == NO_ID)
   {
     return ERROR;
   }
@@ -223,7 +132,9 @@ Status space_add_object(Space *space, Id id)
   {
     return NO_SPACE;
   }
+
   set_add(space->objects, id);
+
   return OK;
 }
 
@@ -339,7 +250,7 @@ const char *space_get_gdesc(Space *space, int row)
  */
 Status space_print(Space *space)
 {
-  Id idaux = NO_ID;
+  Id space_id = NO_ID;
   int i;
   /* Error Control */
   if (!space)
@@ -347,48 +258,15 @@ Status space_print(Space *space)
     return ERROR;
   }
 
+  space_id = space_get_id(space);
+  if (space_id == NO_ID)  {
+    return ERROR;
+  }
+
   /* 1. Print the id and the name of the space */
   fprintf(stdout, "--> Space (Id: %ld; Name: %s)\n", space->id, space->name);
 
-  /* 2. For each direction, print its link */
-  idaux = space_get_north(space);
-  if (idaux != NO_ID)
-  {
-    fprintf(stdout, "---> North link: %ld.\n", idaux);
-  }
-  else
-  {
-    fprintf(stdout, "---> No north link.\n");
-  }
-  idaux = space_get_south(space);
-  if (idaux != NO_ID)
-  {
-    fprintf(stdout, "---> South link: %ld.\n", idaux);
-  }
-  else
-  {
-    fprintf(stdout, "---> No south link.\n");
-  }
-  idaux = space_get_east(space);
-  if (idaux != NO_ID)
-  {
-    fprintf(stdout, "---> East link: %ld.\n", idaux);
-  }
-  else
-  {
-    fprintf(stdout, "---> No east link.\n");
-  }
-  idaux = space_get_west(space);
-  if (idaux != NO_ID)
-  {
-    fprintf(stdout, "---> West link: %ld.\n", idaux);
-  }
-  else
-  {
-    fprintf(stdout, "---> No west link.\n");
-  }
-
-  /* 3. Print the objects in the space or not */
+  /* 2. Print the objects in the space or not */
   if (set_get_n_ids(space->objects) > 0)
   {
     set_print(space->objects);

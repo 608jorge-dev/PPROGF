@@ -299,6 +299,8 @@ Status game_reader_load_link(Game *game, char *filename)
   char line[WORD_SIZE] = "\0";
   char name[WORD_SIZE] = "\0";
   Id link_id = NO_ID, space_id_orig = NO_ID, space_id_dest = NO_ID;
+  Bool openst;
+  Direction dt;
   Status status = OK;
 
   if (!filename)
@@ -324,6 +326,10 @@ Status game_reader_load_link(Game *game, char *filename)
       space_id_orig = atol(toks);
       toks = strtok(NULL, "|");
       space_id_dest = atol(toks);
+      toks = strtok(NULL, "|");
+      dt = atol(toks);
+      toks = strtok(NULL, "|");
+      openst = atol(toks);
 
       link = link_create(link_id);
       if (link != NULL)
@@ -331,6 +337,8 @@ Status game_reader_load_link(Game *game, char *filename)
         link_set_name(link, name);
         link_set_origin(link, space_id_orig);
         link_set_destination(link, space_id_dest);
+        link_set_direction(link, dt);
+        link_set_open(link, openst);
         game_add_link(game, link);
       }
     }

@@ -406,7 +406,7 @@ Status game_actions_move(Game *game)
 		return ERROR;
 	}
 
-	if (strcmp("next", direction) == 0 && game_connection_is_open(game, player_space_id, S) == TRUE)	{
+	if ((strcmp("next", direction) == 0 || strcmp("n", direction) == 0) && game_connection_is_open(game, player_space_id, S) == TRUE)	{
 		current_id = link_get_destination(game_get_link_with_id(game, game_get_connection(game, player_space_id, S)));
 		if (current_id != NO_ID)
 		{
@@ -415,7 +415,7 @@ Status game_actions_move(Game *game)
 		}
 	}
 
-	if (strcmp("back", direction) == 0 && game_connection_is_open(game, player_space_id, N) == TRUE)	{
+	if ((strcmp("back", direction) == 0 || strcmp("b", direction) == 0) && game_connection_is_open(game, player_space_id, N) == TRUE)	{
 		current_id = link_get_destination(game_get_link_with_id(game, game_get_connection(game, player_space_id, N)));
 		if (current_id != NO_ID)
 		{
@@ -424,7 +424,7 @@ Status game_actions_move(Game *game)
 		}
 	}
 
-	if (strcmp("left", direction) == 0 && game_connection_is_open(game, player_space_id, W) == TRUE)	{
+	if ((strcmp("left", direction) == 0 || strcmp("l", direction) == 0)&& game_connection_is_open(game, player_space_id, W) == TRUE)	{
 		current_id = link_get_destination(game_get_link_with_id(game, game_get_connection(game, player_space_id, W)));
 		if (current_id != NO_ID)
 		{
@@ -433,7 +433,7 @@ Status game_actions_move(Game *game)
 		}
 	}
 
-	if (strcmp("right", direction) == 0 && game_connection_is_open(game, player_space_id, E) == TRUE) 	{
+	if ((strcmp("right", direction) == 0 || strcmp("r", direction) == 0)&& game_connection_is_open(game, player_space_id, E) == TRUE) 	{
 		current_id = link_get_destination(game_get_link_with_id(game, game_get_connection(game, player_space_id, E)));
 		if (current_id != NO_ID)
 		{
@@ -443,4 +443,38 @@ Status game_actions_move(Game *game)
 	}
 
 	return ERROR;
+}
+
+/**
+ * @brief Executes the inspect command depending on the string sent
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ */
+Status game_actions_inspect(Game *game)	{
+	Id player_space_id = NO_ID, current_id = NO_ID;
+	Command *cmd;
+	char *direction;
+	Player *player;
+
+	if (!game)
+	{
+		return ERROR;
+	}
+
+	player = game_get_player(game);
+	if (!player)
+	{
+		return ERROR;
+	}
+
+	cmd = game_get_last_command(game);
+	if (!cmd)
+	{
+		return ERROR;
+	}
+
+	
+
+
 }

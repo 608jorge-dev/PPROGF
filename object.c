@@ -24,6 +24,7 @@ struct _Object
 {
   Id id;                    /*!< Id number of the object, it must be unique */
   char name[WORD_SIZE + 1]; /*!< Name of the object */
+  char gdesc[WORD_SIZE + 1]; /*!< Description of the object */
 };
 
 /* It creates a new object, allocating memory and initializing its members

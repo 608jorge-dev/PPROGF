@@ -50,6 +50,7 @@ Space *space_create(Id id)
   newSpace->name[0] = '\0';
   newSpace->objects = set_create();
   newSpace->character = NO_ID;
+  newSpace->discovered = FALSE; 
   for (i = 0; i < MAX_S; i++)
   {
     for (j = 0; j < MAX_C; j++)
@@ -201,8 +202,7 @@ Id space_get_character(Space *space)
   return space->character;
 }
 
-/* It finds wether the character
-  is in the space or not*/
+/* It finds wether the character is in the space or not*/
 Bool space_find_character(Space *space, Id character_id)
 {
   if (!space)
@@ -244,6 +244,29 @@ const char *space_get_gdesc(Space *space, int row)
   }
 
   return space->gdesc[row];
+}
+
+/* It sets the discovered status */
+Status space_set_discovered(Space *space, Bool discovered)
+{
+  if (!space)
+  {
+    return NO_ID;
+  }
+
+  space->discovered = discovered;
+  return FALSE;
+}
+
+/* It gets the discovered status of the space */
+Bool space_get_discovered(Space *space)
+{
+  if (!space)
+  {
+    return FALSE;
+  }
+
+  return space->discovered;
 }
 
 /* It prints the space information
@@ -290,6 +313,16 @@ Status space_print(Space *space)
   for (i = 0; i < MAX_S; i++)
   {
     fprintf(stdout, "%s", space_get_gdesc(space, i));
+  }
+
+  /* 5. Prints if it has been discovered */
+   if (space_get_discovered(space))
+  {
+    fprintf(stdout, "---> Space has been discovered.\n");
+  }
+  else
+  {
+    fprintf(stdout, "---> Space has not been discovered.\n");
   }
 
   return OK;

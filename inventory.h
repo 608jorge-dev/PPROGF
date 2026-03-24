@@ -92,6 +92,9 @@ Status inventory_del_object(Inventory *inventory, Id id);
  */
 int inventory_find_object(Inventory *inventory, Id object_id);
 
+Status inventory_set_n_objs(Inventory *inventory, int n_objs);
+int inventory_get_n_objs(Inventory *inventory);
+
 /**
  * @brief It prints the inventory information
  * @author Álvaro Bravo González

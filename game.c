@@ -22,7 +22,7 @@
  */
 struct _Game
 {
-  Player *player[MAX_OBJECTS];           /*Player structure pointer*/
+  Player *players[MAX_OBJECTS];           /*Player structure pointer*/
   int n_players;                         /*Total amount of players created*/
   Object *objects[MAX_OBJECTS];          /*Object structure pointer */
   int n_objects;                         /*Total amount of objects created*/
@@ -46,7 +46,7 @@ Game *game_create()
 
   for (i = 0; i < MAX_PLAYERS; i++)
   {
-    game->player[i] = NULL;
+    game->players[i] = NULL;
   }
   game->n_players = 0;
 
@@ -81,7 +81,7 @@ Status game_destroy(Game *game)
 
   for (i = 0; i < MAX_PLAYERS; i++)
   {
-    player_destroy(game->objects[i]);
+    player_destroy(game->players[i]);
   }
 
   for (i = 0; i < MAX_OBJECTS; i++)
@@ -106,6 +106,7 @@ Status game_destroy(Game *game)
   return OK;
 }
 
+/* PLAYER FUNCTIONS : */
 /*It sets the player pointer*/
 Status game_set_player(Game *game, Player *player)
 {
@@ -119,7 +120,7 @@ Status game_set_player(Game *game, Player *player)
     return ERROR;
   }
 
-  game->player = player;
+  game->players[0] = player;
 
   return OK;
 }
@@ -131,35 +132,85 @@ Player *game_get_player(Game *game)
   {
     return ERROR;
   }
-  
-  return game->player;
+
+  return game->players[0];
 }
 
-/* It adds the object to the game objects pointer */
-Status game_add_object(Game *game, Object *object)
+/* It adds the player to the game objects pointer */
+Status game_add_player(Game *game, Player *player)
 {
-  int aux_n_objects;
+  int aux_n_players;
 
-  if (!game || !object || game_get_n_objects(game) == MAX_OBJECTS)
+  if (!game || !player || game_get_n_players(game) == MAX_PLAYERS)
   {
     return ERROR;
   }
-  
-  aux_n_objects = game_get_n_objects(game);
 
-  game->objects[aux_n_objects] = object;
-  game_set_n_objects(game, aux_n_objects + 1);
+  aux_n_players = game_get_n_players(game);
+
+  game->players[aux_n_players] = player;
+  game_set_n_players(game, aux_n_players + 1);
 
   return OK;
 }
 
+/*It sets the amount of players */
+Status game_set_n_players(Game *game, int amount)
+{
+  if (!game || amount < 0)
+  {
+    return ERROR;
+  }
+
+  game->n_players = amount;
+
+  return OK;
+}
+
+/* It gets the amount of players */
+int game_get_n_players(Game *game)
+{
+  if (!game)
+  {
+    return 0;
+  }
+
+  return game->n_players;
+}
+
+/** It sets the player's location */
+Status game_set_player_location(Game *game, Id id)
+{
+  if (!game || id == NO_ID)
+  {
+    return ERROR;
+  }
+
+  player_set_location(game->players[0], id);
+
+  return OK;
+}
+
+/** It gets the id of the player's location */
+Id game_get_player_location(Game *game)
+{
+  if (!game)
+  {
+    return NO_ID;
+  }
+
+  return player_get_location(game->players[0]);
+}
+
+
+
+/* OBJECT FUNCTIONS : */
 Object *game_get_object(Game *game, int position)
 {
   return game->objects[position];
 }
 
-/** It returns the object pointer with the id given
- */
+/** It returns the object pointer with the id given */
 Object *game_get_object_with_id(Game *game, Id id)
 {
   int i;
@@ -180,8 +231,7 @@ Object *game_get_object_with_id(Game *game, Id id)
   return NULL;
 }
 
-/** It gets the object from its position
- */
+/** It gets the object from its position */
 Object *game_get_object_at(Game *game, int position)
 {
   if (!game || position < 0 || position >= game_get_n_objects(game))
@@ -190,6 +240,24 @@ Object *game_get_object_at(Game *game, int position)
   }
 
   return game->objects[position];
+}
+
+/* It adds the object to the game objects pointer */
+Status game_add_object(Game *game, Object *object)
+{
+  int aux_n_objects;
+
+  if (!game || !object || game_get_n_objects(game) == MAX_OBJECTS)
+  {
+    return ERROR;
+  }
+
+  aux_n_objects = game_get_n_objects(game);
+
+  game->objects[aux_n_objects] = object;
+  game_set_n_objects(game, aux_n_objects + 1);
+
+  return OK;
 }
 
 /*It sets the amount of objects */
@@ -216,34 +284,7 @@ int game_get_n_objects(Game *game)
   return game->n_objects;
 }
 
-/** It sets the player's location
- */
-Status game_set_player_location(Game *game, Id id)
-{
-  if (!game || id == NO_ID)
-  {
-    return ERROR;
-  }
-
-  player_set_location(game->player, id);
-
-  return OK;
-}
-
-/** It gets the id of the player's location
- */
-Id game_get_player_location(Game *game)
-{
-  if (!game)
-  {
-    return NO_ID;
-  }
-
-  return player_get_location(game->player);
-}
-
-/** It sets the object's location
- */
+/** It sets the object's location */
 Status game_set_object_location(Game *game, Id space_id, Id object_id)
 {
   Space *current_space, *new_space;
@@ -275,8 +316,30 @@ Status game_set_object_location(Game *game, Id space_id, Id object_id)
   return OK;
 }
 
-/** It sets the character's location
- */
+/** It gets the id of the object's location */
+Id game_get_object_location(Game *game, Id object_id)
+{
+  int i;
+
+  if (!game || object_id == NO_ID)
+  {
+    return NO_ID;
+  }
+
+  for (i = 0; i < game->n_spaces; i++)
+  {
+    if (space_find_object(game->spaces[i], object_id) == TRUE)
+    {
+      return space_get_id(game->spaces[i]);
+    }
+  }
+
+  return NO_ID;
+}
+
+
+/* CHARACTER FUNCTIONS : */ 
+/** It sets the character's location */
 Status game_set_character_location(Game *game, Id space_id, Id character_id)
 {
   Space *new_space;
@@ -296,142 +359,8 @@ Status game_set_character_location(Game *game, Id space_id, Id character_id)
 
   return OK;
 }
-/** It gets the id of the object's location
- */
-Id game_get_object_location(Game *game, Id object_id)
-{
-  int i;
 
-  if (!game || object_id == NO_ID)
-  {
-    return NO_ID;
-  }
-
-  for (i = 0; i < game->n_spaces; i++)
-  {
-    if (space_find_object(game->spaces[i], object_id) == TRUE)
-    {
-      return space_get_id(game->spaces[i]);
-    }
-  }
-  
-  return NO_ID;
-}
-
-/** Creates more spaces at the end of the allocated pointer when called
- */
-Status game_add_space(Game *game, Space *space)
-{
-  if (!game || !space || (game_get_n_spaces(game) >= MAX_SPACES))
-  {
-    return ERROR;
-  }
-
-  game->spaces[game->n_spaces] = space;
-  game->n_spaces++;
-
-  return OK;
-}
-
-/** Creates more spaces at the end of the allocated pointer when called
- */
-Status game_add_character(Game *game, Character *character)
-{
-  if (!game || !character)
-  {
-    return ERROR;
-  }
-
-  game->characters[game->n_characters] = character;
-  game->n_characters++;
-
-  return OK;
-}
-
-/** It gets the spaces
- */
-Space *game_get_space(Game *game, Id id)
-{
-  int i = 0;
-
-  if (!game || id == NO_ID)
-  {
-    return NULL;
-  }
-
-  for (i = 0; i < game->n_spaces; i++)
-  {
-    if (id == space_get_id(game->spaces[i]))
-    {
-      return game->spaces[i];
-    }
-  }
-
-  return NULL;
-}
-
-/** It gets the id from a space
- */
-Id game_get_space_id_at(Game *game, int position)
-{
-  if (!game || position < 0 || position >= game_get_n_spaces(game))
-  {
-    return NO_ID;
-  }
-
-  return space_get_id(game->spaces[position]);
-}
-
-/** It gets the character from an id
- */
-Space *game_get_space_with_id(Game *game, Id id)
-{
-  int i;
-
-  if (!game || id == NO_ID)
-  {
-    return NULL;
-  }
-
-  for (i = 0; i < id; i++)
-  {
-    if (space_get_id(game->spaces[i]) == id)
-    {
-      return game->spaces[i];
-    }
-  }
-
-  return NULL;
-}
-
-/** It sets n_spaces
- */
-Status game_set_n_spaces(Game *game, int number)
-{
-  if (!game)
-  {
-    return ERROR;
-  }
-
-  game->n_spaces = number;
-
-  return OK;
-}
-
-/** It gets n_spaces
- */
-int game_get_n_spaces(Game *game)
-{
-  if (!game)
-  {
-    return 0;
-  }
-
-  return game->n_spaces;
-}
-
-/** It gets the id of the character's location
- */
+/** It gets the id of the character's location*/
 Id game_get_character_location(Game *game, Id character_id)
 {
   int i;
@@ -451,8 +380,7 @@ Id game_get_character_location(Game *game, Id character_id)
   return NO_ID;
 }
 
-/** It gets the character from an id
- */
+/** It gets the character from an id*/
 Character *game_get_character_with_id(Game *game, Id id)
 {
   int i;
@@ -473,8 +401,7 @@ Character *game_get_character_with_id(Game *game, Id id)
   return NULL;
 }
 
-/** It gets the character from its position
- */
+/** It gets the character from its position*/
 Character *game_get_character_at(Game *game, int position)
 {
   if (!game || position < 0 || position >= game_get_n_characters(game))
@@ -485,8 +412,7 @@ Character *game_get_character_at(Game *game, int position)
   return game->characters[position];
 }
 
-/** It gets the character
- */
+/** It gets the character */
 Character *game_get_character(Game *game, int position)
 {
   if (!game)
@@ -497,6 +423,21 @@ Character *game_get_character(Game *game, int position)
   return game->characters[position];
 }
 
+/** Creates more spaces at the end of the allocated pointer when called */
+Status game_add_character(Game *game, Character *character)
+{
+  if (!game || !character)
+  {
+    return ERROR;
+  }
+
+  game->characters[game->n_characters] = character;
+  game->n_characters++;
+
+  return OK;
+}
+
+/** It sets n_characters */
 Status game_set_n_characters(Game *game, int number)
 {
   if (!game)
@@ -509,8 +450,7 @@ Status game_set_n_characters(Game *game, int number)
   return OK;
 }
 
-/** It gets the number of characters
- */
+/** It gets the number of characters*/
 int game_get_n_characters(Game *game)
 {
   if (!game)
@@ -520,6 +460,105 @@ int game_get_n_characters(Game *game)
 
   return game->n_characters;
 }
+
+
+
+
+
+/* SPACE FUNCTIONS : */ 
+/** It gets the spaces */
+Space *game_get_space(Game *game, Id id)
+{
+  int i = 0;
+
+  if (!game || id == NO_ID)
+  {
+    return NULL;
+  }
+
+  for (i = 0; i < game->n_spaces; i++)
+  {
+    if (id == space_get_id(game->spaces[i]))
+    {
+      return game->spaces[i];
+    }
+  }
+
+  return NULL;
+}
+
+/** It gets the id from a space */
+Id game_get_space_id_at(Game *game, int position)
+{
+  if (!game || position < 0 || position >= game_get_n_spaces(game))
+  {
+    return NO_ID;
+  }
+
+  return space_get_id(game->spaces[position]);
+}
+
+/** It gets the character from an id */
+Space *game_get_space_with_id(Game *game, Id id)
+{
+  int i;
+
+  if (!game || id == NO_ID)
+  {
+    return NULL;
+  }
+
+  for (i = 0; i < id; i++)
+  {
+    if (space_get_id(game->spaces[i]) == id)
+    {
+      return game->spaces[i];
+    }
+  }
+
+  return NULL;
+}
+
+/** Creates more spaces at the end of the allocated pointer when called */
+Status game_add_space(Game *game, Space *space)
+{
+  if (!game || !space || (game_get_n_spaces(game) >= MAX_SPACES))
+  {
+    return ERROR;
+  }
+
+  game->spaces[game->n_spaces] = space;
+  game->n_spaces++;
+
+  return OK;
+}
+
+/** It sets n_spaces */
+Status game_set_n_spaces(Game *game, int number)
+{
+  if (!game)
+  {
+    return ERROR;
+  }
+
+  game->n_spaces = number;
+
+  return OK;
+}
+
+/** It gets n_spaces */
+int game_get_n_spaces(Game *game)
+{
+  if (!game)
+  {
+    return 0;
+  }
+
+  return game->n_spaces;
+}
+
+
+
 
 /** It sets last command
  */
@@ -568,49 +607,105 @@ Bool game_get_finished(Game *game)
   return game->finished;
 }
 
+
 /* LINK FUNCTIONS : */
-  Id game_get_connection (Game *game, Id actual_space, Direction link_dir) {
-    int i;
-    if (!game || actual_space == NO_ID || link_dir > 3 || link_dir <0)  {
-      return NO_ID;
-    }
-    
-    for (i=0; i<game->n_links; i++) {
-      if (link_get_origin(game->links[i]) == actual_space && link_get_direction(game->links[i]) == link_dir)  {
-        return link_get_destination(game->links[i]);
-      }
-    }
-    
+Id game_get_connection(Game *game, Id actual_space, Direction link_dir)
+{
+  int i;
+  if (!game || actual_space == NO_ID || link_dir > 3 || link_dir < 0)
+  {
     return NO_ID;
   }
 
-  Bool game_connection_is_open (Game *game, Id actual_space, Direction link_dir)  {
-    int i;
-    if (!game || actual_space == NO_ID || link_dir > 3 || link_dir <0)  {
-      return FALSE;
+  for (i = 0; i < game->n_links; i++)
+  {
+    if (link_get_origin(game->links[i]) == actual_space && link_get_direction(game->links[i]) == link_dir)
+    {
+      return link_get_destination(game->links[i]);
     }
-    
-    for (i=0; i<game->n_links; i++) {
-      if (link_get_origin(game->links[i]) == actual_space && link_get_direction(game->links[i]) == link_dir)  {
-        return link_get_open(game->links[i]);
-      }
-    }
+  }
+
+  return NO_ID;
+}
+
+Bool game_connection_is_open(Game *game, Id actual_space, Direction link_dir)
+{
+  int i;
+  if (!game || actual_space == NO_ID || link_dir > 3 || link_dir < 0)
+  {
     return FALSE;
   }
 
-  Link *game_get_link_with_id(Game *game, Id id)  {
-    int i;
-    if (!game || id == NO_ID)  {
-      return NULL;
+  for (i = 0; i < game->n_links; i++)
+  {
+    if (link_get_origin(game->links[i]) == actual_space && link_get_direction(game->links[i]) == link_dir)
+    {
+      return link_get_open(game->links[i]);
     }
-    
-    for (i=0; i<game->n_links; i++) {
-      if (link_get_id(game->links[i]) == id)  {
-        return game->links[i];
-      }
-    }
+  }
+  return FALSE;
+}
+
+Link *game_get_link_with_id(Game *game, Id id)
+{
+  int i;
+  if (!game || id == NO_ID)
+  {
     return NULL;
   }
+
+  for (i = 0; i < game->n_links; i++)
+  {
+    if (link_get_id(game->links[i]) == id)
+    {
+      return game->links[i];
+    }
+  }
+  return NULL;
+}
+
+/* It adds the link to the game links pointer */
+Status game_add_link(Game *game, Link *link)
+{
+  int aux_n_links;
+
+  if (!game || !link || game_get_n_links(game) == MAX_LINKS)
+  {
+    return ERROR;
+  }
+
+  aux_n_links = game_get_n_links(game);
+
+  game->links[aux_n_links] = link;
+  game_set_n_links(game, aux_n_links + 1);
+
+  return OK;
+}
+
+/*It sets the amount of links */
+Status game_set_n_links(Game *game, int amount)
+{
+  if (!game || amount < 0)
+  {
+    return ERROR;
+  }
+
+  game->n_links = amount;
+
+  return OK;
+}
+
+/* It gets the amount of links */
+int game_get_n_links(Game *game)
+{
+  if (!game)
+  {
+    return 0;
+  }
+
+  return game->n_links;
+}
+
 
 /** It prints the game information
  */
@@ -633,7 +728,7 @@ void game_print(Game *game)
   }
 
   printf("\n");
-  player_print(game->player);
+  player_print(game->players[0]);
   printf("\n");
   printf("\n");
   character_print(game->characters[0]);

@@ -34,7 +34,8 @@ typedef enum
     TAKE,
     DROP,
     ATTACK,
-    CHAT
+    CHAT,
+    INSPECT
 } CommandCode;
 
 /**Command structure type definition
@@ -98,6 +99,9 @@ Status command_set_argstr(Command *command, char *argstr);
  * @return Argument of the command
  */
 char *command_get_argstr(Command *command);
+
+Status command_set_description(Command *command, char* description);
+char* command_get_description(Command *command);
 
 /**
  * @brief Saves the input and calls the other functions

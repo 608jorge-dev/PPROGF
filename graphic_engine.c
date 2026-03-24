@@ -273,13 +273,13 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
   sprintf(str, "  Player:  %d  (%d)", (int)player_loc, player_get_health(game_get_player(game)));
   screen_area_puts(ge->descript, str);
 
-  p_obj = set_get_n_ids(player_get_objects(game_get_player(game)));
+  p_obj = inventory_get_n_objs(player_get_objects(game_get_player(game)));
   if (p_obj > 0)
   {
     /* Hay que cambiar esto para que printee todos los objetos*/
     sprintf(str, "      Player has object: YES");
     screen_area_puts(ge->descript, str);
-    sprintf(str, "  %s", object_get_name(game_get_object_with_id(game, set_get_id_at(player_get_objects(game_get_player(game)), 0))));
+    sprintf(str, "  %s", object_get_name(game_get_object_with_id(game,inventory_find_object(player_get_objects(game_get_player(game)), 0))));
     screen_area_puts(ge->descript, str);
   }
   else
@@ -296,7 +296,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
   screen_area_clear(ge->help);
   sprintf(str, " The commands you can use are:");
   screen_area_puts(ge->help, str);
-  sprintf(str, "    move or m, take or t, drop or d, attack or a, chat or c, exit or e");
+  sprintf(str, "    move or m, take or t, drop or d, attack or a, chat or c, inspect or i, exit or e");
   screen_area_puts(ge->help, str);
 
   /* Paint in the feedback area */
@@ -311,7 +311,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
   }
   else if ((command_get_status(game_get_last_command(game)) == -2))
   {
-    stat = character_get_message(game_get_character_with_id(game, space_get_character(space_act)));
+    stat = command_get_description(game_get_last_command(game));
   }
   else if ((command_get_status(game_get_last_command(game)) == OK))
   {

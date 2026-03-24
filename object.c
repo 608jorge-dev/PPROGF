@@ -113,6 +113,33 @@ char *object_get_name(Object *object)
   return object->name;
 }
 
+/* It sets the gdesc of an object
+ */
+Status object_set_gdesc(Object *object, char *desc)
+{
+  if (!object || !desc)
+  {
+    return ERROR;
+  }
+
+  if (!strcpy(object->name, desc))
+  {
+    return ERROR;
+  }
+  return OK;
+}
+
+/* It gets the gdesc of an object
+ */
+char *object_get_gdesc(Object *object)
+{
+  if (!object)
+  {
+    return NULL;
+  }
+  return object->gdesc;
+}
+
 /* It prints the object information
  */
 Status object_print(Object *object)

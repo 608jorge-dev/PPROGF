@@ -270,7 +270,7 @@ Status game_reader_load_player(Game *game, char *filename)
         player_set_name(player, name);
         player_set_gdesc(player, gdesc);
         player_set_health(player, health);
-        //*game_add_player(game, player);*//
+        game_add_player(game, player);
         game_set_player_location(game, space_id);
         inventory_set_max_objs(inventory, max_inventory);
       }
@@ -328,10 +328,10 @@ Status game_reader_load_link(Game *game, char *filename)
       link = link_create(link_id);
       if (link != NULL)
       {
-        game_add_link(game, link);
         link_set_name(link, name);
         link_set_origin(link, space_id_orig);
         link_set_destination(link, space_id_dest);
+        game_add_link(game, link);
       }
     }
   }

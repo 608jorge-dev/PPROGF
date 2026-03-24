@@ -73,6 +73,9 @@ Status object_set_name(Object *object, char *name);
  */
 char *object_get_name(Object *object);
 
+Status object_set_gdesc(Object *object, char *desc);
+char *object_get_gdesc(Object *object);
+
 /**
  * @brief It prints the object information
  * @author Álvaro Bravo González

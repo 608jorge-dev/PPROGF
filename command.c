@@ -15,7 +15,7 @@
 #include <string.h>
 #include <strings.h>
 
-char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"m", "Move"}, {"t", "Take"}, {"d", "Drop"}, {"a", "Attack"}, {"c", "Chat"}};
+char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"m", "Move"}, {"t", "Take"}, {"d", "Drop"}, {"a", "Attack"}, {"c", "Chat"}, {"i", "Inspect"}};
 
 /**This struct stores all the information related to a command.
  */
@@ -25,6 +25,7 @@ struct _Command
   Status status;                    /*!< Status of the command */
   char argstr[MAX_ARGS][WORD_SIZE]; /*!< Command arguments */
   int nArgs;                        /*!< Number of arguments */
+  char* description;                 /*!< Text contained in the command */
 };
 
 /**It creates a new command structure,
@@ -52,6 +53,7 @@ Command *command_create()
   }
   newCommand->nArgs = 0;
   newCommand->status = -1;
+  newCommand->description = '\0';
 
   return newCommand;
 }
@@ -145,6 +147,31 @@ char *command_get_argstr(Command *command)
   }
 
   return command->argstr[command->nArgs - 1];
+}
+
+/** It sets the description of a command
+ */
+Status command_set_description(Command *command, char* description)
+{
+  if (!command)
+  {
+    return ERROR;
+  }
+
+  command->description = description;
+
+  return OK;
+}
+
+/** It gets the description of a command
+ */
+char* command_get_description(Command *command)
+{
+  if (!command)
+  {
+    return NULL;
+  }
+  return command->description;
 }
 
 /** Saves the input and calls the other functions

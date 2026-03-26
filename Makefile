@@ -85,7 +85,7 @@ space_test: space_test.o space.o set.o
 test_space: space_test
 	./space_test
 
-######################################################## CLEAN, RUN, RUNV
+######################################################## CLEAN, RUN, RUNV, DOXY
 
 .PHONY: clean clean_test run
 
@@ -101,3 +101,7 @@ run: $(EXE)
 runv:
 	@echo ">>>>>>Running castle.dat with valgrind"
 	valgrind --leak-check=full  ./castle castle.dat
+
+doc:
+	@echo ">>>>>>Making documentation file"
+	doxygen Doxyfile

@@ -22,7 +22,7 @@ typedef struct _Character Character;
  * @author Jorge Torrijos de la Cruz
  *
  * @param id The identification number for the new character
- * @return A new player, initialized
+ * @return A new character, initialized
  */
 Character *character_create(Id id);
 

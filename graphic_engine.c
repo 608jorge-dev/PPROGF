@@ -22,7 +22,11 @@
  */
 struct _Graphic_engine
 {
-  Area *map, *descript, *banner, *help, *feedback; /*Different areas in the screen*/
+  Area *map;        /*!< Map area in the screen*/
+  Area *descript;   /*!< Description area in the screen*/
+  Area *banner;     /*!< Banner area in the screen*/
+  Area *help;       /*!< Help area in the screen*/
+  Area *feedback;   /*!< Feedback area in the screen*/
 };
 
 /** It creates a graphic engine, allocating memory and initializing its members

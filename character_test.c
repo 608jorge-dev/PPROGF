@@ -1,5 +1,5 @@
 /**
- * @brief It tests character module
+* @brief It tests character module
  *
  * @file character_test.c
  * @author Álvaro Bravo González

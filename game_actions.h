@@ -1,13 +1,12 @@
 /**
  * @brief It defines the game update interface
  *
- * @file game.h
+ * @file game_actions.h
  * @author Profesores PPROG
  * @version 0
  * @date 27-01-2025
  * @copyright GNU Public License
  */
-
 #ifndef GAME_ACTIONS_H
 #define GAME_ACTIONS_H
 
@@ -20,9 +19,9 @@
  * @author Profesores PPROG
  *
  * @param game A pointer to the game data
- * @param cmd A pointer to the command input string
+ * @param command A pointer to the command input string
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Status game_actions_update(Game *game, Command *cmd);
+Status game_actions_update(Game *game, Command *command);
 
 #endif

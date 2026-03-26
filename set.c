@@ -1,7 +1,7 @@
 /**
  * @brief It implements the set module
  *
- * @file player.c
+ * @file set.c
  * @author Álvaro Bravo González
  * @version 0
  * @date 23-02-2026

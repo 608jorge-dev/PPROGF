@@ -22,18 +22,18 @@
  */
 struct _Game
 {
-  Player *players[MAX_OBJECTS];           /*Player structure pointer*/
-  int n_players;                         /*Total amount of players created*/
-  Object *objects[MAX_OBJECTS];          /*Object structure pointer */
-  int n_objects;                         /*Total amount of objects created*/
-  Space *spaces[MAX_SPACES];             /*Space structure pointer*/
-  int n_spaces;                          /*Total amount of spaces created*/
-  Character *characters[MAX_CHARACTERS]; /*Character structure pointer*/
-  int n_characters;                      /*Total amount of characters created*/
-  Link *links[MAX_LINKS];                /*Link structure pointer*/
-  int n_links;                           /*Total amount of links created*/
-  Command *last_cmd;                     /*Command structure pointer*/
-  Bool finished;                         /*States the finished status in the game*/
+  Player *players[MAX_OBJECTS];          /*!< Player structure pointer*/
+  int n_players;                         /*!< Total amount of players created*/
+  Object *objects[MAX_OBJECTS];          /*!< Object structure pointer */
+  int n_objects;                         /*!< Total amount of objects created*/
+  Space *spaces[MAX_SPACES];             /*!< Space structure pointer*/
+  int n_spaces;                          /*!< Total amount of spaces created*/
+  Character *characters[MAX_CHARACTERS]; /*!< Character structure pointer*/
+  int n_characters;                      /*!< Total amount of characters created*/
+  Link *links[MAX_LINKS];                /*!< Link structure pointer*/
+  int n_links;                           /*!< Total amount of links created*/
+  Command *last_cmd;                     /*!< Command structure pointer*/
+  Bool finished;                         /*!< States the finished status in the game*/
 };
 
 /* It creates a new game, allocating memory and initializing its members */
@@ -205,10 +205,6 @@ Id game_get_player_location(Game *game)
 
 
 /* OBJECT FUNCTIONS : */
-Object *game_get_object(Game *game, int position)
-{
-  return game->objects[position];
-}
 
 /** It returns the object pointer with the id given */
 Object *game_get_object_with_id(Game *game, Id id)

@@ -16,6 +16,7 @@
 
 /**
  * @brief Link
+ * 
  * This struct stores all the information of a link.
  */
 struct _Link
@@ -25,7 +26,7 @@ struct _Link
     Id origin;                /*!< Id of the initial space */
     Id destination;           /*!< Id of the final space */
     Direction direction;      /*!< Direction where the link is facing */
-    Bool open;                /*!< States wether it has ben opened or not */
+    Bool open;                /*!< States wether it has been opened or not */
 };
 
 /* It creates a new player, allocating memory and initializing its members */

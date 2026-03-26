@@ -13,6 +13,12 @@
 
 #include "types.h"
 
+
+/**Command structure type definition
+ */
+typedef struct _Command Command;
+
+
 /**
  * @brief Command type() enumeration
  */
@@ -37,10 +43,6 @@ typedef enum
     CHAT,
     INSPECT
 } CommandCode;
-
-/**Command structure type definition
- */
-typedef struct _Command Command;
 
 /**
  * @brief It creates a new command structure, allocating memory and initializing its members

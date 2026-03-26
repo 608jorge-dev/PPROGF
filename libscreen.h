@@ -11,6 +11,8 @@
 #ifndef LIBSCREEN_H
 #define LIBSCREEN_H
 
+/**Area structure type definition
+ */
 typedef struct _Area Area;
 
 /**

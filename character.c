@@ -1,7 +1,7 @@
 /**
  * @brief It implements the character module
  *
- * @file chracter.c
+ * @file character.c
  * @author Jorge Torrijos de la Cruz
  * @version 0
  * @date 20-02-2026

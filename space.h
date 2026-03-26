@@ -138,7 +138,7 @@ Id space_get_character(Space *space);
  * @author Jorge Torrijos de la Cruz
  *
  * @param space A pointer to the space
- * @param id The id of the character
+ * @param character_id The id of the character
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
 Bool space_find_character(Space *space, Id character_id);
@@ -163,6 +163,25 @@ Status space_set_gdesc(Space *space, int row, char *text);
  * @return The gdesc of the space at the row
  */
 const char *space_get_gdesc(Space *space, int row);
+
+/**
+ * @brief It sets the discovered status of a space
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param space A pointer to the space
+ * @param discovered Wether it has been discovered or not
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status space_set_discovered(Space *space, Bool discovered);
+
+/**
+ * @brief It gets the discovered status of a space
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param space A pointer to the space
+ * @return The boolean value of discovered status
+ */
+Bool space_get_discovered(Space *space);
 
 /**
  * @brief It prints the space information

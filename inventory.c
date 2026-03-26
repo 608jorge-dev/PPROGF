@@ -5,6 +5,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * @brief Inventory
+ *
+ * This struct stores all the information related to the inventory.
+ */
 struct _Inventory
 {
     Set *objs;    /*!< The object id array */

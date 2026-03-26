@@ -21,6 +21,14 @@ int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name);
 
 void game_loop_cleanup(Game *game, Graphic_engine *gengine);
 
+/**
+ * @brief General game loop, based on calling graphic_engine, command get user input and game_actions_update
+ * @author Profesores PPROG
+ *
+ * @param argc amount of arguments sent 
+ * @param argv Array of arguments sent
+ * @return 1 if game loop has an error and 0 if everything is ok
+ */
 int main(int argc, char *argv[])
 {
   Game *game = NULL;
@@ -68,7 +76,7 @@ int main(int argc, char *argv[])
  *
  * @param game A pointer to the game data
  * @param gengine A double pointer to the graphic engine data
- * @param filename A pointer to the name of the data file
+ * @param file_name A pointer to the name of the data file
  * @return -1 if file creation has an error, -2 if graphic engine creation has an error and 0 if everything is ok
  */
 int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name)

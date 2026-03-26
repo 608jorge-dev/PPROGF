@@ -15,9 +15,15 @@
 #include <string.h>
 #include <strings.h>
 
+/**
+ * String that stores all the commands that can be used
+*/
 char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"m", "Move"}, {"t", "Take"}, {"d", "Drop"}, {"a", "Attack"}, {"c", "Chat"}, {"i", "Inspect"}};
 
-/**This struct stores all the information related to a command.
+/**
+ * @brief Character
+ *
+ * This struct stores all the information related to a command.
  */
 struct _Command
 {
@@ -25,7 +31,7 @@ struct _Command
   Status status;                    /*!< Status of the command */
   char argstr[MAX_ARGS][WORD_SIZE]; /*!< Command arguments */
   int nArgs;                        /*!< Number of arguments */
-  char* description;                 /*!< Text contained in the command */
+  char* description;                /*!< Text contained in the command */
 };
 
 /**It creates a new command structure,

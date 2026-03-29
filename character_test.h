@@ -60,7 +60,7 @@ void test1_character_get_id();
 void test2_character_get_id();
 
 /**
- * @test Test function for space_name setting
+ * @test Test function for character_name setting
  * @pre String with character name
  * @post Ouput==OK
  */
@@ -116,7 +116,7 @@ void test2_character_set_gdesc();
 void test3_character_set_gdesc();
 
 /**
- * @test Test function for character_object getting
+ * @test Test function for character_gdesc getting
  * @pre Graphic description of the character
  * @post Ouput==TRUE
  */

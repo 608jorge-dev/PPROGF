@@ -122,10 +122,11 @@ Status object_set_gdesc(Object *object, char *desc)
     return ERROR;
   }
 
-  if (!strcpy(object->name, desc))
+  if (!strcpy(object->gdesc, desc))
   {
     return ERROR;
   }
+
   return OK;
 }
 
@@ -137,6 +138,7 @@ char *object_get_gdesc(Object *object)
   {
     return NULL;
   }
+
   return object->gdesc;
 }
 

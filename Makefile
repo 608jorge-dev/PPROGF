@@ -1,6 +1,6 @@
 ######################################################## MACROS
 EXE=castle
-TEST=character_test set_test space_test
+TEST=character_test link_test object_test set_test space_test
 CC=gcc
 CFLAGS=-Wall -ansi -pedantic
 
@@ -58,10 +58,32 @@ character_test.o: character_test.c character_test.h  character.c character.h typ
 	$(CC) $(CFLAGS) -c character_test.c
 
 character_test: character_test.o character.o set.o
-	$(CC) $(CFLAGS) -o character_test character_test.o character.o set.o -lscreen -L.
+	$(CC) $(CFLAGS) -o character_test character_test.o character.o set.o
 
 test_character: character_test
 	./character_test
+
+######################################################## LINK_TEST
+
+link_test.o: link_test.c link_test.h  link.c link.h types.h test.h
+	$(CC) $(CFLAGS) -c link_test.c
+
+link_test: link_test.o link.o set.o
+	$(CC) $(CFLAGS) -o link_test link_test.o link.o set.o
+
+test_link: link_test
+	./link_test
+
+######################################################## OBJECT_TEST
+
+object_test.o: object_test.c object_test.h  object.c object.h types.h test.h
+	$(CC) $(CFLAGS) -c object_test.c
+
+object_test: object_test.o object.o set.o
+	$(CC) $(CFLAGS) -o object_test object_test.o object.o set.o
+
+test_object: object_test
+	./object_test
 
 ######################################################## SET_TEST
 
@@ -69,7 +91,7 @@ set_test.o: set_test.c set_test.h set.h types.h test.h
 	$(CC) $(CFLAGS) -c set_test.c
 
 set_test: set_test.o set.o
-	$(CC) $(CFLAGS) -o set_test set_test.o set.o -lscreen -L.
+	$(CC) $(CFLAGS) -o set_test set_test.o set.o
 
 test_set: set_test
 	./set_test
@@ -80,7 +102,7 @@ space_test.o: space_test.c space_test.h space.c space.h types.h test.h
 	$(CC) $(CFLAGS) -c space_test.c
 
 space_test: space_test.o space.o set.o
-	$(CC) $(CFLAGS) -o space_test space_test.o space.o set.o -lscreen -L.
+	$(CC) $(CFLAGS) -o space_test space_test.o space.o set.o
 
 test_space: space_test
 	./space_test

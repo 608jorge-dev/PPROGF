@@ -76,6 +76,27 @@ Status space_set_name(Space *space, char *name);
 const char *space_get_name(Space *space);
 
 /**
+ * @brief It sets the gdesc of the space
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param space A pointer to the space
+ * @param row The row of the gdesc
+ * @param text The text for the gdesc
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status space_set_gdesc(Space *space, int row, char *text);
+
+/**
+ * @brief It gets the gdesc of the space
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param space A pointer to the space
+ * @param row The row of the gdesc to get
+ * @return The gdesc of the space at the row
+ */
+const char *space_get_gdesc(Space *space, int row);
+
+/**
  * @brief It adds the id of an object to the object set
  * @author Profesores PPROG
  *
@@ -142,27 +163,6 @@ Id space_get_character(Space *space);
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
 Bool space_find_character(Space *space, Id character_id);
-
-/**
- * @brief It sets the gdesc of the space
- * @author Jorge Torrijos de la Cruz
- *
- * @param space A pointer to the space
- * @param row The row of the gdesc
- * @param text The text for the gdesc
- * @return OK, if everything goes well or ERROR if there was some mistake
- */
-Status space_set_gdesc(Space *space, int row, char *text);
-
-/**
- * @brief It gets the gdesc of the space
- * @author Jorge Torrijos de la Cruz
- *
- * @param space A pointer to the space
- * @param row The row of the gdesc to get
- * @return The gdesc of the space at the row
- */
-const char *space_get_gdesc(Space *space, int row);
 
 /**
  * @brief It sets the discovered status of a space

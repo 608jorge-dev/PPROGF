@@ -9,7 +9,7 @@
 #define KYEL "\x1B[33m"
 #define KCYN "\x1B[36m"
 #define RESET "\033[0m"
-#define MAX_TESTS 30
+#define MAX_TESTS 50
 #else
 #define KRED
 #define KGRN

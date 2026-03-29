@@ -121,6 +121,35 @@ const char *space_get_name(Space *space)
   return space->name;
 }
 
+/* It sets the space gdesc
+ */
+Status space_set_gdesc(Space *space, int row, char *text)
+{
+  if (!space || row >= MAX_S || row < 0 || !text)
+  {
+    return ERROR;
+  }
+
+  if (strcpy(space->gdesc[row], text) == NULL)
+  {
+    return ERROR;
+  }
+
+  return OK;
+}
+
+/* It gets the gdesc of the space
+ */
+const char *space_get_gdesc(Space *space, int row)
+{
+  if (!space || row >= MAX_S || row < 0)
+  {
+    return NULL;
+  }
+
+  return space->gdesc[row];
+}
+
 /* It adds the id of an object to the object set*/
 Status space_add_object(Space *space, Id id)
 {
@@ -207,7 +236,7 @@ Bool space_find_character(Space *space, Id character_id)
 {
   if (!space)
   {
-    return NO_ID;
+    return FALSE;
   }
 
   if (space->character == character_id)
@@ -218,44 +247,17 @@ Bool space_find_character(Space *space, Id character_id)
   return FALSE;
 }
 
-/* It sets the space gdesc
- */
-Status space_set_gdesc(Space *space, int row, char *text)
-{
-  if (!space)
-  {
-    return ERROR;
-  }
-
-  if (!strcpy(space->gdesc[row], text))
-  {
-    return ERROR;
-  }
-  return OK;
-}
-
-/* It gets the gdesc of the space
- */
-const char *space_get_gdesc(Space *space, int row)
-{
-  if (!space || row > 5 || row < 0)
-  {
-    return NULL;
-  }
-
-  return space->gdesc[row];
-}
-
 /* It sets the discovered status */
 Status space_set_discovered(Space *space, Bool discovered)
 {
   if (!space)
   {
-    return NO_ID;
+    return ERROR;
   }
 
   space->discovered = discovered;
-  return FALSE;
+
+  return OK;
 }
 
 /* It gets the discovered status of the space */

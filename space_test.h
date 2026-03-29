@@ -95,172 +95,39 @@ void test1_space_get_name();
 void test2_space_get_name();
 
 /**
- * @test Test function for space_north setting
- * @pre Space ID of the space located at the north
+ * @test Test function for space_gdesc setting
+ * @pre String with character graphic description
  * @post Ouput==OK
  */
-void test1_space_set_north();
+void test1_space_set_gdesc();
 
 /**
- * @test Test function for space_north setting
+ * @test Test function for space_gdesc setting
  * @pre Pointer to space = NULL
- * @post Ouput==ERROR
+ * @post Output==ERROR
  */
-void test2_space_set_north();
+void test2_space_set_gdesc();
 
 /**
- * @test Test function for space_north setting
- * @pre Space ID of the space located at the north
- * @post Ouput==ERROR
+ * @test Test function for space_gdesc setting
+ * @pre Pointer to space_gdesc = NULL
+ * @post Output==ERROR
  */
-void test3_space_set_north();
+void test3_space_set_gdesc();
 
 /**
- * @test Test function for space_north setting
+ * @test Test function for space_gdesc getting
+ * @pre Graphic description of the space
+ * @post Ouput==TRUE
+ */
+void test1_space_get_gdesc();
+
+/**
+ * @test Test function for space_gdesc getting
  * @pre Pointer to space = NULL
- * @post Ouput==ERROR
+ * @post Ouput==NULL
  */
-void test4_space_set_north();
-
-/**
- * @test Test function for space_north getting
- * @pre Id of the space located at the north
- * @post Ouput==North space Id
- */
-void test1_space_get_north();
-
-/**
- * @test Test function for space_north getting
- * @pre Pointer to space = NULL
- * @post Ouput==NO_ID
- */
-void test2_space_get_north();
-
-/**
- * @test Test function for space_south setting
- * @pre Space ID of the space located at the south
- * @post Ouput==OK
- */
-void test1_space_set_south();
-
-/**
- * @test Test function for space_south setting
- * @pre Pointer to space = NULL
- * @post Ouput==ERROR
- */
-void test2_space_set_south();
-
-/**
- * @test Test function for space_south setting
- * @pre Space ID of the space located at the south
- * @post Ouput==ERROR
- */
-void test3_space_set_south();
-
-/**
- * @test Test function for space_south setting
- * @pre Pointer to space = NULL
- * @post Ouput==ERROR
- */
-void test4_space_set_south();
-
-/**
- * @test Test function for space_south getting
- * @pre Id of the space located at the south
- * @post Ouput==South space Id
- */
-void test1_space_get_south();
-
-/**
- * @test Test function for space_south getting
- * @pre Pointer to space = NULL
- * @post Ouput==NO_ID
- */
-void test2_space_get_south();
-
-/**
- * @test Test function for space_east setting
- * @pre Space ID of the space located at the east
- * @post Ouput==OK
- */
-void test1_space_set_east();
-
-/**
- * @test Test function for space_east setting
- * @pre Pointer to space = NULL
- * @post Ouput==ERROR
- */
-void test2_space_set_east();
-
-/**
- * @test Test function for space_east setting
- * @pre Space ID of the space located at the east
- * @post Ouput==ERROR
- */
-void test3_space_set_east();
-
-/**
- * @test Test function for space_east setting
- * @pre Pointer to space = NULL
- * @post Ouput==ERROR
- */
-void test4_space_set_east();
-
-/**
- * @test Test function for space_east getting
- * @pre Id of the space located at the east
- * @post Ouput==East space Id
- */
-void test1_space_get_east();
-
-/**
- * @test Test function for space_east getting
- * @pre Pointer to space = NULL
- * @post Ouput==NO_ID
- */
-void test2_space_get_east();
-
-/**
- * @test Test function for space_west setting
- * @pre Space ID of the space located at the west
- * @post Ouput==OK
- */
-void test1_space_set_west();
-
-/**
- * @test Test function for space_west setting
- * @pre Pointer to space = NULL
- * @post Ouput==ERROR
- */
-void test2_space_set_west();
-
-/**
- * @test Test function for space_west setting
- * @pre Space ID of the space located at the west
- * @post Ouput==ERROR
- */
-void test3_space_set_west();
-
-/**
- * @test Test function for space_west setting
- * @pre Pointer to space = NULL
- * @post Ouput==ERROR
- */
-void test4_space_set_west();
-
-/**
- * @test Test function for space_west getting
- * @pre Id of the space located at the west
- * @post Ouput==West space Id
- */
-void test1_space_get_west();
-
-/**
- * @test Test function for space_west getting
- * @pre Pointer to space = NULL
- * @post Ouput==NO_ID
- */
-void test2_space_get_west();
+void test2_space_get_gdesc();
 
 /**
  * @test Test function for space_object adding
@@ -310,5 +177,82 @@ void test2_space_find_object();
  * @post Ouput==FALSE
  */
 void test3_space_find_object();
+
+/**
+ * @test Test function for space_character setting
+ * @pre Space Character
+ * @post Output==OK
+ */
+void test1_space_set_character();
+
+/**
+ * @test Test function for space_character setting
+ * @pre Pointer to space = NULL
+ * @post Output==ERROR
+ */
+void test2_space_set_character();
+
+/**
+ * @test Test function for space_character getting
+ * @pre Space Character
+ * @post Output==Supplied Space Character
+ */
+void test1_space_get_character();
+
+/**
+ * @test Test function for space_character getting
+ * @pre Pointer to space = NULL
+ * @post Output==NO_ID
+ */
+void test2_space_get_character();
+
+/**
+ * @test Test function for space_character finding
+ * @pre Id of the character to find
+ * @post Ouput==TRUE
+ */
+void test1_space_find_character();
+
+/**
+ * @test Test function for space_character finding
+ * @pre Pointer to space = NULL
+ * @post Ouput==FALSE
+ */
+void test2_space_find_character();
+
+/**
+ * @test Test function for space_character finding
+ * @pre Id of the character to find
+ * @post Ouput==FALSE
+ */
+void test3_space_find_character();
+
+/**
+ * @test Test function for space_character setting
+ * @pre Space Discovered
+ * @post Output==OK
+ */
+void test1_space_set_discovered();
+
+/**
+ * @test Test function for space_character setting
+ * @pre Pointer to space = NULL
+ * @post Output==ERROR
+ */
+void test2_space_set_discovered();
+
+/**
+ * @test Test function for space_character getting
+ * @pre Space Discovered
+ * @post Output==Supplied Space Discovered
+ */
+void test1_space_get_discovered();
+
+/**
+ * @test Test function for space_character getting
+ * @pre Pointer to space = NULL
+ * @post Output==FALSE
+ */
+void test2_space_get_discovered();
 
 #endif

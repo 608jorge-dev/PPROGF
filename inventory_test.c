@@ -1,5 +1,24 @@
+/**
+ * @brief It tests inventory module
+ *
+ * @file inventory_test.c
+ * @author Álvaro Bravo González
+ * @version 1.0
+ * @date 04-03-2025
+ * @copyright GNU Public License
+ */
 
 #include "inventory_test.h"
+
+/**
+ * @brief Main function for INVENTORY unit tests.
+ *
+ * You may execute ALL or a SINGLE test
+ *   1.- No parameter -> ALL test are executed
+ *   2.- A number means a particular test (the one identified by that number)
+ *       is executed
+ *
+ */
 
 int main(int argc, char **argv)
 {
@@ -8,7 +27,7 @@ int main(int argc, char **argv)
 
   if (argc < 2)
   {
-    printf("Running all test for module Set:\n");
+    printf("Running all test for module Inventory:\n");
   }
   else
   {
@@ -49,25 +68,25 @@ int main(int argc, char **argv)
   if (all || test == 13)
     test1_inventory_get_n_objects();
   if (all || test == 14)
-    test2_inventory_get_n_objects();  
+    test2_inventory_get_n_objects();
+  
   PRINT_PASSED_PERCENTAGE;
 
   return 0;
 }
 
-
-void test1_inventory_create(){
-
-int result;
-Inventory * i;
-i = inventory_create();
-result = i != NULL;
-PRINT_TEST_RESULT(result);
-inventory_destroy(i);
-
+void test1_inventory_create()
+{
+  int result;
+  Inventory *i;
+  i = inventory_create();
+  result = i != NULL;
+  PRINT_TEST_RESULT(result);
+  inventory_destroy(i);
 }
 
-void test1_inventory_create(){
+void test1_inventory_create()
+{
   Inventory *i;
   i = inventory_create();
   PRINT_TEST_RESULT(inventory_add_object(i, 4) == OK);
@@ -82,9 +101,9 @@ void test1_inventory_add_object()
   inventory_destroy(i);
 }
 
-
-void test2_inventory_add_object(){
-  Inventory * i = NULL;
+void test2_inventory_add_object()
+{
+  Inventory *i = NULL;
   PRINT_TEST_RESULT(inventory_add_object(i, 4) == ERROR);
 }
 
@@ -114,8 +133,8 @@ void test1_inventory_find_object()
 
 void test2_inventory_find_object()
 {
- Inventory *i = NULL;
- PRINT_TEST_RESULT(inventory_find_object(i, 4) == -1);
+  Inventory *i = NULL;
+  PRINT_TEST_RESULT(inventory_find_object(i, 4) == -1);
 }
 
 void test3_inventory_find_object()
@@ -136,17 +155,17 @@ void test1_inventory_set_n_objects()
 
 void test2_inventory_set_n_objects()
 {
-Inventory *i = NULL;
-PRINT_TEST_RESULT(inventory_set_n_objs(i, 4) == ERROR);
+  Inventory *i = NULL;
+  PRINT_TEST_RESULT(inventory_set_n_objs(i, 4) == ERROR);
 }
 
-void test3_inventory_set_n_objects(){
+void test3_inventory_set_n_objects()
+{
 
   Inventory *i;
   i = inventory_create();
   PRINT_TEST_RESULT(inventory_set_n_objs(i, -1) == ERROR);
   inventory_destroy(i);
-
 }
 
 void test1_inventory_get_n_objects()
@@ -159,6 +178,6 @@ void test1_inventory_get_n_objects()
 
 void test2_inventory_get_n_objects()
 {
- Inventory *i = NULL;
- PRINT_TEST_RESULT(inventory_get_n_objs(i) == -1);
+  Inventory *i = NULL;
+  PRINT_TEST_RESULT(inventory_get_n_objs(i) == -1);
 }

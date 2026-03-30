@@ -48,4 +48,12 @@ void test1_link_get_destination();
 
 void test2_link_get_destination();
 
+void test1_link_set_open();
+
+void test2_link_set_open();
+
+void test1_link_get_open();
+
+void test2_link_get_open();
+
 #endif

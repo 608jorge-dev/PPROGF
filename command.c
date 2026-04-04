@@ -184,10 +184,11 @@ char* command_get_description(Command *command)
  */
 Status command_get_user_input(Command *command)
 {
-  char input[CMD_LENGHT] = "", *token = NULL;
+  char input[CMD_LENGHT] = "", cmdarg[CMD_LENGHT] = "", *token = NULL;
   int i = UNKNOWN - NO_CMD + 1;
   CommandCode cmd;
 
+  cmdarg[0] = "\0";
   if (!command)
   {
     command_set_status(command, OK);
@@ -196,7 +197,7 @@ Status command_get_user_input(Command *command)
 
   if (fgets(input, CMD_LENGHT, stdin))
   {
-    token = strtok(input, " \n");
+    token = strtok(input, " ");
     if (!token)
     {
       return command_set_code(command, UNKNOWN);
@@ -214,8 +215,15 @@ Status command_get_user_input(Command *command)
         i++;
       }
     }
+
+    token = strtok(input, " ");
+    strcpy(cmdarg, token);
+
+    command_set_status(command, OK);
     return command_set_code(command, cmd);
+    return command_set_argstr(command, cmdarg);
   }
+  
   else
     return command_set_code(command, EXIT);
 }

@@ -62,7 +62,7 @@ Status set_del(Set *set, Id id);
  * @param id The id you are finding
  * @return The position of the id in the id array of the set
  */
-int set_find(Set *set, Id id);
+Bool set_find(Set *set, Id id);
 
 /**
  * @brief It gets an id in the id array of the set by its position

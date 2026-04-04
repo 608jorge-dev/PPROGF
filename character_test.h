@@ -95,7 +95,7 @@ void test1_character_get_name();
 void test2_character_get_name();
 
 /**
- * @test Test function for space_gdesc setting
+ * @test Test function for character_gdesc setting
  * @pre String with character graphic description
  * @post Ouput==OK
  */
@@ -186,7 +186,7 @@ void test1_character_get_friendly();
 void test2_character_get_friendly();
 
 /**
- * @test Test function for space_message setting
+ * @test Test function for character_message setting
  * @pre String with character message
  * @post Ouput==OK
  */

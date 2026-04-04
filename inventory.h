@@ -90,9 +90,10 @@ Status inventory_del_object(Inventory *inventory, Id id);
  * @param object_id The id of the object
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
-int inventory_find_object(Inventory *inventory, Id object_id);
+Bool inventory_find_object(Inventory *inventory, Id object_id);
 
 Status inventory_set_n_objs(Inventory *inventory, int n_objs);
+
 int inventory_get_n_objs(Inventory *inventory);
 
 /**

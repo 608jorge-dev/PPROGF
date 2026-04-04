@@ -111,22 +111,22 @@ Status set_del(Set *set, Id id)
     return OK;
 }
 
-int set_find(Set *set, Id id)
+Bool set_find(Set *set, Id id)
 {
     int i;
 
     if (!set || id == NO_ID || set->n_ids >= MAX_IDS)
     {
-        return -1;
+        return FALSE;
     }
 
     for (i = 0; i < set->n_ids; i++)
     {
         if (set->ids[i] == id)
-            return i;
+            return TRUE;
     }
 
-    return -1;
+    return FALSE;
 }
 
 Id set_get_id_at(Set *set, int position)

@@ -76,6 +76,25 @@ Status player_set_name(Player *player, char *name);
 const char *player_get_name(Player *player);
 
 /**
+ * @brief It sets the description of a player
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param player A pointer to the player
+ * @param gdesc A string with the description to store
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status player_set_gdesc(Player *player, char *gdesc);
+
+/**
+ * @brief It gets the description of a  player
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param player A pointer to the player
+ * @return The id of the description of the player
+ */
+const char *player_get_gdesc(Player *player);
+
+/**
  * @brief It adds the object to the player set
  * @author Jorge Torrijos de la Cruz
  *
@@ -151,25 +170,6 @@ Status player_set_health(Player *player, int health);
  * @return The amount of health
  */
 int player_get_health(Player *player);
-
-/**
- * @brief It sets the description of a player
- * @author Jorge Torrijos de la Cruz
- *
- * @param player A pointer to the player
- * @param gdesc A string with the description to store
- * @return OK, if everything goes well or ERROR if there was some mistake
- */
-Status player_set_gdesc(Player *player, char *gdesc);
-
-/**
- * @brief It gets the description of a  player
- * @author Jorge Torrijos de la Cruz
- *
- * @param player A pointer to the player
- * @return The id of the description of the player
- */
-const char *player_get_gdesc(Player *player);
 
 /**
  * @brief It prints the player information

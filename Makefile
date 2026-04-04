@@ -1,11 +1,11 @@
 ######################################################## MACROS
 EXE=castle
-TEST=character_test link_test object_test set_test space_test
+TEST=character_test inventory_test link_test object_test player_test set_test space_test
 CC=gcc
 CFLAGS=-Wall -ansi -pedantic
 OBJECTS=character.o command.o game_actions.o game_loop.o game_reader.o game.o graphic_engine.o inventory.o link.o object.o player.o set.o space.o
-######################################################## MAIN
 
+######################################################## MAIN
 all: $(EXE) run
 
 $(EXE): $(OBJECTS)
@@ -41,7 +41,7 @@ link.o: link.c link.h types.h
 object.o: object.c object.h types.h
 	$(CC) $(CFLAGS) -c object.c
 
-player.o: player.c player.h types.h
+player.o: player.c player.h inventory.h object.h set.h types.h
 	$(CC) $(CFLAGS) -c player.c
 
 set.o: set.c set.h types.h
@@ -50,18 +50,18 @@ set.o: set.c set.h types.h
 space.o: space.c space.h types.h object.h set.h
 	$(CC) $(CFLAGS) -c space.c
 
-######################################################## CHARACTER_TEST
-
+######################################################## CHARACTER_TEST, INVENTORY_TEST, LINK_TEST, OBJECT_TEST, PLAYER_TEST, SET_TEST, SPACE_TEST (TESTS)
 character_test.o: character_test.c character_test.h  character.c character.h types.h test.h
 	$(CC) $(CFLAGS) -c character_test.c
 
 character_test: character_test.o character.o set.o
 	$(CC) $(CFLAGS) -o character_test character_test.o character.o set.o
 
-test_character: character_test
-	./character_test
+inventory_test.o: inventory_test.c inventory_test.h  inventory.c inventory.h types.h test.h
+	$(CC) $(CFLAGS) -c inventory_test.c
 
-######################################################## LINK_TEST
+inventory_test: inventory_test.o inventory.o set.o
+	$(CC) $(CFLAGS) -o inventory_test inventory_test.o inventory.o set.o
 
 link_test.o: link_test.c link_test.h  link.c link.h types.h test.h
 	$(CC) $(CFLAGS) -c link_test.c
@@ -69,21 +69,17 @@ link_test.o: link_test.c link_test.h  link.c link.h types.h test.h
 link_test: link_test.o link.o set.o
 	$(CC) $(CFLAGS) -o link_test link_test.o link.o set.o
 
-test_link: link_test
-	./link_test
-
-######################################################## OBJECT_TEST
-
 object_test.o: object_test.c object_test.h  object.c object.h types.h test.h
 	$(CC) $(CFLAGS) -c object_test.c
 
 object_test: object_test.o object.o set.o
 	$(CC) $(CFLAGS) -o object_test object_test.o object.o set.o
 
-test_object: object_test
-	./object_test
+player_test.o: player_test.c player_test.h player.h inventory.h object.h set.h test.h types.h
+	$(CC) $(CFLAGS) -c player_test.c
 
-######################################################## SET_TEST
+player_test: player_test.o player.o inventory.o set.o
+	$(CC) $(CFLAGS) -o player_test player_test.o player.o inventory.o set.o
 
 set_test.o: set_test.c set_test.h set.h types.h test.h
 	$(CC) $(CFLAGS) -c set_test.c
@@ -91,43 +87,61 @@ set_test.o: set_test.c set_test.h set.h types.h test.h
 set_test: set_test.o set.o
 	$(CC) $(CFLAGS) -o set_test set_test.o set.o
 
-test_set: set_test
-	./set_test
-
-######################################################## SPACE_TEST
-
 space_test.o: space_test.c space_test.h space.c space.h types.h test.h
 	$(CC) $(CFLAGS) -c space_test.c
 
 space_test: space_test.o space.o set.o
 	$(CC) $(CFLAGS) -o space_test space_test.o space.o set.o
 
+test_character: character_test
+	./character_test
+
+test_inventory: inventory_test
+	./inventory_test
+
+test_link: link_test
+	./link_test
+
+test_object: object_test
+	./object_test
+
+test_player: player_test
+	./player_test
+
+test_set: set_test
+	./set_test
+
 test_space: space_test
 	./space_test
 
-######################################################## CLEAN, RUN, RUNV, DOXY
-
-.PHONY: clean clean_test run
-
-clean:
-	@echo ">>>>>>Deleting project file"
-	rm -f *.o $(EXE)
-
-clean_test:
-	@echo ">>>>>>Deleting tests file"
-	rm -f *.o $(TEST)
+######################################################## RUN, LOG, RUNV, CLEAN, TEST, DOXY (TOOLS)
+.PHONY: run runv clean test test_clean doc doc_clean
 
 run: $(EXE)
 	./$(EXE) castle.dat
-	
+
+run_log: $(EXE)
+	./$(EXE) castle.dat -1 logFile
+
 runv:
-	@echo ">>>>>>Running castle.dat with valgrind"
+	@echo ">>>>>> Running castle.dat with valgrind"
 	valgrind --leak-check=full  ./castle castle.dat
 
+clean:
+	@echo ">>>>>> Deleting project file"
+	rm -f *.o $(EXE)
+
+test: $(TEST)
+	./$(TEST)
+
+test_clean:
+	@echo ">>>>>> Deleting tests file"
+	rm -f *.o $(TEST)
+
 doc:
-	@echo ">>>>>>Making documentation file"
+	@echo ">>>>>> Making documentation file"
 	doxygen Doxyfile
 
-doc_del: 
-	@echo ">>>>>>Deleting documentation file"
-	rm -rf docs
+doc_clean:
+	@echo ">>>>>> Deleting documentation file"
+	rm -rf ./doc

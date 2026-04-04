@@ -40,6 +40,7 @@ Status inventory_destroy(Inventory *inventory)
         return ERROR;
     }
 
+    set_destroy(inventory->objs);
     free(inventory);
 
     return OK;
@@ -137,21 +138,24 @@ Status inventory_del_object(Inventory *inventory, Id id)
         return ERROR;
     }
 
-    set_del(inventory->objs, id);
+    if(set_del(inventory->objs, id) == ERROR)
+    {
+        return ERROR;
+    }
 
     inventory_set_n_objs(inventory, inventory_get_n_objs(inventory) - 1);
 
     return OK;
 }
 
-int inventory_find_object(Inventory *inventory, Id object_id)
+Bool inventory_find_object(Inventory *inventory, Id object_id)
 {
     if (!inventory || object_id == NO_ID)
     {
         return FALSE;
     }
 
-    if (set_find(inventory->objs, object_id) != -1)
+    if (set_find(inventory->objs, object_id) == TRUE)
     {
         return TRUE;
     }

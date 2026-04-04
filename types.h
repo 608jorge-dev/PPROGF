@@ -19,7 +19,7 @@
 #define CMD_LENGHT 30   /*!< Max amount of characters a command string input can have */
 #define MAX_ARGS 5      /*!< Max amount of arguments a command can have */
 #define N_CMDT 2        /*!< Max amount of characters an abreviation of a command can have */
-#define N_CMD 11        /*!< Max amount of characters a command can have */
+#define N_CMD 30        /*!< Max amount of characters a command can have */
 
 /* Game fields macros */
 #define MAX_SPACES 100         /*!< Max amount of spaces possible in the game structure*/

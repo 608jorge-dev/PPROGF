@@ -125,6 +125,71 @@ void game_actions_unknown(Game *game) { return; }
 void game_actions_exit(Game *game) { return; }
 
 /**
+ * @brief Executes the move command depending on the string sent
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ */
+Status game_actions_move(Game *game)
+{
+	Id player_space_id = NO_ID, current_id = NO_ID;
+	Command *cmd = NULL;
+	Direction dir = -1;
+	char *direction = NULL;
+	Player *player = NULL;
+
+	if (!game)
+	{
+		return ERROR;
+	}
+
+	cmd = game_get_last_command(game);
+	if (!cmd)
+	{
+		return ERROR;
+	}
+
+	direction = command_get_argstr(cmd);
+	if (!direction)
+	{
+		return ERROR;
+	}
+
+	player_space_id = game_get_player_location(game);
+	if (player_space_id == NO_ID)
+	{
+		return ERROR;
+	}
+
+	if ((strcmp("next", direction) == 0 || strcmp("n", direction) == 0) && game_connection_is_open(game, player_space_id, S) == TRUE)	{
+		dir = 1;
+	}
+
+	if ((strcmp("back", direction) == 0 || strcmp("b", direction) == 0) && game_connection_is_open(game, player_space_id, N) == TRUE)	{
+		dir = 0;
+	}
+
+	if ((strcmp("left", direction) == 0 || strcmp("l", direction) == 0)&& game_connection_is_open(game, player_space_id, W) == TRUE)	{
+		dir = 3; 
+	}
+
+	if ((strcmp("right", direction) == 0 || strcmp("r", direction) == 0)&& game_connection_is_open(game, player_space_id, E) == TRUE) 	{
+		dir = 2; 
+	}
+
+	if (dir >= 0)	{
+		current_id = link_get_destination(game_get_link_with_id(game, game_get_connection(game, player_space_id, dir)));
+		if (current_id != NO_ID)
+		{
+			game_set_player_location(game, current_id);
+			return OK;
+		}
+	}
+	
+	return ERROR;
+}
+
+/**
  * @brief Executes the take command
  * @author Jorge Torrijos de la Cruz
  *
@@ -381,77 +446,6 @@ Status game_actions_chat(Game *game)
 		return -2;
 	}
 
-	return ERROR;
-}
-
-/**
- * @brief Executes the move command depending on the string sent
- * @author Jorge Torrijos de la Cruz
- *
- * @param game A pointer to the game data
- */
-Status game_actions_move(Game *game)
-{
-	Id player_space_id = NO_ID, current_id = NO_ID;
-	Command *cmd = NULL;
-	Direction dir = -1;
-	char *direction = NULL;
-	Player *player = NULL;
-
-	if (!game)
-	{
-		return ERROR;
-	}
-
-	player = game_get_player(game);
-	if (!player)
-	{
-		return ERROR;
-	}
-
-	cmd = game_get_last_command(game);
-	if (!cmd)
-	{
-		return ERROR;
-	}
-
-	direction = command_get_argstr(cmd);
-	if (!direction)
-	{
-		return ERROR;
-	}
-
-	player_space_id = game_get_player_location(game);
-	if (player_space_id == NO_ID)
-	{
-		return ERROR;
-	}
-
-	if ((strcmp("next", direction) == 0 || strcmp("n", direction) == 0) && game_connection_is_open(game, player_space_id, S) == TRUE)	{
-		dir = 1;
-	}
-
-	if ((strcmp("back", direction) == 0 || strcmp("b", direction) == 0) && game_connection_is_open(game, player_space_id, N) == TRUE)	{
-		dir = 0;
-	}
-
-	if ((strcmp("left", direction) == 0 || strcmp("l", direction) == 0)&& game_connection_is_open(game, player_space_id, W) == TRUE)	{
-		dir = 3; 
-	}
-
-	if ((strcmp("right", direction) == 0 || strcmp("r", direction) == 0)&& game_connection_is_open(game, player_space_id, E) == TRUE) 	{
-		dir = 2; 
-	}
-
-	if (dir >= 0)	{
-		current_id = link_get_destination(game_get_link_with_id(game, game_get_connection(game, player_space_id, dir)));
-		if (current_id != NO_ID)
-		{
-			game_set_player_location(game, current_id);
-			return OK;
-		}
-	}
-	
 	return ERROR;
 }
 

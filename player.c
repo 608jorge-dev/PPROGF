@@ -52,10 +52,8 @@ Player *player_create(Id id)
   newPlayer->location = NO_ID;
   newPlayer->objects = inventory_create();
   newPlayer->n_objects = 0;
-  newPlayer->health = 4;
-  newPlayer->gdesc[0] = '^';
-  newPlayer->gdesc[1] = 'C';
-  newPlayer->gdesc[2] = '>';
+  newPlayer->health = 0;
+  newPlayer->gdesc[0] = '\0';
 
   return newPlayer;
 }
@@ -156,9 +154,9 @@ Status player_add_object(Player *player, Id id)
     return ERROR;
   }
 
-  if(inventory_add_object(player_get_objects(player), id) == ERROR )
+  if(inventory_add_object(player_get_objects(player), id) == ERROR)
   {
-     return ERROR;
+    return ERROR;
   }
 
   return OK;
@@ -169,7 +167,6 @@ Status player_add_object(Player *player, Id id)
 Status player_del_object(Player *player, Id id)
 {
   Inventory *objects;
-  int n_invents;
 
   if (!player || id == NO_ID)
   {
@@ -178,13 +175,6 @@ Status player_del_object(Player *player, Id id)
 
   objects = player_get_objects(player);
   if (!objects)
-  {
-    return ERROR;
-  }
-
-  /*n_invents = set_get_n_ids(objects);  */
-   n_invents = inventory_get_max_objs(objects);
-  if (n_invents == 0)
   {
     return ERROR;
   }
@@ -202,7 +192,6 @@ Status player_del_object(Player *player, Id id)
 Bool player_find_object(Player *player, Id id)
 {
   Inventory *objects;
-  int location;
 
   if (!player || id == NO_ID)
   {
@@ -215,9 +204,7 @@ Bool player_find_object(Player *player, Id id)
     return FALSE;
   }
 
-  location = inventory_find_object(objects, id);
-
-  if (location != -1)
+  if (inventory_find_object(objects, id) == TRUE)
   {
     return TRUE;
   }

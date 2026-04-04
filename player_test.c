@@ -62,6 +62,46 @@ int main(int argc, char **argv)
     test1_player_get_name();
   if (all || test == 11)
     test2_player_get_name();
+  if (all || test == 12)
+    test1_player_set_gdesc();
+  if (all || test == 13)
+    test2_player_set_gdesc();
+  if (all || test == 14)
+    test3_player_set_gdesc();
+  if (all || test == 15)
+    test1_player_get_gdesc();
+  if (all || test == 16)
+    test2_player_get_gdesc();
+  if (all || test == 17)
+    test1_player_add_object();
+  if (all || test == 18)
+    test2_player_add_object();
+  if (all || test == 19)
+    test1_player_del_object();
+  if (all || test == 20)
+    test2_player_del_object();
+  if (all || test == 21)
+    test1_player_find_object();
+  if (all || test == 22)
+    test2_player_find_object();
+  if (all || test == 23)
+    test3_player_find_object();
+  if (all || test == 24)
+    test1_player_set_location();
+  if (all || test == 25)
+    test2_player_set_location();
+  if (all || test == 26)
+    test1_player_get_location();
+  if (all || test == 27)
+    test2_player_get_location();
+  if (all || test == 28)
+    test1_player_set_health();
+  if (all || test == 29)
+    test2_player_set_health();
+  if (all || test == 30)
+    test1_player_get_health();
+  if (all || test == 31)
+    test2_player_get_health();
 
   PRINT_PASSED_PERCENTAGE;
 
@@ -238,4 +278,62 @@ void test3_player_find_object()
   p = player_create(5);
   PRINT_TEST_RESULT(player_find_object(p, 6) == FALSE);
   player_destroy(p);
+}
+
+void test1_player_set_location()
+{
+  Player *p;
+  p = player_create(5);
+  PRINT_TEST_RESULT(player_set_location(p, 11) == OK);
+  player_destroy(p);
+}
+
+void test2_player_set_location()
+{
+  Player *p = NULL;
+  PRINT_TEST_RESULT(player_set_location(p, 11) == ERROR);
+}
+
+void test1_player_get_location()
+{
+  Player *p;
+  p = player_create(5);
+  player_set_location(p, 11);
+  PRINT_TEST_RESULT(player_get_location(p) == 11);
+  player_destroy(p);
+}
+
+void test2_player_get_location()
+{
+  Player *p = NULL;
+  PRINT_TEST_RESULT(player_get_location(p) == NO_ID);
+}
+
+void test1_player_set_health()
+{
+  Player *p;
+  p = player_create(5);
+  PRINT_TEST_RESULT(player_set_health(p, 50) == OK);
+  player_destroy(p);
+}
+
+void test2_player_set_health()
+{
+  Player *p = NULL;
+  PRINT_TEST_RESULT(player_set_health(p, 50) == ERROR);
+}
+
+void test1_player_get_health()
+{
+  Player *p;
+  p = player_create(5);
+  player_set_health(p, 50);
+  PRINT_TEST_RESULT(player_get_health(p) == 50);
+  player_destroy(p);
+}
+
+void test2_player_get_health()
+{
+  Player *p = NULL;
+  PRINT_TEST_RESULT(player_get_health(p) == NO_ID);
 }

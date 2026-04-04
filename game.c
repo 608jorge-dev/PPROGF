@@ -603,8 +603,8 @@ Bool game_get_finished(Game *game)
   return game->finished;
 }
 
-
 /* LINK FUNCTIONS : */
+
 Id game_get_connection(Game *game, Id actual_space, Direction link_dir)
 {
   int i;

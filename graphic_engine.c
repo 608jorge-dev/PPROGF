@@ -78,7 +78,6 @@ void graphic_engine_destroy(Graphic_engine *ge)
 void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
 {
   Id id_act = NO_ID, id_back = NO_ID, id_next = NO_ID, id_left = NO_ID, id_right = NO_ID;
-  Space *space_act = NULL;
   int i;
   char c_gdesc[10];
   char str[255];
@@ -91,11 +90,10 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
   screen_area_clear(ge->map);
   if ((id_act = game_get_player_location(game)) != NO_ID)
   {
-    space_act = game_get_space(game, id_act);
-    id_back = link_get_destination(game_get_link_with_id(game, game_get_connection(game, id_act, N)));
-    id_next = link_get_destination(game_get_link_with_id(game, game_get_connection(game, id_act, S)));
-    id_left = link_get_destination(game_get_link_with_id(game, game_get_connection(game, id_act, W)));
-    id_right = link_get_destination(game_get_link_with_id(game, game_get_connection(game, id_act, E)));
+    id_back = game_get_connection(game, id_act, 0);
+    id_next = game_get_connection(game, id_act, 1);
+    id_left = game_get_connection(game, id_act, 3);
+    id_right = game_get_connection(game, id_act, 2);
 
     /* Paint back space */
     c_gdesc[0] = ' ';
@@ -258,15 +256,27 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
   screen_area_puts(ge->descript, str);
   for (i = 0; i < MAX_OBJECTS; i++)
   {
-    sprintf(str, "    %s: %ld", object_get_name(game_get_object(game, i)), space_get_id(game_get_space(game, game_get_object_location(game, object_get_id(game_get_object(game, i))))));
+    sprintf(str, "    %s: %ld", object_get_name(game_get_object_at(game, i)), space_get_id(game_get_space(game, game_get_object_location(game, object_get_id(game_get_object_at(game, i))))));
     screen_area_puts(ge->descript, str);
   }
+
+  sprintf(str, "  Id act: %ld ", id_act);
+  screen_area_puts(ge->descript, str);
+  sprintf(str, "  Id back: %ld ", id_back);
+  screen_area_puts(ge->descript, str);
+  sprintf(str, "  Id next: %ld ", id_next);
+  screen_area_puts(ge->descript, str);
+  sprintf(str, "  Id left: %ld ", id_left);
+  screen_area_puts(ge->descript, str);
+  sprintf(str, "  Id right: %ld ", id_right);
+  screen_area_puts(ge->descript, str);
+
 
   /* Character description*/
   sprintf(str, "  Characters: ");
   screen_area_puts(ge->descript, str);
 
-  for (i = 0; i < 2; i++)
+  for (i = 0; i < game_get_n_characters(game); i++)
   {
     sprintf(str, "    %s:  %ld (%d)", character_get_gdesc(game_get_character(game, i)), (game_get_character_location(game, character_get_id(game_get_character(game, i)))), character_get_health(game_get_character(game, i)));
     screen_area_puts(ge->descript, str);

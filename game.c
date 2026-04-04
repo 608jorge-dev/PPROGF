@@ -79,12 +79,12 @@ Status game_destroy(Game *game)
 {
   int i = 0;
 
-  for (i = 0; i < MAX_PLAYERS; i++)
+  for (i = 0; i < game->n_players; i++)
   {
     player_destroy(game->players[i]);
   }
 
-  for (i = 0; i < MAX_OBJECTS; i++)
+  for (i = 0; i < game->n_objects; i++)
   {
     object_destroy(game->objects[i]);
   }
@@ -94,7 +94,7 @@ Status game_destroy(Game *game)
     space_destroy(game->spaces[i]);
   }
 
-  for (i = 0; i < game->n_spaces; i++)
+  for (i = 0; i < game->n_characters; i++)
   {
     character_destroy(game->characters[i]);
   }
@@ -615,7 +615,7 @@ Id game_get_connection(Game *game, Id actual_space, Direction link_dir)
 
   for (i = 0; i < game->n_links; i++)
   {
-    if (link_get_origin(game->links[i]) == actual_space && link_get_direction(game->links[i]) == link_dir)
+    if ((link_get_origin(game->links[i]) == actual_space) && (link_get_direction(game->links[i]) == link_dir))
     {
       return link_get_destination(game->links[i]);
     }
@@ -645,6 +645,7 @@ Bool game_connection_is_open(Game *game, Id actual_space, Direction link_dir)
 Link *game_get_link_with_id(Game *game, Id id)
 {
   int i;
+  Id temp;
   if (!game || id == NO_ID)
   {
     return NULL;
@@ -652,28 +653,27 @@ Link *game_get_link_with_id(Game *game, Id id)
 
   for (i = 0; i < game->n_links; i++)
   {
-    if (link_get_id(game->links[i]) == id)
+    temp = link_get_id(game->links[i]);
+    if (temp == id)
     {
       return game->links[i];
     }
   }
+
   return NULL;
 }
 
 /* It adds the link to the game links pointer */
 Status game_add_link(Game *game, Link *link)
 {
-  int aux_n_links;
 
   if (!game || !link || game_get_n_links(game) == MAX_LINKS)
   {
     return ERROR;
   }
 
-  aux_n_links = game_get_n_links(game);
-
-  game->links[aux_n_links] = link;
-  game_set_n_links(game, aux_n_links + 1);
+  game->links[game->n_links] = link;
+  game->n_links++;
 
   return OK;
 }

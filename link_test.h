@@ -1,12 +1,3 @@
-/**
- * @brief It defines the tests for the link module
- *
- * @file link_test.h
- * @author Álvaro Bravo González
- * @version 1.0
- * @date 04-03-2025
- * @copyright GNU Public License
- */
 
 #ifndef LINK_TEST_H
 #define LINK_TEST_H
@@ -16,6 +7,8 @@
 #include <string.h>
 #include "link.h"
 #include "test.h"
+
+
 
 void test1_link_create();
 

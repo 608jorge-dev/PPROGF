@@ -214,7 +214,6 @@ Status command_get_user_input(Command *command)
         i++;
       }
     }
-    command_set_status(command, OK);
     return command_set_code(command, cmd);
   }
   else

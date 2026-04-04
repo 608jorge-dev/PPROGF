@@ -26,6 +26,7 @@ Status game_reader_load_spaces(Game *game, char *filename)
   char *toks = NULL;
   Id id = NO_ID;
   Space *space = NULL;
+  Bool disc;
   Status status = OK;
 
   if (!filename)
@@ -57,17 +58,22 @@ Status game_reader_load_spaces(Game *game, char *filename)
       strcpy(g4, toks);
       toks = strtok(NULL, "|");
       strcpy(g5, toks);
+      toks = strtok(line + 3, "|");
+      disc = atol(toks);
+
 #ifdef DEBUG
       printf("Leido: s:%ld|%s|\n", id, name);
 #endif
       space = space_create(id);
       if (space != NULL)
       {
+        space_set_name(space, name);
         space_set_gdesc(space, 0, g1);
         space_set_gdesc(space, 1, g2);
         space_set_gdesc(space, 2, g3);
         space_set_gdesc(space, 3, g4);
         space_set_gdesc(space, 4, g5);
+        space_set_discovered(space, disc);
         game_add_space(game, space);
       }
     }
@@ -114,10 +120,8 @@ Status game_reader_load_objects(Game *game, char *filename)
     {
       toks = strtok(line + 3, "|");
       object_id = atol(toks);
-
       toks = strtok(NULL, "|");
       strcpy(name, toks);
-
       toks = strtok(NULL, "|");
       if (toks)
         space_id = atol(toks);
@@ -184,14 +188,14 @@ Status game_reader_load_characters(Game *game, char *filename)
       toks = strtok(NULL, "|");
       strcpy(gdesc, toks);
       toks = strtok(NULL, "|");
+      space_id = atol(toks);
+      toks = strtok(NULL, "|");
       health = atol(toks);
       toks = strtok(NULL, "|");
       friendly = atol(toks);
       toks = strtok(NULL, "|");
       strcpy(message, toks);
 
-      toks = strtok(NULL, "|");
-      space_id = atol(toks);
       character = character_create(character_id);
       if (character != NULL)
       {
@@ -316,7 +320,7 @@ Status game_reader_load_link(Game *game, char *filename)
 
   while (fgets(line, WORD_SIZE, file))
   {
-    if (strncmp("#p:", line, 3) == 0)
+    if (strncmp("#l:", line, 3) == 0)
     {
       toks = strtok(line + 3, "|");
       link_id = atol(toks);

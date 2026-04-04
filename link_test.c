@@ -1,24 +1,4 @@
-/**
- * @brief It tests link module
- *
- * @file link_test.c
- * @author Iván Rodríguez Camacho
- * @version 1.0
- * @date 04-03-2025
- * @copyright GNU Public License
- */
-
 #include "link_test.h"
-
-/**
- * @brief Main function for LINK unit tests.
- *
- * You may execute ALL or a SINGLE test
- *   1.- No parameter -> ALL test are executed
- *   2.- A number means a particular test (the one identified by that number)
- *       is executed
- *
- */
 
 int main(int argc, char **argv)
 {
@@ -157,7 +137,7 @@ void test3_link_set_name(){
   Link *l;
   l = link_create(5);
   PRINT_TEST_RESULT(link_set_name(l, NULL) == ERROR);
-  link_destroy(l);
+  link_destroy(c);
 }
 
 void test1_link_get_name(){
@@ -236,7 +216,7 @@ void test1_link_set_open()
   Link *l;
   l = link_create(5);
   PRINT_TEST_RESULT(link_set_open(l, TRUE) == OK);
-  link_destroy(l);
+  link_destroy(s);
 }
 
 void test2_link_set_open()

@@ -486,18 +486,6 @@ Status game_actions_inspect(Game *game)	{
 		return ERROR;
 	}
 
-	for (i = 0; i < game_get_n_objects(game); i++)
-	{
-
-		object = game_get_object_at(game, i);
-
-		if (!strcmp(object_get_name(object), name))
-		{
-			object_id = object_get_id(object);
-			break;
-		}
-	}
-
 	player = game_get_player(game);
 	if (!player)
 	{
@@ -510,10 +498,17 @@ Status game_actions_inspect(Game *game)	{
 		return ERROR;
 	}
 
-	object_space_id = game_get_object_location(game, object_id);
-	if (object_space_id == NO_ID)
+	for (i = 0; i < game_get_n_objects(game); i++)
 	{
-		return ERROR;
+		object = game_get_object_at(game, i);
+		if (strcmp(object_get_name(object), name) == 0)
+		{
+			object_space_id = game_get_object_location(game, object_get_id(object));
+			if (object_space_id == NO_ID)
+			{
+				return ERROR;
+			}
+		}
 	}
 
 	if (object_space_id != player_space_id)
@@ -522,8 +517,8 @@ Status game_actions_inspect(Game *game)	{
 	}
 
 	if (command_set_description(cmd, object_get_gdesc(object)) == ERROR)	{
-		return -2;
+		return ERROR;
 	}
 
-	return OK;
+	return -2;
 }

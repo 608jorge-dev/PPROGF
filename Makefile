@@ -3,9 +3,7 @@ EXE=castle
 TEST=character_test link_test object_test set_test space_test
 CC=gcc
 CFLAGS=-Wall -ansi -pedantic
-
 OBJECTS=character.o command.o game_actions.o game_loop.o game_reader.o game.o graphic_engine.o inventory.o link.o object.o player.o set.o space.o
-
 ######################################################## MAIN
 
 all: $(EXE) run
@@ -63,17 +61,6 @@ character_test: character_test.o character.o set.o
 test_character: character_test
 	./character_test
 
-######################################################## INVENTORY_TEST
-
-inventory_test.o: inventory_test.c inventory_test.h  inventory.c inventory.h types.h test.h
-	$(CC) $(CFLAGS) -c inventory_test.c
-
-inventory_test: inventory_test.o inventory.o set.o
-	$(CC) $(CFLAGS) -o inventory_test inventory_test.o inventory.o set.o
-
-test_inventory: inventory_test
-	./inventory_test
-
 ######################################################## LINK_TEST
 
 link_test.o: link_test.c link_test.h  link.c link.h types.h test.h
@@ -123,9 +110,11 @@ test_space: space_test
 .PHONY: clean clean_test run
 
 clean:
+	@echo ">>>>>>Deleting project file"
 	rm -f *.o $(EXE)
 
 clean_test:
+	@echo ">>>>>>Deleting tests file"
 	rm -f *.o $(TEST)
 
 run: $(EXE)
@@ -138,3 +127,7 @@ runv:
 doc:
 	@echo ">>>>>>Making documentation file"
 	doxygen Doxyfile
+
+doc_del: 
+	@echo ">>>>>>Deleting documentation file"
+	rm -rf docs

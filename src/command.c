@@ -188,7 +188,7 @@ Status command_get_user_input(Command *command)
   int i = UNKNOWN - NO_CMD + 1;
   CommandCode cmd;
 
-  cmdarg[0] = "\0";
+  cmdarg[0] = '\0';
   if (!command)
   {
     command_set_status(command, OK);

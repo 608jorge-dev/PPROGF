@@ -63,6 +63,17 @@ character_test: character_test.o character.o set.o
 test_character: character_test
 	./character_test
 
+######################################################## INVENTORY_TEST
+
+inventory_test.o: inventory_test.c inventory_test.h  inventory.c inventory.h types.h test.h
+	$(CC) $(CFLAGS) -c inventory_test.c
+
+inventory_test: inventory_test.o inventory.o set.o
+	$(CC) $(CFLAGS) -o inventory_test inventory_test.o inventory.o set.o
+
+test_inventory: inventory_test
+	./inventory_test
+
 ######################################################## LINK_TEST
 
 link_test.o: link_test.c link_test.h  link.c link.h types.h test.h

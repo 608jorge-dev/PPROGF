@@ -39,10 +39,10 @@ int main(int argc, char *argv[])
   int result;
   Command *last_cmd;
   Status status;
-  FILE *log_file = NULL;
-  int log = 0;
-  CommandCode code;
-  char *arg = NULL;
+  FILE *log_file = NULL, *cmd_file = NULL;
+  int log = 0, cmd = 0;
+  CommandCode code, cmd_code;
+  char *arg = NULL, *cmd_arg = NULL;
 
   if (argc < 2)
   {
@@ -52,8 +52,32 @@ int main(int argc, char *argv[])
 
   if (argc < 4 && strcmp(argv[argc - 2], "-l") == 0)
   {
+    log_file = fopen(argv[argc - 1], "a");
+    if (log_file == NULL)
+    {
+      game_loop_cleanup(game, gengine);
+      return 1;
+    }
     log = 1;
   }
+
+  /* Hay que cambiarlo para que reconozca cualquier archivo .cmd */
+  /*if (argc < 6 && strcmp(argv[argc - 1], "game1.cmd") == 0 && strcmp(argv[argc - 4], "-l") == 0) {}
+    cmd_file = fopen(argv[argc - 1], "r");
+    if (log_file == NULL)
+    {
+      game_loop_cleanup(game, gengine);
+      return 1;
+    }
+    log_file = fopen(argv[argc - 3], "a");
+    if (log_file == NULL)
+    {
+      game_loop_cleanup(game, gengine);
+      return 1;
+    }
+    log = 1;
+    cmd = 1;
+  }*/
 
   game = game_create();
   result = game_loop_init(game, &gengine, argv[1]);
@@ -69,22 +93,24 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  if (log == 1)
-  {
-    log_file = fopen(argv[argc - 1], "w");
-    if (log_file == NULL)
-    {
-      game_loop_cleanup(game, gengine);
-      return 1;
-    }
-  }
-
   last_cmd = game_get_last_command(game);
 
   while ((command_get_code(last_cmd) != EXIT) && (game_get_finished(game) == FALSE))
   {
     graphic_engine_paint_game(gengine, game);
-    command_get_user_input(last_cmd);
+    if (cmd = 0)  {
+      command_get_user_input(last_cmd);
+    }
+    /* else if (cmd = 1) {
+      if (fscanf (cmd_file, "%s %s", cmd_code, cmd_arg) == 2)  {
+        command_set_code(last_cmd, cmd_code);
+        command_set_argstr(last_cmd, cmd_arg);
+      }
+
+        if (fscanf (cmd_file, "%s", cmd_code) == 1) {
+          command_set_code(last_cmd, cmd_code);
+        }
+    }*/
 
     status = game_actions_update(game, last_cmd);
 

@@ -187,7 +187,7 @@ Bool space_find_object(Space *space, Id object_id)
   {
     return FALSE;
   }
-  if (set_find(space->objects, object_id) != -1)
+  if (set_find(space->objects, object_id) == TRUE)
   {
     return TRUE;
   }

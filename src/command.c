@@ -215,9 +215,12 @@ Status command_get_user_input(Command *command)
         i++;
       }
     }
-
-    token = strtok(input, " ");
-    strcpy(cmdarg, token);
+    
+    if (strcmp (cmd,"take") == 0 || strcmp (cmd,"move") == 0 || strcmp (cmd,"inspect") == 0 || strcmp (cmd,"drop") == 0)  {
+      token = strtok(input, " ");
+      strcpy(cmdarg, token);
+    }
+   
 
     command_set_status(command, OK);
     return command_set_code(command, cmd);

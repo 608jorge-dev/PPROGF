@@ -37,6 +37,9 @@
 #define HEIGHT_HLP 3            /*!< Height of the help area in the textual graphic engine*/
 #define HEIGHT_FDB 4            /*!< Height of the feedback area in the textual graphic engine*/
 
+/* Inventory fields macros */
+#define MAX_INV 10              /*!< Max amount of objects possible in the inventory structure*/
+
 /* Space fields macros */
 #define MAX_S 5                 /*!< Max amount of description strings possible in the space structure*/
 #define MAX_C 50                /*!< Max amount of characters possible of the description in tthe space structure*/

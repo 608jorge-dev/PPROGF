@@ -28,7 +28,8 @@ Inventory *inventory_create()
     }
 
     newInventory->objs = set_create();
-    newInventory->max_objs = 0;
+    newInventory->max_objs = MAX_INV;
+    newInventory->n_objs = 0;
 
     return newInventory;
 }
@@ -119,12 +120,15 @@ Status inventory_add_object(Inventory *inventory, Id id)
         return ERROR;
     }
 
-    if (set_get_n_ids(inventory->objs) == inventory_get_max_objs(inventory))
+    if (inventory_get_n_objs(inventory) == inventory_get_max_objs(inventory))
     {
         return NO_SPACE;
     }
 
-    set_add(inventory->objs, id);
+    if(set_add(inventory->objs, id) == ERROR)
+    {
+        return ERROR;
+    }
 
     inventory_set_n_objs(inventory, inventory_get_n_objs(inventory) + 1);
 

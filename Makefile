@@ -1,16 +1,19 @@
 ######################################################## DIRECTORIOS
+
 SRC = src
 OBJ = obj
 INC = include
 LIB = lib
+TEST_INC = include/tests
 TEST_SRC = src/tests
 TEST_OBJ = obj/tests
 
 ######################################################## MACROS
+
 EXE = castle
 CC = gcc
 LDFLAGS = -L$(LIB) -lscreen
-CFLAGS = -Wall -ansi -pedantic -I$(INC)
+CFLAGS = -Wall -ansi -pedantic -I$(INC) -I$(TEST_INC)
 
 OBJECTS = $(OBJ)/character.o $(OBJ)/command.o $(OBJ)/game_actions.o \
           $(OBJ)/game_loop.o $(OBJ)/game_reader.o $(OBJ)/game.o \
@@ -21,6 +24,7 @@ TEST = character_test inventory_test link_test object_test \
              player_test set_test space_test
 
 ######################################################## MAIN
+
 $(EXE): $(OBJECTS)
 	$(CC) $(CFLAGS) -o $(EXE) $(OBJECTS) $(LDFLAGS)
 
@@ -64,6 +68,7 @@ $(OBJ)/space.o: $(SRC)/space.c $(INC)/space.h $(INC)/types.h $(INC)/object.h $(I
 	$(CC) $(CFLAGS) -c $(SRC)/space.c -o $(OBJ)/space.o
 
 ######################################################## CARPETAS OBJ
+
 $(OBJ):
 	mkdir -p $(OBJ)
 
@@ -71,57 +76,63 @@ $(TEST_OBJ):
 	mkdir -p $(TEST_OBJ)
 
 ######################################################## CHARACTER_TEST, INVENTORY_TEST, LINK_TEST, OBJECT_TEST, PLAYER_TEST, SET_TEST, SPACE_TEST (TESTS)
-$(TEST_OBJ)/character_test.o: $(TEST_SRC)/character_test.c $(INC)/character_test.h $(SRC)/character.c $(INC)/character.h $(INC)/types.h $(INC)/test.h | $(TEST_OBJ)
+
+$(TEST_OBJ)/character_test.o: $(TEST_SRC)/character_test.c $(TEST_INC)/character_test.h $(SRC)/character.c $(INC)/character.h $(INC)/types.h $(INC)/test.h | $(TEST_OBJ)
 	$(CC) $(CFLAGS) -c $(TEST_SRC)/character_test.c -o $(TEST_OBJ)/character_test.o
 
 character_test: $(TEST_OBJ)/character_test.o $(OBJ)/character.o $(OBJ)/set.o
 	$(CC) $(CFLAGS) -o character_test $(TEST_OBJ)/character_test.o $(OBJ)/character.o $(OBJ)/set.o
 
-$(TEST_OBJ)/inventory_test.o: $(TEST_SRC)/inventory_test.c $(INC)/inventory_test.h $(SRC)/inventory.c $(INC)/inventory.h $(INC)/types.h $(INC)/test.h | $(TEST_OBJ)
+$(TEST_OBJ)/inventory_test.o: $(TEST_SRC)/inventory_test.c $(TEST_INC)/inventory_test.h $(SRC)/inventory.c $(INC)/inventory.h $(INC)/types.h $(INC)/test.h | $(TEST_OBJ)
 	$(CC) $(CFLAGS) -c $(TEST_SRC)/inventory_test.c -o $(TEST_OBJ)/inventory_test.o
 
 inventory_test: $(TEST_OBJ)/inventory_test.o $(OBJ)/inventory.o $(OBJ)/set.o
 	$(CC) $(CFLAGS) -o inventory_test $(TEST_OBJ)/inventory_test.o $(OBJ)/inventory.o $(OBJ)/set.o
 
-$(TEST_OBJ)/link_test.o: $(TEST_SRC)/link_test.c $(INC)/link_test.h $(SRC)/link.c $(INC)/link.h $(INC)/types.h $(INC)/test.h | $(TEST_OBJ)
+$(TEST_OBJ)/link_test.o: $(TEST_SRC)/link_test.c $(TEST_INC)/link_test.h $(SRC)/link.c $(INC)/link.h $(INC)/types.h $(INC)/test.h | $(TEST_OBJ)
 	$(CC) $(CFLAGS) -c $(TEST_SRC)/link_test.c -o $(TEST_OBJ)/link_test.o
 
 link_test: $(TEST_OBJ)/link_test.o $(OBJ)/link.o $(OBJ)/set.o
 	$(CC) $(CFLAGS) -o link_test $(TEST_OBJ)/link_test.o $(OBJ)/link.o $(OBJ)/set.o
 
-$(TEST_OBJ)/object_test.o: $(TEST_SRC)/object_test.c $(INC)/object_test.h $(SRC)/object.c $(INC)/object.h $(INC)/types.h $(INC)/test.h | $(TEST_OBJ)
+$(TEST_OBJ)/object_test.o: $(TEST_SRC)/object_test.c $(TEST_INC)/object_test.h $(SRC)/object.c $(INC)/object.h $(INC)/types.h $(TEST_INC)/test.h | $(TEST_OBJ)
 	$(CC) $(CFLAGS) -c $(TEST_SRC)/object_test.c -o $(TEST_OBJ)/object_test.o
 
 object_test: $(TEST_OBJ)/object_test.o $(OBJ)/object.o $(OBJ)/set.o
 	$(CC) $(CFLAGS) -o object_test $(TEST_OBJ)/object_test.o $(OBJ)/object.o $(OBJ)/set.o
 
-$(TEST_OBJ)/player_test.o: $(TEST_SRC)/player_test.c $(INC)/player_test.h $(INC)/player.h $(INC)/inventory.h $(INC)/object.h $(INC)/set.h $(INC)/test.h $(INC)/types.h | $(TEST_OBJ)
+$(TEST_OBJ)/player_test.o: $(TEST_SRC)/player_test.c $(TEST_INC)/player_test.h $(INC)/player.h $(INC)/inventory.h $(INC)/object.h $(INC)/set.h $(INC)/test.h $(INC)/types.h | $(TEST_OBJ)
 	$(CC) $(CFLAGS) -c $(TEST_SRC)/player_test.c -o $(TEST_OBJ)/player_test.o
 
 player_test: $(TEST_OBJ)/player_test.o $(OBJ)/player.o $(OBJ)/inventory.o $(OBJ)/set.o
 	$(CC) $(CFLAGS) -o player_test $(TEST_OBJ)/player_test.o $(OBJ)/player.o $(OBJ)/inventory.o $(OBJ)/set.o
 
-$(TEST_OBJ)/set_test.o: $(TEST_SRC)/set_test.c $(INC)/set_test.h $(INC)/set.h $(INC)/types.h $(INC)/test.h | $(TEST_OBJ)
+$(TEST_OBJ)/set_test.o: $(TEST_SRC)/set_test.c $(TEST_INC)/set_test.h $(INC)/set.h $(INC)/types.h $(INC)/test.h | $(TEST_OBJ)
 	$(CC) $(CFLAGS) -c $(TEST_SRC)/set_test.c -o $(TEST_OBJ)/set_test.o
 
 set_test: $(TEST_OBJ)/set_test.o $(OBJ)/set.o
 	$(CC) $(CFLAGS) -o set_test $(TEST_OBJ)/set_test.o $(OBJ)/set.o
 
-$(TEST_OBJ)/space_test.o: $(TEST_SRC)/space_test.c $(INC)/space_test.h $(SRC)/space.c $(INC)/space.h $(INC)/types.h $(INC)/test.h | $(TEST_OBJ)
+$(TEST_OBJ)/space_test.o: $(TEST_SRC)/space_test.c $(TEST_INC)/space_test.h $(SRC)/space.c $(INC)/space.h $(INC)/types.h $(INC)/test.h | $(TEST_OBJ)
 	$(CC) $(CFLAGS) -c $(TEST_SRC)/space_test.c -o $(TEST_OBJ)/space_test.o
 
 space_test: $(TEST_OBJ)/space_test.o $(OBJ)/space.o $(OBJ)/set.o
 	$(CC) $(CFLAGS) -o space_test $(TEST_OBJ)/space_test.o $(OBJ)/space.o $(OBJ)/set.o
 
-######################################################## RUN, LOG, RUNV, CLEAN, TEST, DOXY (TOOLS)
-.PHONY: run clean run_log runv test test_clean doc doc_clean
+######################################################## CLEAN, RUN, LOG, RUNV, TEST, DOXY (TOOLS)
+
+.PHONY: clean run obj_clean run_log runv test test_clean doc doc_clean
+
+clean:
+	@echo ">>>>>> Deleting projects files"
+	rm -rf $(TEST_OBJ) $(TEST) $(OBJ) $(EXE)
 
 run: $(EXE)
 	@echo ">>>>>> Running project files"
 	./$(EXE) castle.dat
 
-clean:
-	@echo ">>>>>> Deleting projects file"
+obj_clean:
+	@echo ">>>>>> Deleting main objects files"
 	rm -rf $(OBJ) $(EXE)
 
 run_log: $(EXE)
@@ -139,7 +150,7 @@ test: $(TEST)
 	done
 
 test_clean:
-	@echo ">>>>>> Deleting tests file"
+	@echo ">>>>>> Deleting tests files"
 	rm -rf $(TEST_OBJ) $(TEST) $(OBJ) 
 
 doc:

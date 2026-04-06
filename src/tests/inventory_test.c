@@ -85,7 +85,7 @@ void test1_inventory_create()
   inventory_destroy(i);
 }
 
-void test1_inventory_create()
+void test2_inventory_create()
 {
   Inventory *i;
   i = inventory_create();
@@ -127,21 +127,21 @@ void test1_inventory_find_object()
   Inventory *i;
   i = inventory_create();
   inventory_add_object(i, 4);
-  PRINT_TEST_RESULT(inventory_find_object(i, 4) == 0);
+  PRINT_TEST_RESULT(inventory_find_object(i, 4) == TRUE);
   inventory_destroy(i);
 }
 
 void test2_inventory_find_object()
 {
   Inventory *i = NULL;
-  PRINT_TEST_RESULT(inventory_find_object(i, 4) == -1);
+  PRINT_TEST_RESULT(inventory_find_object(i, 4) == FALSE);
 }
 
 void test3_inventory_find_object()
 {
   Inventory *i;
   i = inventory_create();
-  PRINT_TEST_RESULT(inventory_find_object(i, 4) == -1);
+  PRINT_TEST_RESULT(inventory_find_object(i, 4) == FALSE);
   inventory_destroy(i);
 }
 
@@ -172,6 +172,7 @@ void test1_inventory_get_n_objects()
 {
   Inventory *i;
   i = inventory_create();
+  inventory_set_n_objs(i, 5);
   PRINT_TEST_RESULT(inventory_get_n_objs(i) == 5);
   inventory_destroy(i);
 }

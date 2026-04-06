@@ -198,6 +198,7 @@ Bool link_get_open(Link *link)
     {
         return NO_ID;
     }
+    
     return link->open;
 }
 

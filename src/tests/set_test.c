@@ -116,20 +116,20 @@ void test1_set_find()
   Set *s;
   s = set_create();
   set_add(s, 4);
-  PRINT_TEST_RESULT(set_find(s, 4) == 0);
+  PRINT_TEST_RESULT(set_find(s, 4) == TRUE);
   set_destroy(s);
 }
 
 void test2_set_find()
 {
   Set *s = NULL;
-  PRINT_TEST_RESULT(set_find(s, 4) == -1);
+  PRINT_TEST_RESULT(set_find(s, 4) == FALSE);
 }
 
 void test3_set_find()
 {
   Set *s;
   s = set_create();
-  PRINT_TEST_RESULT(set_find(s, 4) == -1);
+  PRINT_TEST_RESULT(set_find(s, 4) == FALSE);
   set_destroy(s);
 }

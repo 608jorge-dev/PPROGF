@@ -95,7 +95,7 @@ $(TEST_OBJ)/link_test.o: $(TEST_SRC)/link_test.c $(TEST_INC)/link_test.h $(SRC)/
 link_test: $(TEST_OBJ)/link_test.o $(OBJ)/link.o $(OBJ)/set.o
 	$(CC) $(CFLAGS) -o link_test $(TEST_OBJ)/link_test.o $(OBJ)/link.o $(OBJ)/set.o
 
-$(TEST_OBJ)/object_test.o: $(TEST_SRC)/object_test.c $(TEST_INC)/object_test.h $(SRC)/object.c $(INC)/object.h $(INC)/types.h $(TEST_INC)/test.h | $(TEST_OBJ)
+$(TEST_OBJ)/object_test.o: $(TEST_SRC)/object_test.c $(TEST_INC)/object_test.h $(SRC)/object.c $(INC)/object.h $(INC)/types.h $(INC)/test.h | $(TEST_OBJ)
 	$(CC) $(CFLAGS) -c $(TEST_SRC)/object_test.c -o $(TEST_OBJ)/object_test.o
 
 object_test: $(TEST_OBJ)/object_test.o $(OBJ)/object.o $(OBJ)/set.o
@@ -136,7 +136,16 @@ obj_clean:
 	rm -rf $(OBJ) $(EXE)
 
 run_log: $(EXE)
-	./$(EXE) castle.dat -1 logFile
+	@echo ">>>>>> Running project files with output log"
+	./$(EXE) castle.dat -1 logFile 
+
+log_clean:
+	@echo ">>>>>> Deleting log file"
+	rm -rf logFile
+
+run_cmd: 
+	@echo ">>>>>> Running project files with input commands and output log"
+	$ ./ castle castle .dat -l output .log < game1.cmd
 
 runv:
 	@echo ">>>>>> Running castle.dat with valgrind"

@@ -5,30 +5,34 @@
 #s:131|Room| | | | | |0|
 #s:132|Bathroom| | | | | |0|
 #s:14|Kitchen| | | | | |0|
-#s:15|Inner Courtyard| | | | | |0|
+#s:15|Inner Courtyard| -----| | | | |0|
 #s:16|Garden| /\ /\ /\ |//\\/\\/\|//\\/\\/\| II II II |---------|0|
+
 #o:1|Sword|11|
-#o:2|Knive|14|
+#o:2|Knife|14|
 #o:3|Lantern|131|
 #o:4|Toilet paper|132|
 #c:1|Rova|(o)|12|3|1|Hello traveler!|
+
 #c:2|Hydra|^M*|13|5|0|-|
-#c:3|Phantom|'o'|132|2|0|I won't talk to you!|
+#c:3|Phantom|'o'|132|2|1|I won't talk to you!|
+
 #p:1|Knigth|^C>|7|11|3|
-#p:2|Thief|<I>|3|11|5|
+#p:2|Thief|^d>|3|11|5|
+
 #l:31|EntryS|11|12|1|1|
 #l:32|CorridorS|12|13|1|1|
 #l:34|Dining RoomS|13|14|1|1|
 #l:35|KitchenS|14|15|1|1|
 #l:36|Inner CourtyardS|15|16|1|1|
-#l:37|CorridorN|12|1|0|1|
+#l:37|CorridorN|12|11|0|1|
 #l:38|Dining RoomN|13|12|0|1|
 #l:39|KitchenN|14|13|0|1|
 #l:40|Inner CourtyardN|15|14|0|1|
 #l:41|GardenN|16|15|0|1|
-#l:42|CorridorW|12|121|3|0|
+#l:42|CorridorW|12|121|3|1|
 #l:43|RoomW|131|13|3|1|
 #l:44|BathroomW|132|131|3|1|
-#l:34|DungeonE|121|16|2|1|
+#l:34|Dungeon|121|16|1|1|
 #l:34|Dining RoomE|13|131|2|1|
 #l:34|RoomE|131|132|2|1|

@@ -58,7 +58,7 @@ Status game_reader_load_spaces(Game *game, char *filename)
       strcpy(g4, toks);
       toks = strtok(NULL, "|");
       strcpy(g5, toks);
-      toks = strtok(line + 3, "|");
+      toks = strtok(NULL, "|");
       disc = atol(toks);
 
 #ifdef DEBUG

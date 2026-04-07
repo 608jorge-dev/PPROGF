@@ -186,6 +186,7 @@ Status game_actions_move(Game *game)
 		if (current_id != NO_ID)
 		{
 			game_set_player_location(game, current_id);
+			space_set_discovered(game_get_space(game, current_id), TRUE);
 			return OK;
 		}
 	}

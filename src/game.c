@@ -464,6 +464,7 @@ int game_get_n_characters(Game *game)
 
 
 /* SPACE FUNCTIONS : */ 
+
 /** It gets the spaces */
 Space *game_get_space(Game *game, Id id)
 {

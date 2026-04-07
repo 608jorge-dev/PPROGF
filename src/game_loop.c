@@ -129,6 +129,7 @@ int main(int argc, char *argv[])
         fprintf(log_file, "%s: %s \n", cmd_to_str[code - NO_CMD][CMDL], (status == OK) ? "OK" : "ERROR");
       }
     }
+    
     /*game_set_turn(game, (game_get_turn(game) + 1)%game_get_n_player(game));*/
   }
 

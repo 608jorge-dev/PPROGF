@@ -124,7 +124,7 @@ space_test: $(TEST_OBJ)/space_test.o $(OBJ)/space.o $(OBJ)/set.o
 .PHONY: clean run obj_clean run_log runv test test_clean doc doc_clean
 
 clean:
-	@echo ">>>>>> Deleting projects files"
+	@echo ">>>>>> Deleting project files"
 	rm -rf $(TEST_OBJ) $(TEST) $(OBJ) $(EXE)
 
 run: $(EXE)

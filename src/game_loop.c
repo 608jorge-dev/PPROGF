@@ -98,7 +98,8 @@ int main(int argc, char *argv[])
   while ((command_get_code(last_cmd) != EXIT) && (game_get_finished(game) == FALSE))
   {
     graphic_engine_paint_game(gengine, game);
-    if (cmd = 0)  {
+    if (cmd == 0)
+    {
       command_get_user_input(last_cmd);
     }
     /* else if (cmd = 1) {
@@ -128,9 +129,11 @@ int main(int argc, char *argv[])
         fprintf(log_file, "%s: %s \n", cmd_to_str[code - NO_CMD][CMDL], (status == OK) ? "OK" : "ERROR");
       }
     }
+    /*game_set_turn(game, (game_get_turn(game) + 1)%game_get_n_player(game));*/
   }
 
-  if(log == 1){
+  if (log == 1)
+  {
     fclose(log_file);
     log_file = NULL;
   }

@@ -361,7 +361,6 @@ Status game_reader_load_link(Game *game, char *filename)
   return status;
 }
 
-
 /** It creates a new game data structure, allocating memory and initializing its members starting from the .dat file
  */
 Status game_reader_create_from_file(Game *game, char *filename)

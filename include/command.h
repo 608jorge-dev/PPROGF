@@ -13,11 +13,9 @@
 
 #include "types.h"
 
-
 /**Command structure type definition
  */
 typedef struct _Command Command;
-
 
 /**
  * @brief Command type() enumeration
@@ -102,8 +100,8 @@ Status command_set_argstr(Command *command, char *argstr);
  */
 char *command_get_argstr(Command *command);
 
-Status command_set_description(Command *command, char* description);
-char* command_get_description(Command *command);
+Status command_set_description(Command *command, char *description);
+char *command_get_description(Command *command);
 
 /**
  * @brief Saves the input and calls the other functions

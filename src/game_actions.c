@@ -89,8 +89,8 @@ Status game_actions_update(Game *game, Command *command)
 			command_set_status(command, ERROR);
 		}
 		break;
-	
-	case INSPECT:	
+
+	case INSPECT:
 		if (game_actions_inspect(game) == -2)
 		{
 			command_set_status(command, -2);
@@ -136,7 +136,6 @@ Status game_actions_move(Game *game)
 	Command *cmd = NULL;
 	Direction dir = -1;
 	char *direction = NULL;
-	Player *player = NULL;
 
 	if (!game)
 	{
@@ -161,31 +160,36 @@ Status game_actions_move(Game *game)
 		return ERROR;
 	}
 
-	if ((strcmp("next", direction) == 0 || strcmp("n", direction) == 0) && game_connection_is_open(game, player_space_id, S) == TRUE)	{
+	if ((strcmp("next", direction) == 0 || strcmp("n", direction) == 0) && game_connection_is_open(game, player_space_id, S) == TRUE)
+	{
 		dir = 1;
 	}
 
-	if ((strcmp("back", direction) == 0 || strcmp("b", direction) == 0) && game_connection_is_open(game, player_space_id, N) == TRUE)	{
+	if ((strcmp("back", direction) == 0 || strcmp("b", direction) == 0) && game_connection_is_open(game, player_space_id, N) == TRUE)
+	{
 		dir = 0;
 	}
 
-	if ((strcmp("left", direction) == 0 || strcmp("l", direction) == 0)&& game_connection_is_open(game, player_space_id, W) == TRUE)	{
-		dir = 3; 
+	if ((strcmp("right", direction) == 0 || strcmp("r", direction) == 0) && game_connection_is_open(game, player_space_id, E) == TRUE)
+	{
+		dir = 2;
 	}
 
-	if ((strcmp("right", direction) == 0 || strcmp("r", direction) == 0)&& game_connection_is_open(game, player_space_id, E) == TRUE) 	{
-		dir = 2; 
+	if ((strcmp("left", direction) == 0 || strcmp("l", direction) == 0) && game_connection_is_open(game, player_space_id, W) == TRUE)
+	{
+		dir = 3;
 	}
 
-	if (dir >= 0)	{
-		current_id = link_get_destination(game_get_link_with_id(game, game_get_connection(game, player_space_id, dir)));
+	if (dir >= 0)
+	{
+		current_id = game_get_connection(game, player_space_id, dir);
 		if (current_id != NO_ID)
 		{
 			game_set_player_location(game, current_id);
 			return OK;
 		}
 	}
-	
+
 	return ERROR;
 }
 
@@ -455,9 +459,10 @@ Status game_actions_chat(Game *game)
  *
  * @param game A pointer to the game data
  */
-Status game_actions_inspect(Game *game)	{
+Status game_actions_inspect(Game *game)
+{
 	int i;
-	Id player_space_id = NO_ID, object_id = NO_ID, object_space_id = NO_ID;
+	Id player_space_id = NO_ID, object_space_id = NO_ID;
 	Command *cmd;
 	char *name;
 	Player *player;
@@ -510,7 +515,8 @@ Status game_actions_inspect(Game *game)	{
 		return ERROR;
 	}
 
-	if (command_set_description(cmd, object_get_gdesc(object)) == ERROR)	{
+	if (command_set_description(cmd, object_get_gdesc(object)) == ERROR)
+	{
 		return ERROR;
 	}
 

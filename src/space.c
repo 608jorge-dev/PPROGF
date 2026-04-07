@@ -26,7 +26,7 @@ struct _Space
   Set *objects;             /*!< The object id array */
   Id character;             /*!< The character id  */
   char gdesc[MAX_S][MAX_C]; /*!< Description of the space */
-  Bool discovered;           /*!< Discovered state of the space */
+  Bool discovered;          /*!< Discovered state of the space */
 };
 
 /** space_create allocates memory for a new space and initializes its members */
@@ -50,7 +50,7 @@ Space *space_create(Id id)
   newSpace->name[0] = '\0';
   newSpace->objects = set_create();
   newSpace->character = NO_ID;
-  newSpace->discovered = FALSE; 
+  newSpace->discovered = FALSE;
   for (i = 0; i < MAX_S; i++)
   {
     for (j = 0; j < MAX_C; j++)
@@ -284,7 +284,8 @@ Status space_print(Space *space)
   }
 
   space_id = space_get_id(space);
-  if (space_id == NO_ID)  {
+  if (space_id == NO_ID)
+  {
     return ERROR;
   }
 
@@ -318,7 +319,7 @@ Status space_print(Space *space)
   }
 
   /* 5. Prints if it has been discovered */
-   if (space_get_discovered(space))
+  if (space_get_discovered(space))
   {
     fprintf(stdout, "---> Space has been discovered.\n");
   }

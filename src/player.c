@@ -10,7 +10,6 @@
 
 #include "player.h"
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -154,7 +153,7 @@ Status player_add_object(Player *player, Id id)
     return ERROR;
   }
 
-  if(inventory_add_object(player_get_objects(player), id) == ERROR)
+  if (inventory_add_object(player_get_objects(player), id) == ERROR)
   {
     return ERROR;
   }
@@ -179,9 +178,9 @@ Status player_del_object(Player *player, Id id)
     return ERROR;
   }
 
-  if(inventory_del_object(objects, id)==ERROR)
+  if (inventory_del_object(objects, id) == ERROR)
   {
-     return ERROR;
+    return ERROR;
   }
 
   return OK;
@@ -214,7 +213,7 @@ Bool player_find_object(Player *player, Id id)
 
 /* It gets the player objects
  */
-Inventory* player_get_objects(Player *player)
+Inventory *player_get_objects(Player *player)
 {
   if (!player)
   {

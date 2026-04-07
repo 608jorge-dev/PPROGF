@@ -8,8 +8,6 @@
 #include "link.h"
 #include "test.h"
 
-
-
 void test1_link_create();
 
 void test2_link_create();

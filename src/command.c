@@ -17,7 +17,7 @@
 
 /**
  * String that stores all the commands that can be used
-*/
+ */
 char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"m", "Move"}, {"t", "Take"}, {"d", "Drop"}, {"a", "Attack"}, {"c", "Chat"}, {"i", "Inspect"}};
 
 /**
@@ -31,7 +31,7 @@ struct _Command
   Status status;                    /*!< Status of the command */
   char argstr[MAX_ARGS][WORD_SIZE]; /*!< Command arguments */
   int nArgs;                        /*!< Number of arguments */
-  char* description;                /*!< Text contained in the command */
+  char *description;                /*!< Text contained in the command */
 };
 
 /**It creates a new command structure,
@@ -152,12 +152,13 @@ char *command_get_argstr(Command *command)
     return NULL;
   }
 
-  return command->argstr[command->nArgs - 1];
+  fprintf (stdout, "%s", command->argstr[0]);
+  return command->argstr[0];
 }
 
 /** It sets the description of a command
  */
-Status command_set_description(Command *command, char* description)
+Status command_set_description(Command *command, char *description)
 {
   if (!command)
   {
@@ -171,13 +172,39 @@ Status command_set_description(Command *command, char* description)
 
 /** It gets the description of a command
  */
-char* command_get_description(Command *command)
+char *command_get_description(Command *command)
 {
   if (!command)
   {
     return NULL;
   }
   return command->description;
+}
+
+/** It sets the nArgs of a command
+ */
+Status command_set_nArgs(Command *command, int amount)
+{
+  if (!command)
+  {
+    return ERROR;
+  }
+
+  command->nArgs = amount;
+
+  return OK;
+}
+
+/** It gets the nArgs of a command
+ */
+int command_get_nArgs(Command *command)
+{
+  if (!command)
+  {
+    return -1;
+  }
+
+  return command->nArgs;
 }
 
 /** Saves the input and calls the other functions
@@ -197,7 +224,8 @@ Status command_get_user_input(Command *command)
 
   if (fgets(input, CMD_LENGHT, stdin))
   {
-    token = strtok(input, " ");
+    command_set_nArgs(command, 0);
+    token = strtok(input, " \n");
     if (!token)
     {
       return command_set_code(command, UNKNOWN);
@@ -215,18 +243,23 @@ Status command_get_user_input(Command *command)
         i++;
       }
     }
-    
-    if (strcmp (cmd,"take") == 0 || strcmp (cmd,"move") == 0 || strcmp (cmd,"inspect") == 0 || strcmp (cmd,"drop") == 0)  {
-      token = strtok(input, " ");
-      strcpy(cmdarg, token);
-    }
-   
 
+    token = strtok(NULL, " \n");
+    if (!token)
+    {
+      command_set_status(command, OK);
+      return command_set_code(command, cmd);
+    }
+
+    strcpy(cmdarg, token);
     command_set_status(command, OK);
+    command_set_argstr(command, cmdarg);
+    command_set_nArgs(command, command_get_nArgs(command)+1);
     return command_set_code(command, cmd);
-    return command_set_argstr(command, cmdarg);
   }
-  
+
   else
+  {
     return command_set_code(command, EXIT);
+  }
 }

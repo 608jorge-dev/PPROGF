@@ -22,18 +22,19 @@
  */
 struct _Game
 {
-  Player *players[MAX_OBJECTS];          /*!< Player structure pointer*/
-  int n_players;                         /*!< Total amount of players created*/
+  Player *players[MAX_OBJECTS];          /*!< Player structure pointer */
+  int n_players;                         /*!< Total amount of players created */
+  int turn;                              /*!< Indicates actual turn */
   Object *objects[MAX_OBJECTS];          /*!< Object structure pointer */
-  int n_objects;                         /*!< Total amount of objects created*/
-  Space *spaces[MAX_SPACES];             /*!< Space structure pointer*/
-  int n_spaces;                          /*!< Total amount of spaces created*/
-  Character *characters[MAX_CHARACTERS]; /*!< Character structure pointer*/
-  int n_characters;                      /*!< Total amount of characters created*/
-  Link *links[MAX_LINKS];                /*!< Link structure pointer*/
-  int n_links;                           /*!< Total amount of links created*/
-  Command *last_cmd;                     /*!< Command structure pointer*/
-  Bool finished;                         /*!< States the finished status in the game*/
+  int n_objects;                         /*!< Total amount of objects created */
+  Space *spaces[MAX_SPACES];             /*!< Space structure pointer */
+  int n_spaces;                          /*!< Total amount of spaces created */
+  Character *characters[MAX_CHARACTERS]; /*!< Character structure pointer */
+  int n_characters;                      /*!< Total amount of characters created */
+  Link *links[MAX_LINKS];                /*!< Link structure pointer */
+  int n_links;                           /*!< Total amount of links created */
+  Command *last_cmd;                     /*!< Command structure pointer */
+  Bool finished;                         /*!< States the finished status in the game */
 };
 
 /* It creates a new game, allocating memory and initializing its members */
@@ -70,6 +71,7 @@ Game *game_create()
 
   game->last_cmd = command_create();
   game->finished = FALSE;
+  game->turn = 0;
 
   return game;
 }
@@ -700,6 +702,28 @@ int game_get_n_links(Game *game)
   }
 
   return game->n_links;
+}
+
+/*It sets the actual turn */
+Status game_set_turn(Game *game, int turn){
+  if (!game || turn < 0 || turn >= game->n_players)
+  {
+    return ERROR;
+  }
+
+  game->turn = turn;
+
+  return OK;
+}
+
+/*It gets the actual turn */
+int game_get_turn(Game *game){
+  if(!game)
+  {
+    return -1;
+  }
+
+  return game->turn;
 }
 
 

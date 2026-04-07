@@ -22,11 +22,11 @@
  */
 struct _Graphic_engine
 {
-  Area *map;        /*!< Map area in the screen*/
-  Area *descript;   /*!< Description area in the screen*/
-  Area *banner;     /*!< Banner area in the screen*/
-  Area *help;       /*!< Help area in the screen*/
-  Area *feedback;   /*!< Feedback area in the screen*/
+  Area *map;      /*!< Map area in the screen*/
+  Area *descript; /*!< Description area in the screen*/
+  Area *banner;   /*!< Banner area in the screen*/
+  Area *help;     /*!< Help area in the screen*/
+  Area *feedback; /*!< Feedback area in the screen*/
 };
 
 /** It creates a graphic engine, allocating memory and initializing its members
@@ -271,7 +271,6 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
   sprintf(str, "  Id right: %ld ", id_right);
   screen_area_puts(ge->descript, str);
 
-
   /* Character description*/
   sprintf(str, "  Characters: ");
   screen_area_puts(ge->descript, str);
@@ -293,7 +292,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
     /* Hay que cambiar esto para que printee todos los objetos*/
     sprintf(str, "      Player has object: YES");
     screen_area_puts(ge->descript, str);
-    sprintf(str, "  %s", object_get_name(game_get_object_with_id(game,inventory_find_object(player_get_objects(game_get_player(game)), 0))));
+    sprintf(str, "  %s", object_get_name(game_get_object_with_id(game, inventory_find_object(player_get_objects(game_get_player(game)), 0))));
     screen_area_puts(ge->descript, str);
   }
   else

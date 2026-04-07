@@ -13,9 +13,9 @@
 #o:4|Toilet paper|132|
 #c:1|Rova|(o)|12|3|1|Hello traveler!|
 #c:2|Hydra|^M*|13|5|0|-|
-#c:3|phantom|'o'|132|2|0|I won't talk to you!|
-#p:1|knigth|^C>|7|11|3|
-#p:2|thief|<I>|3|11|5|
+#c:3|Phantom|'o'|132|2|0|I won't talk to you!|
+#p:1|Knigth|^C>|7|11|3|
+#p:2|Thief|<I>|3|11|5|
 #l:31|EntryS|11|12|1|1|
 #l:32|CorridorS|12|13|1|1|
 #l:34|Dining RoomS|13|14|1|1|

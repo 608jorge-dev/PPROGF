@@ -36,7 +36,6 @@ Status game_reader_load_spaces(Game *game, char *filename);
  */
 Status game_reader_load_objects(Game *game, char *filename);
 
-
 /**
  * @brief Loads the player read on file
  * @author Jorge Torrijos de la Cruz
@@ -66,7 +65,6 @@ Status game_reader_load_player(Game *game, char *filename);
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
 Status game_reader_load_link(Game *game, char *filename);
-
 
 /**
  * @brief Initializes the game structure members starting from the file

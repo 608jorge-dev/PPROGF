@@ -235,7 +235,6 @@ Status game_set_n_characters(Game *game, int number);
  */
 int game_get_n_characters(Game *game);
 
-
 /* SPACE FUNCTIONS : */
 /**
  * @brief It gets the spaces
@@ -341,22 +340,22 @@ Bool game_get_finished(Game *game);
  * @author Jorge Torrijos de la Cruz
  *
  * @param game A pointer to the game data
- * @param actual_space The id of the current id 
+ * @param actual_space The id of the current id
  * @param link_dir The direction where the space is relative to the link
  * @return A pointer to the command structure
  */
-Id game_get_connection (Game *game, Id actual_space, Direction link_dir);
+Id game_get_connection(Game *game, Id actual_space, Direction link_dir);
 
 /**
  * @brief It gets the wether the connection at a respective directin is open or not
  * @author Jorge Torrijos de la Cruz
  *
  * @param game A pointer to the game data
- * @param actual_space The id of the current id 
+ * @param actual_space The id of the current id
  * @param link_dir The direction where the space is relative to the link
  * @return A pointer to the command structure
  */
-Bool game_connection_is_open (Game *game, Id actual_space, Direction link_dir);
+Bool game_connection_is_open(Game *game, Id actual_space, Direction link_dir);
 
 /**
  * @brief It gets the link from an id
@@ -396,6 +395,25 @@ Status game_set_n_links(Game *game, int amount);
  * @return The amount of links, as an integer
  */
 int game_get_n_links(Game *game);
+
+/**
+ * @brief It sets turn
+ * @author Guillermo Nuñez Bravo
+ *
+ * @param game A pointer to the game data
+ * @param turn The turn
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status game_set_turn(Game *game, int turn);
+
+/**
+ * @brief It gets the actual turn
+ * @author Guillermo Nuñez Bravo
+ *
+ * @param game A pointer to the game data
+ * @return The actual turn
+ */
+int game_get_turn(Game *game);
 
 /**
  * @brief It prints the game information

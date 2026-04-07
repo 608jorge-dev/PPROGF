@@ -16,7 +16,7 @@
 
 /**
  * @brief Link
- * 
+ *
  * This struct stores all the information of a link.
  */
 struct _Link
@@ -198,33 +198,33 @@ Bool link_get_open(Link *link)
     {
         return NO_ID;
     }
-    
+
     return link->open;
 }
 
 /* It prints the link information*/
 Status link_print(Link *link)
 {
-  if (!link)
-  {
-    return ERROR;
-  }
+    if (!link)
+    {
+        return ERROR;
+    }
 
-  /*1. Prints the id and name of the link*/
-  fprintf(stdout, "--> Link (Id: %ld; Name: %s)\n", link->id, link->name);
+    /*1. Prints the id and name of the link*/
+    fprintf(stdout, "--> Link (Id: %ld; Name: %s)\n", link->id, link->name);
 
-  /* 2. Prints the link origin, destination and direction */
-  fprintf(stdout, "--> Origin: %ld  Destination: %ld Direction: %hu\n", link->origin, link->destination, link->direction);
+    /* 2. Prints the link origin, destination and direction */
+    fprintf(stdout, "--> Origin: %ld  Destination: %ld Direction: %hu\n", link->origin, link->destination, link->direction);
 
-  /* 3. Prints wether it has been opened or not */
-  if (link->open == 0)
-  {
-    fprintf(stdout, "---> Link has not been opened.");
-  }
-  else
-  {
-    fprintf(stdout, "---> Link has been opened.");
-  }
+    /* 3. Prints wether it has been opened or not */
+    if (link->open == 0)
+    {
+        fprintf(stdout, "---> Link has not been opened.");
+    }
+    else
+    {
+        fprintf(stdout, "---> Link has been opened.");
+    }
 
-  return OK;
+    return OK;
 }

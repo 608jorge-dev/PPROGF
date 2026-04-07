@@ -125,7 +125,7 @@ Status inventory_add_object(Inventory *inventory, Id id)
         return NO_SPACE;
     }
 
-    if(set_add(inventory->objs, id) == ERROR)
+    if (set_add(inventory->objs, id) == ERROR)
     {
         return ERROR;
     }
@@ -142,7 +142,7 @@ Status inventory_del_object(Inventory *inventory, Id id)
         return ERROR;
     }
 
-    if(set_del(inventory->objs, id) == ERROR)
+    if (set_del(inventory->objs, id) == ERROR)
     {
         return ERROR;
     }

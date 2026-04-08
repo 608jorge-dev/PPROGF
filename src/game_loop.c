@@ -116,8 +116,6 @@ int main(int argc, char *argv[])
   }
 
   game_loop_cleanup(game, gengine);
-  game_destroy(game);
-
   return 0;
 }
 

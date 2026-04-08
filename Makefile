@@ -1,5 +1,4 @@
 ######################################################## DIRECTORIOS
-
 SRC = src
 OBJ = obj
 INC = include
@@ -9,7 +8,6 @@ TEST_SRC = src/tests
 TEST_OBJ = obj/tests
 
 ######################################################## MACROS
-
 EXE = castle
 CC = gcc
 LDFLAGS = -L$(LIB) -lscreen
@@ -24,7 +22,6 @@ TEST = character_test inventory_test link_test object_test \
              player_test set_test space_test
 
 ######################################################## MAIN
-
 $(EXE): $(OBJECTS)
 	$(CC) $(CFLAGS) -o $(EXE) $(OBJECTS) $(LDFLAGS)
 
@@ -68,7 +65,6 @@ $(OBJ)/space.o: $(SRC)/space.c $(INC)/space.h $(INC)/types.h $(INC)/object.h $(I
 	$(CC) $(CFLAGS) -c $(SRC)/space.c -o $(OBJ)/space.o
 
 ######################################################## CARPETAS OBJ
-
 $(OBJ):
 	mkdir -p $(OBJ)
 
@@ -76,7 +72,6 @@ $(TEST_OBJ):
 	mkdir -p $(TEST_OBJ)
 
 ######################################################## CHARACTER_TEST, INVENTORY_TEST, LINK_TEST, OBJECT_TEST, PLAYER_TEST, SET_TEST, SPACE_TEST (TESTS)
-
 $(TEST_OBJ)/character_test.o: $(TEST_SRC)/character_test.c $(TEST_INC)/character_test.h $(SRC)/character.c $(INC)/character.h $(INC)/types.h $(INC)/test.h | $(TEST_OBJ)
 	$(CC) $(CFLAGS) -c $(TEST_SRC)/character_test.c -o $(TEST_OBJ)/character_test.o
 
@@ -120,7 +115,6 @@ space_test: $(TEST_OBJ)/space_test.o $(OBJ)/space.o $(OBJ)/set.o
 	$(CC) $(CFLAGS) -o space_test $(TEST_OBJ)/space_test.o $(OBJ)/space.o $(OBJ)/set.o
 
 ######################################################## CLEAN, RUN, LOG, RUNV, TEST, DOXY (TOOLS)
-
 .PHONY: clean run obj_clean run_log runv test test_clean doc doc_clean
 clear: 
 	@echo ">>>>>> Deleting all files"
@@ -133,6 +127,7 @@ clear:
 	rm -rf logFile3
 	rm -rf logFile4
 	rm -rf logFile5
+	clear
 
 ## PROJECT COMMANDS
 run: $(EXE)

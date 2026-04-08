@@ -36,6 +36,7 @@
 #define HEIGHT_BAN 2  /*!< Height of the description area in the textual graphic engine*/
 #define HEIGHT_HLP 3  /*!< Height of the help area in the textual graphic engine*/
 #define HEIGHT_FDB 4  /*!< Height of the feedback area in the textual graphic engine*/
+#define HEIGHT_BLANK 9 /*!< Height of the blank spaces when and space doesnt exist*/
 
 /* Inventory fields macros */
 #define MAX_INV 10 /*!< Max amount of objects possible in the inventory structure*/

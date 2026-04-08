@@ -369,7 +369,12 @@ Status game_actions_attack(Game *game)
 	{
 		return ERROR;
 	}
-
+	
+	if ((character_get_health(enemy)) == 0)
+	{
+		return ERROR;
+	}
+	
 	if (character_get_friendly(enemy) != TRUE)
 	{
 		srand(time(NULL));
@@ -387,7 +392,7 @@ Status game_actions_attack(Game *game)
 			character_set_health(enemy, character_get_health(enemy) - 1);
 			if ((character_get_health(enemy)) == 0)
 			{
-				character_destroy(enemy);
+				character_set_gdesc(enemy, " ");
 			}
 		}
 		return OK;

@@ -13,6 +13,7 @@
 
 #define WORD_SIZE 1000 /*!< Max amount of characters a word can have */
 #define NO_ID -1       /*!< Id is non existent*/
+#define NUL 0         /*!< Id is blank*/
 #define NO_SPACE -2    /*!< space is non existent*/
 
 /* Command fields macros */

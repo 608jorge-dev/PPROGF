@@ -141,7 +141,6 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
       {
         link1 = '^';
       }
-
       if (space_get_discovered(game_get_space(game, id_north)) == TRUE)  
       {
         sprintf(str, "                       +--------------+");
@@ -190,154 +189,87 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
       {
         link2 = '>';
       }
-
-      if (space_get_discovered(game_get_space(game, id_west)) == TRUE && space_get_discovered(game_get_space(game, id_east)) == TRUE) 
-      {
-        sprintf(str, "  +--------------+    +--------------+      +--------------+");
-        screen_area_puts(ge->map, str);
-        sprintf(str, "  |            %2d|    | %s %-3.3s   %2d|      |           %2d|", (int)id_west, player_get_gdesc(game_get_player(game)), c_gdesc, (int)id_act, (int)id_east);
-        screen_area_puts(ge->map, str);
-        sprintf(str, "  | %-9.9s    |    | %-9.9s    |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_west), 0), space_get_gdesc(game_get_space(game, id_act), 0), space_get_gdesc(game_get_space(game, id_east), 0));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "  | %-9.9s    |    | %-9.9s    |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_west), 1), space_get_gdesc(game_get_space(game, id_act), 1), space_get_gdesc(game_get_space(game, id_east), 1));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "  | %-9.9s    | %c  | %-9.9s    |   %c  | %-9.9s    |", space_get_gdesc(game_get_space(game, id_west), 2), link1, space_get_gdesc(game_get_space(game, id_act), 2), link2, space_get_gdesc(game_get_space(game, id_east), 2));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "  | %-9.9s    |    | %-9.9s    |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_west), 3), space_get_gdesc(game_get_space(game, id_act), 3), space_get_gdesc(game_get_space(game, id_east), 3));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "  | %-9.9s    |    | %-9.9s    |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_west), 4), space_get_gdesc(game_get_space(game, id_act), 4), space_get_gdesc(game_get_space(game, id_east), 4));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "  +--------------+    +--------------+      +--------------+");
-        screen_area_puts(ge->map, str);
+      sprintf(str, "  +--------------+    +--------------+      +--------------+");
+      screen_area_puts(ge->map, str);
+      sprintf(str, "  |            %2d|    | %s %-3.3s   %2d|      |           %2d|", (int)id_west, player_get_gdesc(game_get_player(game)), c_gdesc, (int)id_act, (int)id_east);
+      screen_area_puts(ge->map, str);
+      if (space_get_discovered(game_get_space(game, id_west)) == FALSE && space_get_discovered(game_get_space(game, id_east)) == TRUE)   {
+        id_west = NUL;
       }
-
-      else if (space_get_discovered(game_get_space(game, id_west)) == FALSE && space_get_discovered(game_get_space(game, id_east)) == TRUE) 
-      {
-        sprintf(str, "  +--------------+    +--------------+      +--------------+");
-        screen_area_puts(ge->map, str);
-        sprintf(str, "  |            %2d|    | %s %-3.3s   %2d|      |           %2d|", (int)id_west, player_get_gdesc(game_get_player(game)), c_gdesc, (int)id_act, (int)id_east);
-        screen_area_puts(ge->map, str);
-        sprintf(str, "  |              |    | %-9.9s    |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_act), 0), space_get_gdesc(game_get_space(game, id_east), 0));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "  |              |    | %-9.9s    |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_act), 1), space_get_gdesc(game_get_space(game, id_east), 1));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "  |              | %c  | %-9.9s    |   %c  | %-9.9s    |", link1, space_get_gdesc(game_get_space(game, id_act), 2), link2, space_get_gdesc(game_get_space(game, id_east), 2));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "  |              |    | %-9.9s    |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_act), 3), space_get_gdesc(game_get_space(game, id_east), 3));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "  |              |    | %-9.9s    |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_act), 4), space_get_gdesc(game_get_space(game, id_east), 4));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "  +--------------+    +--------------+      +--------------+");
-        screen_area_puts(ge->map, str);
+      if (space_get_discovered(game_get_space(game, id_west)) == TRUE && space_get_discovered(game_get_space(game, id_east)) == FALSE)   {
+        id_east= NUL;
       }
-
-      if (space_get_discovered(game_get_space(game, id_west)) == TRUE && space_get_discovered(game_get_space(game, id_east)) == FALSE) 
-      {
-        sprintf(str, "  +--------------+    +--------------+     +--------------+");
-        screen_area_puts(ge->map, str);
-        sprintf(str, "  |            %2d|    | %s %-3.3s   %2d|     |           %2d|", (int)id_west, player_get_gdesc(game_get_player(game)), c_gdesc, (int)id_act, (int)id_east);
-        screen_area_puts(ge->map, str);
-        sprintf(str, "  | %-9.9s    |    | %-9.9s    |     |              |", space_get_gdesc(game_get_space(game, id_west), 0), space_get_gdesc(game_get_space(game, id_act), 0));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "  | %-9.9s    |    | %-9.9s    |     |              |", space_get_gdesc(game_get_space(game, id_west), 1), space_get_gdesc(game_get_space(game, id_act), 1));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "  | %-9.9s    | %c  | %-9.9s    |  %c  |              |", space_get_gdesc(game_get_space(game, id_west), 2), link1, space_get_gdesc(game_get_space(game, id_act), 2), link2);
-        screen_area_puts(ge->map, str);
-        sprintf(str, "  | %-9.9s    |    | %-9.9s    |     |              |", space_get_gdesc(game_get_space(game, id_west), 3), space_get_gdesc(game_get_space(game, id_act), 3));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "  | %-9.9s    |    | %-9.9s    |     |              |", space_get_gdesc(game_get_space(game, id_west), 4), space_get_gdesc(game_get_space(game, id_act), 4));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "  +--------------+    +--------------+     +--------------+");
-        screen_area_puts(ge->map, str);
+      if (space_get_discovered(game_get_space(game, id_west)) == FALSE && space_get_discovered(game_get_space(game, id_east)) == FALSE)   {
+        id_east= NUL;
+        id_west = NUL;
       }
+      sprintf(str, "  | %-9.9s    |    | %-9.9s    |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_west), 0), space_get_gdesc(game_get_space(game, id_act), 0), space_get_gdesc(game_get_space(game, id_east), 0));
+      screen_area_puts(ge->map, str);
+      sprintf(str, "  | %-9.9s    |    | %-9.9s    |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_west), 1), space_get_gdesc(game_get_space(game, id_act), 1), space_get_gdesc(game_get_space(game, id_east), 1));
+      screen_area_puts(ge->map, str);
+      sprintf(str, "  | %-9.9s    | %c  | %-9.9s    |   %c  | %-9.9s    |", space_get_gdesc(game_get_space(game, id_west), 2), link1, space_get_gdesc(game_get_space(game, id_act), 2), link2, space_get_gdesc(game_get_space(game, id_east), 2));
+      screen_area_puts(ge->map, str);
+      sprintf(str, "  | %-9.9s    |    | %-9.9s    |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_west), 3), space_get_gdesc(game_get_space(game, id_act), 3), space_get_gdesc(game_get_space(game, id_east), 3));
+      screen_area_puts(ge->map, str);
+      sprintf(str, "  | %-9.9s    |    | %-9.9s    |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_west), 4), space_get_gdesc(game_get_space(game, id_act), 4), space_get_gdesc(game_get_space(game, id_east), 4));
+      screen_area_puts(ge->map, str);
+      sprintf(str, "  +--------------+    +--------------+      +--------------+");
+      screen_area_puts(ge->map, str);
+      id_west = game_get_connection(game, id_act, 3);
+      id_east = game_get_connection(game, id_act, 2);
     }
 
     if (id_act != NO_ID && id_east != NO_ID && id_west == NO_ID)
     {
-       if (game_connection_is_open(game, id_act, E)) {
+      if (game_connection_is_open(game, id_act, E)) {
         link2 = '>';
+      }      
+      sprintf(str, "                       +--------------+      +--------------+");
+      screen_area_puts(ge->map, str);
+      sprintf(str, "                       |  %s  %-3.3s  %2d|      |           %2d|", player_get_gdesc(game_get_player(game)), c_gdesc, (int)id_act, (int)id_east);
+      screen_area_puts(ge->map, str);
+      if (space_get_discovered(game_get_space(game, id_east)) != TRUE ) {
+        id_east = NUL;
       }
-
-      if (space_get_discovered(game_get_space(game, id_east)) == TRUE ) {
-        sprintf(str, "                       +--------------+      +--------------+");
-        screen_area_puts(ge->map, str);
-        sprintf(str, "                       |  %s  %-3.3s  %2d|      |           %2d|", player_get_gdesc(game_get_player(game)), c_gdesc, (int)id_act, (int)id_east);
-        screen_area_puts(ge->map, str);
-        sprintf(str, "                       | %-9.9s    |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_act), 0), space_get_gdesc(game_get_space(game, id_east), 0));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "                       | %-9.9s    |   %c  | %-9.9s    |", space_get_gdesc(game_get_space(game, id_act), 1), link2,  space_get_gdesc(game_get_space(game, id_east), 1));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "                       | %-9.9s    |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_act), 2), space_get_gdesc(game_get_space(game, id_east), 2));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "                       | %-9.9s    |      | %-9.9s    | ", space_get_gdesc(game_get_space(game, id_act), 3), space_get_gdesc(game_get_space(game, id_east), 3));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "                       | %-9.9s    |      | %-9.9s    | ", space_get_gdesc(game_get_space(game, id_act), 4), space_get_gdesc(game_get_space(game, id_east), 4));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "                       +--------------+      +--------------+");
-        screen_area_puts(ge->map, str);
-      }
-      else {
-        sprintf(str, "                       +--------------+      +--------------+");
-        screen_area_puts(ge->map, str);
-        sprintf(str, "                       |  %s  %-3.3s  %2d|      |           %2d|", player_get_gdesc(game_get_player(game)), c_gdesc, (int)id_act, (int)id_east);
-        screen_area_puts(ge->map, str);
-        sprintf(str, "                       | %-9.9s    |      |              |", space_get_gdesc(game_get_space(game, id_act), 0));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "                       | %-9.9s    |   %c  |              |", space_get_gdesc(game_get_space(game, id_act), 1), link2);
-        screen_area_puts(ge->map, str);
-        sprintf(str, "                       | %-9.9s    |      |              |", space_get_gdesc(game_get_space(game, id_act), 2));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "                       | %-9.9s    |      |              | ", space_get_gdesc(game_get_space(game, id_act), 3));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "                       | %-9.9s    |      |              | ", space_get_gdesc(game_get_space(game, id_act), 4));
-        screen_area_puts(ge->map, str);
-        sprintf(str, "                       +--------------+      +--------------+");
-        screen_area_puts(ge->map, str);
-      }
+      sprintf(str, "                       | %-9.9s    |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_act), 0), space_get_gdesc(game_get_space(game, id_east), 0));
+      screen_area_puts(ge->map, str);
+      sprintf(str, "                       | %-9.9s    |   %c  | %-9.9s    |", space_get_gdesc(game_get_space(game, id_act), 1), link2,  space_get_gdesc(game_get_space(game, id_east), 1));
+      screen_area_puts(ge->map, str);
+      sprintf(str, "                       | %-9.9s    |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_act), 2), space_get_gdesc(game_get_space(game, id_east), 2));
+      screen_area_puts(ge->map, str);
+      sprintf(str, "                       | %-9.9s    |      | %-9.9s    | ", space_get_gdesc(game_get_space(game, id_act), 3), space_get_gdesc(game_get_space(game, id_east), 3));
+      screen_area_puts(ge->map, str);
+      sprintf(str, "                       | %-9.9s    |      | %-9.9s    | ", space_get_gdesc(game_get_space(game, id_act), 4), space_get_gdesc(game_get_space(game, id_east), 4));
+      screen_area_puts(ge->map, str);
+      sprintf(str, "                       +--------------+      +--------------+");
+      screen_area_puts(ge->map, str);
     }
 
     if (id_act != NO_ID && id_west != NO_ID && id_east == NO_ID)
     {
-       if (game_connection_is_open(game, id_act, W)) {
+      if (game_connection_is_open(game, id_act, W)) {
         link1 = '<';
       }
-      if (space_get_discovered(game_get_space(game, id_west)) == TRUE ) {
-        sprintf(str, " +--------------+      +--------------+");
-       screen_area_puts(ge->map, str);
-        sprintf(str, " |           %2d|      |%s  %-3.3s    %2d|      ", (int)id_west, player_get_gdesc(game_get_player(game)), c_gdesc, (int)id_act);
-        screen_area_puts(ge->map, str);
-        sprintf(str, " | %-9.9s    |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_west), 0), space_get_gdesc(game_get_space(game, id_act), 0));
-        screen_area_puts(ge->map, str);
-        sprintf(str, " | %-9.9s    |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_west), 1), space_get_gdesc(game_get_space(game, id_act), 1));
-        screen_area_puts(ge->map, str);
-        sprintf(str, " | %-9.9s    |   %c  | %-9.9s    |", space_get_gdesc(game_get_space(game, id_west), 2), link1, space_get_gdesc(game_get_space(game, id_act), 2));
-        screen_area_puts(ge->map, str);
-        sprintf(str, " | %-9.9s    |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_west), 3), space_get_gdesc(game_get_space(game, id_act), 3));
-        screen_area_puts(ge->map, str);
-        sprintf(str, " | %-9.9s    |      | %-9.9s    |  ", space_get_gdesc(game_get_space(game, id_west), 4), space_get_gdesc(game_get_space(game, id_act), 4));
-        screen_area_puts(ge->map, str);
-        sprintf(str, " +--------------+      +--------------+");
-        screen_area_puts(ge->map, str);
+      sprintf(str, " +--------------+      +--------------+");
+      screen_area_puts(ge->map, str);
+      sprintf(str, " |           %2d|      |%-3.3s  %-3.3s    %2d|      ", (int)id_west, player_get_gdesc(game_get_player(game)), c_gdesc, (int)id_act);
+      screen_area_puts(ge->map, str);
+      if (space_get_discovered(game_get_space(game, id_west)) != TRUE ) {
+        id_west = NUL;
       }
-      else {
-        sprintf(str, " +--------------+      +--------------+");
-        screen_area_puts(ge->map, str);
-        sprintf(str, " |           %2d|      |%s  %-3.3s    %2d|      ", (int)id_west, player_get_gdesc(game_get_player(game)), c_gdesc, (int)id_act);
-        screen_area_puts(ge->map, str);
-        sprintf(str, " |              |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_act), 0));
-        screen_area_puts(ge->map, str);
-        sprintf(str, " |              |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_act), 1));
-        screen_area_puts(ge->map, str);
-        sprintf(str, " |              |   %c  | %-9.9s    |",  link1, space_get_gdesc(game_get_space(game, id_act), 2));
-        screen_area_puts(ge->map, str);
-        sprintf(str, " |              |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_act), 3));
-        screen_area_puts(ge->map, str);
-        sprintf(str, " |              |      | %-9.9s    |  ", space_get_gdesc(game_get_space(game, id_act), 4));
-        screen_area_puts(ge->map, str);
-        sprintf(str, " +--------------+      +--------------+");
-        screen_area_puts(ge->map, str);
-      }
-      
+      sprintf(str, " | %-9.9s    |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_west), 0), space_get_gdesc(game_get_space(game, id_act), 0));
+      screen_area_puts(ge->map, str);
+      sprintf(str, " | %-9.9s    |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_west), 1), space_get_gdesc(game_get_space(game, id_act), 1));
+      screen_area_puts(ge->map, str);
+      sprintf(str, " | %-9.9s    |   %c  | %-9.9s    |", space_get_gdesc(game_get_space(game, id_west), 2), link1, space_get_gdesc(game_get_space(game, id_act), 2));
+      screen_area_puts(ge->map, str);
+      sprintf(str, " | %-9.9s    |      | %-9.9s    |", space_get_gdesc(game_get_space(game, id_west), 3), space_get_gdesc(game_get_space(game, id_act), 3));
+      screen_area_puts(ge->map, str);
+      sprintf(str, " | %-9.9s    |      | %-9.9s    |  ", space_get_gdesc(game_get_space(game, id_west), 4), space_get_gdesc(game_get_space(game, id_act), 4));
+      screen_area_puts(ge->map, str);
+      sprintf(str, " +--------------+      +--------------+");
+      screen_area_puts(ge->map, str);
+      id_west = game_get_connection(game, id_act, 3);
     }
 
     if (id_act != NO_ID && id_west == NO_ID && id_east == NO_ID)

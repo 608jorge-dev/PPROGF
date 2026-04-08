@@ -79,7 +79,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
 {
   Id id_act = NO_ID, id_back = NO_ID, id_next = NO_ID, id_left = NO_ID, id_right = NO_ID;
   int i;
-  char c_gdesc[10], link1 = ' ', link2 = ' ';
+  char c_gdesc[10], link1 = 'X', link2 = 'X';
   char str[255];
   char *stat = NULL;
   Id p_obj = NO_ID, player_loc = NO_ID, char_id = NO_ID;
@@ -158,8 +158,8 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
     c_gdesc[0] = ' ';
     c_gdesc[1] = ' ';
     c_gdesc[2] = ' ';
-    link1 = ' ';
-    link2 = ' ';
+    link1 = 'X';
+    link2 = 'X';
     char_id = space_get_character(game_get_space(game, id_act));
     if (char_id != NO_ID)
     {
@@ -230,8 +230,6 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
         sprintf(str, "  +--------------+    +--------------+      +--------------+");
         screen_area_puts(ge->map, str);
       }
-
-      
     }
 
     if (id_act != NO_ID && id_right != NO_ID && id_left == NO_ID)
@@ -304,8 +302,8 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
     c_gdesc[0] = ' ';
     c_gdesc[1] = ' ';
     c_gdesc[2] = ' ';
-    link1 = ' ';
-    link2 = ' ';
+    link1 = 'X';
+    link2 = 'X';
     char_id = space_get_character(game_get_space(game, id_next));
     if (char_id != NO_ID)
     {
@@ -415,13 +413,13 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
 
   /* Paint in the banner area */
   screen_area_clear(ge->banner);
-  screen_area_puts(ge->banner, "The haunted castle game");
+  screen_area_puts(ge->banner, "   The haunted castle game");
 
   /* Paint in the help area */
   screen_area_clear(ge->help);
   sprintf(str, " The commands you can use are:");
   screen_area_puts(ge->help, str);
-  sprintf(str, "    move or m, take or t, drop or d, attack or a, chat or c, inspect or i, exit or e");
+  sprintf(str, "    move or m (north, south, west, east), take or t, drop or d, attack or a, chat or c, inspect or i, exit or e");
   screen_area_puts(ge->help, str);
 
   /* Paint in the feedback area */

@@ -122,35 +122,28 @@ space_test: $(TEST_OBJ)/space_test.o $(OBJ)/space.o $(OBJ)/set.o
 ######################################################## CLEAN, RUN, LOG, RUNV, TEST, DOXY (TOOLS)
 
 .PHONY: clean run obj_clean run_log runv test test_clean doc doc_clean
-
-clean:
-	@echo ">>>>>> Deleting project files"
+clear: 
+	@echo ">>>>>> Deleting all files"
 	rm -rf $(TEST_OBJ) $(TEST) $(OBJ) $(EXE)
+	rm -rf $(OBJ) $(EXE)
+	rm -rf $(TEST_OBJ) $(TEST) $(OBJ) 
+	rm -rf ./doc
+	rm -rf logFile1
+	rm -rf logFile2
+	rm -rf logFile3
+	rm -rf logFile4
+	rm -rf logFile5
 
+## PROJECT COMMANDS
 run: $(EXE)
 	@echo ">>>>>> Running project files"
 	./$(EXE) castle.dat
 
-obj_clean:
-	@echo ">>>>>> Deleting main objects files"
+clean:
+	@echo ">>>>>> Deleting project files"
 	rm -rf $(OBJ) $(EXE)
 
-run_log: $(EXE)
-	@echo ">>>>>> Running project files with output log"
-	./$(EXE) castle.dat -1 logFile 
-
-log_clean:
-	@echo ">>>>>> Deleting log file"
-	rm -rf logFile
-
-run_cmd: 
-	@echo ">>>>>> Running project files with input commands and output log"
-	$ ./ castle castle .dat -l output .log < game1.cmd
-
-runv:
-	@echo ">>>>>> Running castle.dat with valgrind"
-	valgrind --leak-check=full ./$(EXE) castle.dat
-
+## TEST COMMANDS
 test: $(TEST)
 	@echo ">>>>>> Making test files"
 	@for t in $(TEST); do \
@@ -162,6 +155,7 @@ test_clean:
 	@echo ">>>>>> Deleting tests files"
 	rm -rf $(TEST_OBJ) $(TEST) $(OBJ) 
 
+## DOC COMMANDS
 doc:
 	@echo ">>>>>> Making documentation file"
 	doxygen Doxyfile
@@ -169,3 +163,35 @@ doc:
 doc_clean:
 	@echo ">>>>>> Deleting documentation file"
 	rm -rf ./doc
+
+## LOG  AND CMD COMMANDS
+run_log: $(EXE)
+	@echo ">>>>>> Running project files with output log"
+	./$(EXE) castle.dat -l logFile1 
+
+log_clean:
+	@echo ">>>>>> Deleting log file"
+	rm -rf logFile1
+	rm -rf logFile2
+	rm -rf logFile3
+	rm -rf logFile4
+	rm -rf logFile5
+
+run_cmd: 
+	@echo ">>>>>> Running project files with input commands and output log"
+	./$(EXE) castle.dat -l logFile < ./cmd/game1.cmd
+
+run_cmd_all: 
+	@echo ">>>>>> Running project files with all input commands and output log"
+	./$(EXE) castle.dat -l logFile1 < ./cmd/game1.cmd
+	./$(EXE) castle.dat -l logFile2 < ./cmd/game2.cmd
+	./$(EXE) castle.dat -l logFile3 < ./cmd/game3.cmd
+	./$(EXE) castle.dat -l logFile4 < ./cmd/game4.cmd
+	./$(EXE) castle.dat -l logFile5 < ./cmd/game5.cmd
+
+runv:
+	@echo ">>>>>> Running castle.dat with valgrind"
+	valgrind --leak-check=full ./$(EXE) castle.dat
+
+
+

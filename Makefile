@@ -1,5 +1,4 @@
 ######################################################## DIRECTORIOS
-
 SRC = src
 OBJ = obj
 INC = include
@@ -9,7 +8,6 @@ TEST_SRC = src/tests
 TEST_OBJ = obj/tests
 
 ######################################################## MACROS
-
 EXE = castle
 CC = gcc
 LDFLAGS = -L$(LIB) -lscreen
@@ -24,7 +22,6 @@ TEST = character_test inventory_test link_test object_test \
              player_test set_test space_test
 
 ######################################################## MAIN
-
 $(EXE): $(OBJECTS)
 	$(CC) $(CFLAGS) -o $(EXE) $(OBJECTS) $(LDFLAGS)
 
@@ -68,7 +65,6 @@ $(OBJ)/space.o: $(SRC)/space.c $(INC)/space.h $(INC)/types.h $(INC)/object.h $(I
 	$(CC) $(CFLAGS) -c $(SRC)/space.c -o $(OBJ)/space.o
 
 ######################################################## CARPETAS OBJ
-
 $(OBJ):
 	mkdir -p $(OBJ)
 
@@ -76,7 +72,6 @@ $(TEST_OBJ):
 	mkdir -p $(TEST_OBJ)
 
 ######################################################## CHARACTER_TEST, INVENTORY_TEST, LINK_TEST, OBJECT_TEST, PLAYER_TEST, SET_TEST, SPACE_TEST (TESTS)
-
 $(TEST_OBJ)/character_test.o: $(TEST_SRC)/character_test.c $(TEST_INC)/character_test.h $(SRC)/character.c $(INC)/character.h $(INC)/types.h $(INC)/test.h | $(TEST_OBJ)
 	$(CC) $(CFLAGS) -c $(TEST_SRC)/character_test.c -o $(TEST_OBJ)/character_test.o
 
@@ -120,37 +115,30 @@ space_test: $(TEST_OBJ)/space_test.o $(OBJ)/space.o $(OBJ)/set.o
 	$(CC) $(CFLAGS) -o space_test $(TEST_OBJ)/space_test.o $(OBJ)/space.o $(OBJ)/set.o
 
 ######################################################## CLEAN, RUN, LOG, RUNV, TEST, DOXY (TOOLS)
-
 .PHONY: clean run obj_clean run_log runv test test_clean doc doc_clean
-
-clean:
-	@echo ">>>>>> Deleting project files"
+clear: 
+	@echo ">>>>>> Deleting all files"
 	rm -rf $(TEST_OBJ) $(TEST) $(OBJ) $(EXE)
+	rm -rf $(OBJ) $(EXE)
+	rm -rf $(TEST_OBJ) $(TEST) $(OBJ) 
+	rm -rf ./doc
+	rm -rf logFile1
+	rm -rf logFile2
+	rm -rf logFile3
+	rm -rf logFile4
+	rm -rf logFile5
+	clear
 
+## PROJECT COMMANDS
 run: $(EXE)
 	@echo ">>>>>> Running project files"
 	./$(EXE) castle.dat
 
-obj_clean:
-	@echo ">>>>>> Deleting main objects files"
+clean:
+	@echo ">>>>>> Deleting project files"
 	rm -rf $(OBJ) $(EXE)
 
-run_log: $(EXE)
-	@echo ">>>>>> Running project files with output log"
-	./$(EXE) castle.dat -1 logFile 
-
-log_clean:
-	@echo ">>>>>> Deleting log file"
-	rm -rf logFile
-
-run_cmd: 
-	@echo ">>>>>> Running project files with input commands and output log"
-	$ ./ castle castle .dat -l output .log < game1.cmd
-
-runv:
-	@echo ">>>>>> Running castle.dat with valgrind"
-	valgrind --leak-check=full ./$(EXE) castle.dat
-
+## TEST COMMANDS
 test: $(TEST)
 	@echo ">>>>>> Making test files"
 	@for t in $(TEST); do \
@@ -162,6 +150,7 @@ test_clean:
 	@echo ">>>>>> Deleting tests files"
 	rm -rf $(TEST_OBJ) $(TEST) $(OBJ) 
 
+## DOC COMMANDS
 doc:
 	@echo ">>>>>> Making documentation file"
 	doxygen Doxyfile
@@ -169,3 +158,35 @@ doc:
 doc_clean:
 	@echo ">>>>>> Deleting documentation file"
 	rm -rf ./doc
+
+## LOG  AND CMD COMMANDS
+run_log: $(EXE)
+	@echo ">>>>>> Running project files with output log"
+	./$(EXE) castle.dat -l logFile1 
+
+log_clean:
+	@echo ">>>>>> Deleting log file"
+	rm -rf logFile1
+	rm -rf logFile2
+	rm -rf logFile3
+	rm -rf logFile4
+	rm -rf logFile5
+
+run_cmd: 
+	@echo ">>>>>> Running project files with input commands and output log"
+	./$(EXE) castle.dat -l logFile < ./cmd/game1.cmd
+
+run_cmd_all: 
+	@echo ">>>>>> Running project files with all input commands and output log"
+	./$(EXE) castle.dat -l logFile1 < ./cmd/game1.cmd
+	./$(EXE) castle.dat -l logFile2 < ./cmd/game2.cmd
+	./$(EXE) castle.dat -l logFile3 < ./cmd/game3.cmd
+	./$(EXE) castle.dat -l logFile4 < ./cmd/game4.cmd
+	./$(EXE) castle.dat -l logFile5 < ./cmd/game5.cmd
+
+runv:
+	@echo ">>>>>> Running castle.dat with valgrind"
+	valgrind --leak-check=full ./$(EXE) castle.dat
+
+
+

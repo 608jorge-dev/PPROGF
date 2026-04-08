@@ -160,22 +160,22 @@ Status game_actions_move(Game *game)
 		return ERROR;
 	}
 
-	if ((strcmp("next", direction) == 0 || strcmp("n", direction) == 0) && game_connection_is_open(game, player_space_id, S) == TRUE)
+	if ((strcmp("south", direction) == 0 || strcmp("s", direction) == 0) && game_connection_is_open(game, player_space_id, S) == TRUE)
 	{
 		dir = 1;
 	}
 
-	if ((strcmp("back", direction) == 0 || strcmp("b", direction) == 0) && game_connection_is_open(game, player_space_id, N) == TRUE)
+	if ((strcmp("north", direction) == 0 || strcmp("n", direction) == 0) && game_connection_is_open(game, player_space_id, N) == TRUE)
 	{
 		dir = 0;
 	}
 
-	if ((strcmp("right", direction) == 0 || strcmp("r", direction) == 0) && game_connection_is_open(game, player_space_id, E) == TRUE)
+	if ((strcmp("east", direction) == 0 || strcmp("e", direction) == 0) && game_connection_is_open(game, player_space_id, E) == TRUE)
 	{
 		dir = 2;
 	}
 
-	if ((strcmp("left", direction) == 0 || strcmp("l", direction) == 0) && game_connection_is_open(game, player_space_id, W) == TRUE)
+	if ((strcmp("west", direction) == 0 || strcmp("w", direction) == 0) && game_connection_is_open(game, player_space_id, W) == TRUE)
 	{
 		dir = 3;
 	}
@@ -369,7 +369,12 @@ Status game_actions_attack(Game *game)
 	{
 		return ERROR;
 	}
-
+	
+	if ((character_get_health(enemy)) == 0)
+	{
+		return ERROR;
+	}
+	
 	if (character_get_friendly(enemy) != TRUE)
 	{
 		srand(time(NULL));
@@ -387,7 +392,7 @@ Status game_actions_attack(Game *game)
 			character_set_health(enemy, character_get_health(enemy) - 1);
 			if ((character_get_health(enemy)) == 0)
 			{
-				character_destroy(enemy);
+				character_set_gdesc(enemy, " ");
 			}
 		}
 		return OK;

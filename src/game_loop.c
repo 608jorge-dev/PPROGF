@@ -38,11 +38,11 @@ int main(int argc, char *argv[])
   Graphic_engine *gengine;
   int result;
   Command *last_cmd;
-  Status status;
-  FILE *log_file = NULL, *cmd_file = NULL;
+  Status st;
+  FILE *log_file = NULL;
   int log = 0, cmd = 0;
-  CommandCode code, cmd_code;
-  char *arg = NULL, *cmd_arg = NULL;
+  CommandCode code;
+  char *arg = NULL;
 
   if (argc < 2)
   {
@@ -50,9 +50,9 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  if (argc < 4 && strcmp(argv[argc - 2], "-l") == 0)
+  if (strcmp(argv[argc-2], "-l") == 0)
   {
-    log_file = fopen(argv[argc - 1], "a");
+    log_file = fopen(argv[argc - 1], "w");
     if (log_file == NULL)
     {
       game_loop_cleanup(game, gengine);
@@ -60,24 +60,6 @@ int main(int argc, char *argv[])
     }
     log = 1;
   }
-
-  /* Hay que cambiarlo para que reconozca cualquier archivo .cmd */
-  /*if (argc < 6 && strcmp(argv[argc - 1], "game1.cmd") == 0 && strcmp(argv[argc - 4], "-l") == 0) {}
-    cmd_file = fopen(argv[argc - 1], "r");
-    if (log_file == NULL)
-    {
-      game_loop_cleanup(game, gengine);
-      return 1;
-    }
-    log_file = fopen(argv[argc - 3], "a");
-    if (log_file == NULL)
-    {
-      game_loop_cleanup(game, gengine);
-      return 1;
-    }
-    log = 1;
-    cmd = 1;
-  }*/
 
   game = game_create();
   result = game_loop_init(game, &gengine, argv[1]);
@@ -95,38 +77,32 @@ int main(int argc, char *argv[])
 
   last_cmd = game_get_last_command(game);
 
-  while ((command_get_code(last_cmd) != EXIT) && (game_get_finished(game) == FALSE))
+  while ((game_get_finished(game) == FALSE))
   {
     graphic_engine_paint_game(gengine, game);
     if (cmd == 0)
     {
       command_get_user_input(last_cmd);
     }
-    /* else if (cmd = 1) {
-      if (fscanf (cmd_file, "%s %s", cmd_code, cmd_arg) == 2)  {
-        command_set_code(last_cmd, cmd_code);
-        command_set_argstr(last_cmd, cmd_arg);
-      }
+    if (command_get_code(last_cmd) == EXIT) {
+      break;
+    }
 
-        if (fscanf (cmd_file, "%s", cmd_code) == 1) {
-          command_set_code(last_cmd, cmd_code);
-        }
-    }*/
-
-    status = game_actions_update(game, last_cmd);
+    game_actions_update(game, last_cmd);
 
     if (log == 1)
     {
       code = command_get_code(last_cmd);
       arg = command_get_argstr(last_cmd);
+      st = command_get_status(last_cmd);
 
       if (arg && arg[0] != '\0')
       {
-        fprintf(log_file, "%s %s: %s \n", cmd_to_str[code - NO_CMD][CMDL], arg, (status == OK) ? "OK" : "ERROR");
+        fprintf(log_file, "%s %s: %s \n", cmd_to_str[code - NO_CMD][CMDL], arg, (st == OK) ? "OK" : "ERROR");
       }
       else
       {
-        fprintf(log_file, "%s: %s \n", cmd_to_str[code - NO_CMD][CMDL], (status == OK) ? "OK" : "ERROR");
+        fprintf(log_file, "%s: %s \n", cmd_to_str[code - NO_CMD][CMDL], (st == OK) ? "OK" : "ERROR");
       }
     }
     
@@ -140,7 +116,6 @@ int main(int argc, char *argv[])
   }
 
   game_loop_cleanup(game, gengine);
-
   return 0;
 }
 

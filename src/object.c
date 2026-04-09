@@ -22,9 +22,9 @@
 
 struct _Object
 {
-  Id id;                     /*!< Id number of the object, it must be unique */
-  char name[WORD_SIZE + 1];  /*!< Name of the object */
-  char gdesc[WORD_SIZE + 1]; /*!< Description of the object */
+  Id id;                        /*!< Id number of the object, it must be unique */
+  char name[WORD_SIZE + 1];     /*!< Name of the object */
+  char descripton[WORD_SIZE+1]; /*!< Description of the object */
 };
 
 /* It creates a new object, allocating memory and initializing its members
@@ -113,16 +113,16 @@ char *object_get_name(Object *object)
   return object->name;
 }
 
-/* It sets the gdesc of an object
+/* It sets the desc of an object
  */
-Status object_set_gdesc(Object *object, char *desc)
+Status object_set_desc(Object *object, char *desc)
 {
   if (!object || !desc)
   {
     return ERROR;
   }
 
-  if (!strcpy(object->gdesc, desc))
+  if (!strcpy(object->descripton, desc))
   {
     return ERROR;
   }
@@ -130,16 +130,16 @@ Status object_set_gdesc(Object *object, char *desc)
   return OK;
 }
 
-/* It gets the gdesc of an object
+/* It gets the desc of an object
  */
-char *object_get_gdesc(Object *object)
+char *object_get_desc(Object *object)
 {
   if (!object)
   {
     return NULL;
   }
 
-  return object->gdesc;
+  return object->descripton;
 }
 
 /* It prints the object information

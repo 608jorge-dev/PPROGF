@@ -100,6 +100,7 @@ Status game_reader_load_objects(Game *game, char *filename)
   char *toks = NULL;
   char line[WORD_SIZE] = "\0";
   char name[WORD_SIZE] = "\0";
+  char desc[WORD_SIZE] = "\0";
   Id object_id = NO_ID, space_id = NO_ID;
   Status status = OK;
 
@@ -125,11 +126,14 @@ Status game_reader_load_objects(Game *game, char *filename)
       toks = strtok(NULL, "|");
       if (toks)
         space_id = atol(toks);
+      toks = strtok(NULL, "|");
+      strcpy(desc, toks);
 
       object = object_create(object_id);
       if (object != NULL)
       {
         object_set_name(object, name);
+        object_set_desc(object, desc);
         game_add_object(game, object);
         game_set_object_location(game, space_id, object_id);
       }
@@ -268,7 +272,6 @@ Status game_reader_load_player(Game *game, char *filename)
       max_inventory = atol(toks);
 
       player = player_create(player_id);
-      inventory = inventory_create();
       if (player != NULL)
       {
         player_set_name(player, name);
@@ -277,7 +280,7 @@ Status game_reader_load_player(Game *game, char *filename)
         game_add_player(game, player);
         game_set_player_location(game, space_id);
         space_set_discovered(game_get_space_with_id(game, space_id), TRUE);
-        inventory_set_max_objs(inventory, max_inventory);
+        inventory_set_max_objs(player_get_objects(player), max_inventory);
       }
     }
   }
@@ -304,8 +307,8 @@ Status game_reader_load_link(Game *game, char *filename)
   char line[WORD_SIZE] = "\0";
   char name[WORD_SIZE] = "\0";
   Id link_id = NO_ID, space_id_orig = NO_ID, space_id_dest = NO_ID;
-  Bool openst;
-  Direction dt;
+  Bool openst = FALSE;
+  Direction dt = -1;
   Status status = OK;
 
   if (!filename)

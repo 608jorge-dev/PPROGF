@@ -152,7 +152,6 @@ char *command_get_argstr(Command *command)
     return NULL;
   }
 
-  fprintf (stdout, "%s", command->argstr[0]);
   return command->argstr[0];
 }
 

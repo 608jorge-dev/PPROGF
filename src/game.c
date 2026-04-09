@@ -69,6 +69,12 @@ Game *game_create()
   }
   game->n_characters = 0;
 
+  for (i = 0; i < MAX_LINKS; i++)
+  {
+    game->links[i] = NULL;
+  }
+  game->n_links = 0;
+
   game->last_cmd = command_create();
   game->finished = FALSE;
   game->turn = 0;
@@ -99,6 +105,11 @@ Status game_destroy(Game *game)
   for (i = 0; i < game->n_characters; i++)
   {
     character_destroy(game->characters[i]);
+  }
+
+  for (i = 0; i < game->n_links; i++)
+  {
+    link_destroy(game->links[i]);
   }
 
   command_destroy(game->last_cmd);

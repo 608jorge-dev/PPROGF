@@ -384,11 +384,12 @@ void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id
       sprintf(str, "                       | %-9.9s    |  ", space_get_gdesc(game_get_space(game, id_act), i));
       screen_area_puts(ge->map, str);
     }
+    sprintf(str, "                       | %-9.9s    |  ", obj1);
+    screen_area_puts(ge->map, str);
     sprintf(str, "                       +--------------+");
     screen_area_puts(ge->map, str);
   } 
 } 
-
 
 /** Changes the game GUI (paints in the differente graphic sections)
  */
@@ -453,8 +454,10 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
     /* Hay que cambiar esto para que printee todos los objetos*/
     sprintf(str, "      Player has object: YES");
     screen_area_puts(ge->descript, str);
-    sprintf(str, "  %s", object_get_name(game_get_object_with_id(game, inventory_find_object(player_get_objects(game_get_player(game)), 0))));
-    screen_area_puts(ge->descript, str);
+    for (i=0; i<inventory_get_n_objs(player_get_objects(game_get_player(game))); i++) {
+      sprintf(str, "  %s", object_get_name(game_get_object_with_id(game,set_get_id_at(inventory_get_objs(player_get_objects(game_get_player(game))), i))));
+      screen_area_puts(ge->descript, str);
+    }
   }
   else
   {

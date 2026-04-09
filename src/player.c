@@ -66,6 +66,7 @@ Status player_destroy(Player *player)
     return ERROR;
   }
 
+  inventory_destroy(player->objects);
   free(player);
   return OK;
 }

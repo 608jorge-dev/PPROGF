@@ -93,6 +93,8 @@ Status set_set_n_ids(Set *set, int number);
  */
 int set_get_n_ids(Set *set);
 
+Status set_get_id_with_position(Set *set, int position);
+
 /**
  * @brief It prints the set information
  * @author Álvaro Bravo González

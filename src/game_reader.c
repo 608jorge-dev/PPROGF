@@ -276,6 +276,7 @@ Status game_reader_load_player(Game *game, char *filename)
         player_set_health(player, health);
         game_add_player(game, player);
         game_set_player_location(game, space_id);
+        space_set_discovered(game_get_space_with_id(game, space_id), TRUE);
         inventory_set_max_objs(inventory, max_inventory);
       }
     }

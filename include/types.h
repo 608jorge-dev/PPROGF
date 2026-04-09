@@ -33,7 +33,7 @@
 #define WIDTH_MAP 65  /*!< Width of the map area in the textual graphic engine*/
 #define WIDTH_DES 53  /*!< Width of the description area in the textual graphic engine*/
 #define WIDTH_BAN 29  /*!< Width of the banner area in the textual graphic engine*/
-#define HEIGHT_MAP 26 /*!< Height of the map area in the textual graphic engine*/
+#define HEIGHT_MAP 29 /*!< Height of the map area in the textual graphic engine*/
 #define HEIGHT_BAN 2  /*!< Height of the description area in the textual graphic engine*/
 #define HEIGHT_HLP 3  /*!< Height of the help area in the textual graphic engine*/
 #define HEIGHT_FDB 4  /*!< Height of the feedback area in the textual graphic engine*/

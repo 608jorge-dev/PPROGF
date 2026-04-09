@@ -12,11 +12,11 @@
 #o:1|Sword|11|
 #o:2|Knife|14|
 #o:3|Lantern|131|
-#o:4|Toilet_paper|132|
+#o:4|Toilet paper|132|
 
-#c:1|Vendor|(o)|12|3|1|Hello traveler! Would you like to buy something?|
-#c:2|Knight|^M*|13|5|0|-|
-#c:3|Phantom|'o'|132|2|1|I won't talk to you! I have been hiding from humans like you for a very long time!|
+#c:1|Rova|(o)|12|3|1|Hello traveler!|
+#c:2|Hydra|^M*|13|5|0|-|
+#c:3|Phantom|'o'|132|2|1|I won't talk to you!|
 
 #p:1|Knigth|^C>|7|11|3|
 #p:2|Thief|^d>|3|11|5|

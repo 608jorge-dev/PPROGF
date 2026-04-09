@@ -468,6 +468,8 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
   /* Paint in the banner area */
   screen_area_clear(ge->banner);
   screen_area_puts(ge->banner, "   The haunted castle game");
+  sprintf(str, "   Player %d/%d", game_get_turn(game), game_get_n_players(game));
+  screen_area_puts(ge->banner, str);
 
   /* Paint in the help area */
   screen_area_clear(ge->help);

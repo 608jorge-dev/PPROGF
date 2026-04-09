@@ -277,8 +277,8 @@ Status game_reader_load_player(Game *game, char *filename)
         player_set_name(player, name);
         player_set_gdesc(player, gdesc);
         player_set_health(player, health);
+        player_set_location(player, space_id);
         game_add_player(game, player);
-        game_set_player_location(game, space_id);
         space_set_discovered(game_get_space_with_id(game, space_id), TRUE);
         inventory_set_max_objs(player_get_objects(player), max_inventory);
       }
@@ -394,7 +394,5 @@ Status game_reader_create_from_file(Game *game, char *filename)
     return ERROR;
   }
 
-  /* The player and the object are located in the first space */
-  game_set_player_location(game, game_get_space_id_at(game, 0));
   return OK;
 }

@@ -17,6 +17,7 @@
 #include "game_reader.h"
 #include "game_actions.h"
 #include "graphic_engine.h"
+#include <unistd.h>
 
 int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name);
 
@@ -98,15 +99,20 @@ int main(int argc, char *argv[])
 
       if (arg && arg[0] != '\0')
       {
-        fprintf(log_file, "%s %s: %s \n", cmd_to_str[code - NO_CMD][CMDL], arg, (st == OK) ? "OK" : "ERROR");
+        fprintf(log_file, "Player %d: %s %s: %s \n", game_get_turn(game), cmd_to_str[code - NO_CMD][CMDL], arg, (st == OK) ? "OK" : "ERROR");
       }
       else
       {
-        fprintf(log_file, "%s: %s \n", cmd_to_str[code - NO_CMD][CMDL], (st == OK) ? "OK" : "ERROR");
+        fprintf(log_file, "Player %d: %s: %s \n", game_get_turn(game), cmd_to_str[code - NO_CMD][CMDL], (st == OK) ? "OK" : "ERROR");
       }
     }
     
-    /*game_set_turn(game, (game_get_turn(game) + 1)%game_get_n_player(game));*/
+    /*sleep (1);*/
+    game_set_turn(game, (game_get_turn(game) + 1));
+    if (game_get_turn(game) == game_get_n_players(game))  {
+      game_set_turn(game, 0);
+    }
+   
   }
 
   if (log == 1)

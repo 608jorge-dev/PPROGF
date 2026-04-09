@@ -24,7 +24,6 @@ struct _Game
 {
   Player *players[MAX_OBJECTS];          /*!< Player structure pointer */
   int n_players;                         /*!< Total amount of players created */
-  int turn;                              /*!< Indicates actual turn */
   Object *objects[MAX_OBJECTS];          /*!< Object structure pointer */
   int n_objects;                         /*!< Total amount of objects created */
   Space *spaces[MAX_SPACES];             /*!< Space structure pointer */
@@ -35,6 +34,7 @@ struct _Game
   int n_links;                           /*!< Total amount of links created */
   Command *last_cmd;                     /*!< Command structure pointer */
   Bool finished;                         /*!< States the finished status in the game */
+  int turn;                              /*!< Indicates actual turn */
 };
 
 /* It creates a new game, allocating memory and initializing its members */
@@ -146,7 +146,7 @@ Player *game_get_player(Game *game)
     return ERROR;
   }
 
-  return game->players[0];
+  return game->players[game_get_turn(game)];
 }
 
 /* It adds the player to the game objects pointer */
@@ -162,7 +162,7 @@ Status game_add_player(Game *game, Player *player)
   aux_n_players = game_get_n_players(game);
 
   game->players[aux_n_players] = player;
-  game_set_n_players(game, aux_n_players + 1);
+  game_set_n_players(game, game_get_n_players(game) + 1);
 
   return OK;
 }
@@ -199,7 +199,7 @@ Status game_set_player_location(Game *game, Id id)
     return ERROR;
   }
 
-  player_set_location(game->players[0], id);
+  player_set_location(game->players[game_get_turn(game)], id);
 
   return OK;
 }
@@ -212,7 +212,7 @@ Id game_get_player_location(Game *game)
     return NO_ID;
   }
 
-  return player_get_location(game->players[0]);
+  return player_get_location(game->players[game_get_turn(game)]);
 }
 
 
@@ -718,7 +718,7 @@ int game_get_n_links(Game *game)
 
 /*It sets the actual turn */
 Status game_set_turn(Game *game, int turn){
-  if (!game || turn < 0 || turn >= game->n_players)
+  if (!game || turn < 0)
   {
     return ERROR;
   }

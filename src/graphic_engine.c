@@ -396,10 +396,9 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
 {
   Id id_act = NO_ID, id_north = NO_ID, id_south = NO_ID, id_west = NO_ID, id_east = NO_ID;
   int i;
-  char c_gdesc[WORD_SIZE], c_gdesc1[WORD_SIZE], c_gdesc2[WORD_SIZE], link1 = 'X', link2 = 'X';
   char str[255];
   char *stat = NULL;
-  Id p_obj = NO_ID, player_loc = NO_ID, char_id = NO_ID;
+  Id p_obj = NO_ID, player_loc = NO_ID;
   CommandCode last_cmd = UNKNOWN;
   extern char *cmd_to_str[N_CMD][N_CMDT];
 

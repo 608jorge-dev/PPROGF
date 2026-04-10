@@ -93,6 +93,14 @@ Status set_set_n_ids(Set *set, int number);
  */
 int set_get_n_ids(Set *set);
 
+/**
+ * @brief It gets the id from its position
+ * @author Álvaro Bravo González
+ *
+ * @param set A pointer to the set 
+ * @param position The position of the id in the set
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
 Status set_get_id_with_position(Set *set, int position);
 
 /**

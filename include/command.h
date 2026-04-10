@@ -100,7 +100,28 @@ Status command_set_argstr(Command *command, char *argstr);
  */
 char *command_get_argstr(Command *command);
 
+
+
+
+/**
+ * @brief It sets the description of a command
+ * @author Álvaro Bravo González
+ *
+ * @param command A pointer to the command structure
+ * @param  description The description of the string
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+
 Status command_set_description(Command *command, char *description);
+
+
+/**
+ * @brief It gets the description of a command
+ * @author Álvaro Bravo González
+ *
+ * @param command A pointer to the command structure
+ * @return description of the command
+ */
 char *command_get_description(Command *command);
 
 /**

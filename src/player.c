@@ -27,7 +27,7 @@ struct _Player
   Inventory *objects;        /*!< Set of the player object's */
   int n_objects;             /*!< Total amount of objects created */
   int health;                /*!< Amount of health the player has */
-  char gdesc[WORD_SIZE + 1]; /*!< Description of the lpayer */
+  char gdesc[WORD_SIZE + 1]; /*!< Description of the player */
 };
 
 /* It creates a new player, allocating memory
@@ -149,7 +149,7 @@ Id player_get_location(Player *player)
  */
 Status player_add_object(Player *player, Id id)
 {
-  if (!player || !player_get_objects(player) || inventory_get_max_objs(player_get_objects(player)) == MAX_OBJECTS)
+  if (!player || !player_get_objects(player) || inventory_get_max_objs(player_get_objects(player)) == MAX_OBJECTS || id < 0)
   {
     return ERROR;
   }

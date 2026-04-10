@@ -421,17 +421,6 @@ Character *game_get_character_at(Game *game, int position)
   return game->characters[position];
 }
 
-/** It gets the character */
-Character *game_get_character(Game *game, int position)
-{
-  if (!game)
-  {
-    return NULL;
-  }
-
-  return game->characters[position];
-}
-
 /** Creates more spaces at the end of the allocated pointer when called */
 Status game_add_character(Game *game, Character *character)
 {
@@ -566,9 +555,6 @@ int game_get_n_spaces(Game *game)
 
   return game->n_spaces;
 }
-
-
-
 
 /** It sets last command
  */
@@ -736,6 +722,21 @@ int game_get_turn(Game *game){
   }
 
   return game->turn;
+}
+
+/*It sets next turn */
+Status game_next_turn(Game *game) {
+  if(!game)
+  {
+    return ERROR;
+  }
+
+  game->turn++;
+  if (game_get_turn(game) == game_get_n_players(game))  {
+    game_set_turn(game, 0);
+  }
+
+  return OK;
 }
 
 

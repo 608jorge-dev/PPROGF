@@ -1,5 +1,5 @@
 /**
- * @brief It defines the game loop
+ * @brief It defines and implements the game loop
  *
  * @file game_loop.c
  * @author Profesores PPROG
@@ -80,6 +80,9 @@ int main(int argc, char *argv[])
 
   while ((game_get_finished(game) == FALSE))
   {
+    while (player_get_health(game_get_player(game)) == 0)  {
+      game_next_turn(game);
+    }
     graphic_engine_paint_game(gengine, game);
     if (cmd == 0)
     {
@@ -108,11 +111,7 @@ int main(int argc, char *argv[])
     }
     
     /*sleep (1);*/
-    game_set_turn(game, (game_get_turn(game) + 1));
-    if (game_get_turn(game) == game_get_n_players(game))  {
-      game_set_turn(game, 0);
-    }
-   
+    game_next_turn(game);
   }
 
   if (log == 1)

@@ -379,7 +379,8 @@ Status game_actions_attack(Game *game)
 		if (n <= 4 && n >= 0)
 		{
 			player_set_health(player, player_get_health(player) - 1);
-			if ((player_get_health(player)) == 0)
+			game_set_n_players(game, game_get_n_players(game)-1);
+			if (game_get_n_players(game) == 0)
 			{
 				game_set_finished(game, TRUE);
 			}

@@ -1,13 +1,12 @@
 /**
- * @brief It defines the tests for the character module
+ * @brief It defines the tests for the inventory module
  *
- * @file character_test.h
+ * @file inventory_test.h
  * @author Álvaro Bravo González
  * @version 1.0
  * @date 04-03-2025
  * @copyright GNU Public License
  */
-
 #ifndef INVENTORY_TEST_H
 #define INVENTORY_TEST_H
 

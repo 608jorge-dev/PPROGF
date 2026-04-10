@@ -181,7 +181,26 @@ Status game_set_object_location(Game *game, Id space_id, Id object_id);
 Id game_get_object_location(Game *game, Id object_id);
 
 /* CHARACTER FUNCTIONS : */
+
+/**
+ * @brief It sets the character's location
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ * @param space_id The identification number for the space of the object
+ * @param character_id The identification number for the location of the character
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
 Status game_set_character_location(Game *game, Id space_id, Id character_id);
+
+/**
+ * @brief It gets the id of the character's location
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ * @param character_id The character's id
+ * @return the id of the character's location
+ */
 Id game_get_character_location(Game *game, Id character_id);
 
 /**
@@ -203,8 +222,6 @@ Character *game_get_character_with_id(Game *game, Id id);
  * @return A pointer to the character structure
  */
 Character *game_get_character_at(Game *game, int position);
-
-Character *game_get_character(Game *game, int position);
 
 /**
  * @brief It adds the character to the game character pointer
@@ -414,6 +431,15 @@ Status game_set_turn(Game *game, int turn);
  * @return The actual turn
  */
 int game_get_turn(Game *game);
+
+/**
+ * @brief It pushes the turn value once
+ * @author Guillermo Nuñez Bravo
+ *
+ * @param game A pointer to the game data
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status game_next_turn(Game *game);
 
 /**
  * @brief It prints the game information

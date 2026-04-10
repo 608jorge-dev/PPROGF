@@ -1,3 +1,12 @@
+/**
+ * @brief It tests link module
+ *
+ * @file link_test.c
+ * @author Álvaro Bravo González
+ * @version 1.0
+ * @date 04-03-2025
+ * @copyright GNU Public License
+ */
 #include "link_test.h"
 
 int main(int argc, char **argv)

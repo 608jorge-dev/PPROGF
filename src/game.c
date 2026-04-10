@@ -24,7 +24,6 @@ struct _Game
 {
   Player *players[MAX_OBJECTS];          /*!< Player structure pointer */
   int n_players;                         /*!< Total amount of players created */
-  int turn;                              /*!< Indicates actual turn */
   Object *objects[MAX_OBJECTS];          /*!< Object structure pointer */
   int n_objects;                         /*!< Total amount of objects created */
   Space *spaces[MAX_SPACES];             /*!< Space structure pointer */
@@ -35,6 +34,7 @@ struct _Game
   int n_links;                           /*!< Total amount of links created */
   Command *last_cmd;                     /*!< Command structure pointer */
   Bool finished;                         /*!< States the finished status in the game */
+  int turn;                              /*!< Indicates actual turn */
 };
 
 /* It creates a new game, allocating memory and initializing its members */
@@ -69,6 +69,12 @@ Game *game_create()
   }
   game->n_characters = 0;
 
+  for (i = 0; i < MAX_LINKS; i++)
+  {
+    game->links[i] = NULL;
+  }
+  game->n_links = 0;
+
   game->last_cmd = command_create();
   game->finished = FALSE;
   game->turn = 0;
@@ -99,6 +105,11 @@ Status game_destroy(Game *game)
   for (i = 0; i < game->n_characters; i++)
   {
     character_destroy(game->characters[i]);
+  }
+
+  for (i = 0; i < game->n_links; i++)
+  {
+    link_destroy(game->links[i]);
   }
 
   command_destroy(game->last_cmd);
@@ -135,7 +146,7 @@ Player *game_get_player(Game *game)
     return ERROR;
   }
 
-  return game->players[0];
+  return game->players[game_get_turn(game)];
 }
 
 /* It adds the player to the game objects pointer */
@@ -151,7 +162,7 @@ Status game_add_player(Game *game, Player *player)
   aux_n_players = game_get_n_players(game);
 
   game->players[aux_n_players] = player;
-  game_set_n_players(game, aux_n_players + 1);
+  game_set_n_players(game, game_get_n_players(game) + 1);
 
   return OK;
 }
@@ -188,7 +199,7 @@ Status game_set_player_location(Game *game, Id id)
     return ERROR;
   }
 
-  player_set_location(game->players[0], id);
+  player_set_location(game->players[game_get_turn(game)], id);
 
   return OK;
 }
@@ -201,7 +212,7 @@ Id game_get_player_location(Game *game)
     return NO_ID;
   }
 
-  return player_get_location(game->players[0]);
+  return player_get_location(game->players[game_get_turn(game)]);
 }
 
 
@@ -410,17 +421,6 @@ Character *game_get_character_at(Game *game, int position)
   return game->characters[position];
 }
 
-/** It gets the character */
-Character *game_get_character(Game *game, int position)
-{
-  if (!game)
-  {
-    return NULL;
-  }
-
-  return game->characters[position];
-}
-
 /** Creates more spaces at the end of the allocated pointer when called */
 Status game_add_character(Game *game, Character *character)
 {
@@ -555,9 +555,6 @@ int game_get_n_spaces(Game *game)
 
   return game->n_spaces;
 }
-
-
-
 
 /** It sets last command
  */
@@ -707,7 +704,7 @@ int game_get_n_links(Game *game)
 
 /*It sets the actual turn */
 Status game_set_turn(Game *game, int turn){
-  if (!game || turn < 0 || turn >= game->n_players)
+  if (!game || turn < 0)
   {
     return ERROR;
   }
@@ -725,6 +722,21 @@ int game_get_turn(Game *game){
   }
 
   return game->turn;
+}
+
+/*It sets next turn */
+Status game_next_turn(Game *game) {
+  if(!game)
+  {
+    return ERROR;
+  }
+
+  game->turn++;
+  if (game_get_turn(game) == game_get_n_players(game))  {
+    game_set_turn(game, 0);
+  }
+
+  return OK;
 }
 
 

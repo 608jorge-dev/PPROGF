@@ -1,3 +1,12 @@
+/**
+ * @brief It defines the inventory module interface
+ *
+ * @file inventory.h
+ * @author Álvaro Bravo González
+ * @version 0
+ * @date 21-03-2026
+ * @copyright GNU Public License
+ */
 #ifndef INVENTORY_H
 #define INVENTORY_H
 

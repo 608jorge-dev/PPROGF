@@ -160,6 +160,16 @@ int set_get_n_ids(Set *set)
     return set->n_ids;
 }
 
+Status set_get_id_with_position(Set *set, int position)
+{
+    if (!set)
+    {
+        return ERROR;
+    }
+
+    return set->ids[position];
+}
+
 Status set_print(Set *set)
 {
     int i;

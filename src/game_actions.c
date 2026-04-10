@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include <time.h>
 
 /* Private functions
@@ -228,10 +229,8 @@ Status game_actions_take(Game *game)
 
 	for (i = 0; i < game_get_n_objects(game); i++)
 	{
-
 		object = game_get_object_at(game, i);
-
-		if (!strcmp(object_get_name(object), name))
+		if (!strcasecmp(object_get_name(object), name))
 		{
 			object_id = object_get_id(object);
 			break;
@@ -308,10 +307,8 @@ Status game_actions_drop(Game *game)
 
 	for (i = 0; i < game_get_n_objects(game); i++)
 	{
-
 		object = game_get_object_at(game, i);
-
-		if (!strcmp(object_get_name(object), name))
+		if (!strcasecmp(object_get_name(object), name))
 		{
 			object_id = object_get_id(object);
 			break;
@@ -382,7 +379,8 @@ Status game_actions_attack(Game *game)
 		if (n <= 4 && n >= 0)
 		{
 			player_set_health(player, player_get_health(player) - 1);
-			if ((player_get_health(player)) == 0)
+			game_set_n_players(game, game_get_n_players(game)-1);
+			if (game_get_n_players(game) == 0)
 			{
 				game_set_finished(game, TRUE);
 			}
@@ -506,13 +504,14 @@ Status game_actions_inspect(Game *game)
 	for (i = 0; i < game_get_n_objects(game); i++)
 	{
 		object = game_get_object_at(game, i);
-		if (strcmp(object_get_name(object), name) == 0)
+		if (strcasecmp(object_get_name(object), name) == 0)
 		{
 			object_space_id = game_get_object_location(game, object_get_id(object));
 			if (object_space_id == NO_ID)
 			{
 				return ERROR;
 			}
+			break;
 		}
 	}
 
@@ -521,7 +520,7 @@ Status game_actions_inspect(Game *game)
 		return ERROR;
 	}
 
-	if (command_set_description(cmd, object_get_gdesc(object)) == ERROR)
+	if (command_set_description(cmd, object_get_desc(object)) == ERROR)
 	{
 		return ERROR;
 	}

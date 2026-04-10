@@ -73,6 +73,8 @@ void graphic_engine_destroy(Graphic_engine *ge)
   free(ge);
 }
 
+/** It paints a blank space in the map
+ */
 void graphic_engine_paint_blank (Graphic_engine *ge) 
 {
   int i;
@@ -86,6 +88,8 @@ void graphic_engine_paint_blank (Graphic_engine *ge)
   }
 }
 
+/** It paints a space without a graphic description in the map
+ */
 void graphic_engine_paint_blankspace(Graphic_engine *ge, Id id) 
 {
   int i;
@@ -103,6 +107,8 @@ void graphic_engine_paint_blankspace(Graphic_engine *ge, Id id)
   screen_area_puts(ge->map, str);
 }
 
+/** It paints the space on the north of the actual space
+ */
 void graphic_engine_paint_northspace(Game *game, Id id_north, Id id_act, Graphic_engine *ge) {
   char str[255], c_gdesc[WORD_SIZE], link1 = 'X', obj[WORD_SIZE];
   int i;
@@ -165,6 +171,8 @@ void graphic_engine_paint_northspace(Game *game, Id id_north, Id id_act, Graphic
   }
 }
 
+/** It paints the space on the south of the actual space
+ */
 void graphic_engine_paint_southspace(Game *game, Id id_south, Id id_act, Graphic_engine *ge) {
   char str[255], c_gdesc[WORD_SIZE], link1 = 'X', obj[WORD_SIZE];
   int i;
@@ -223,6 +231,8 @@ void graphic_engine_paint_southspace(Game *game, Id id_south, Id id_act, Graphic
   }
 }
 
+/** It paints the actual space
+ */
 void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id_act, Graphic_engine *ge)  {
   char str[255], c_gdesc[WORD_SIZE], c_gdesc1[WORD_SIZE], c_gdesc2[WORD_SIZE], link1 = 'X',link2 = 'X', obj[WORD_SIZE], obj1[WORD_SIZE], obj2[WORD_SIZE];
   int i;
@@ -384,11 +394,12 @@ void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id
       sprintf(str, "                       | %-9.9s    |  ", space_get_gdesc(game_get_space(game, id_act), i));
       screen_area_puts(ge->map, str);
     }
+    sprintf(str, "                       | %-9.9s    |  ", obj1);
+    screen_area_puts(ge->map, str);
     sprintf(str, "                       +--------------+");
     screen_area_puts(ge->map, str);
   } 
 } 
-
 
 /** Changes the game GUI (paints in the differente graphic sections)
  */
@@ -438,7 +449,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
 
   for (i = 0; i < game_get_n_characters(game); i++)
   {
-    sprintf(str, "    %s:  %ld (%d)", character_get_gdesc(game_get_character(game, i)), (game_get_character_location(game, character_get_id(game_get_character(game, i)))), character_get_health(game_get_character(game, i)));
+    sprintf(str, "    %s:  %ld (%d)", character_get_gdesc(game_get_character_at(game, i)), (game_get_character_location(game, character_get_id(game_get_character_at(game, i)))), character_get_health(game_get_character_at(game, i)));
     screen_area_puts(ge->descript, str);
   }
 
@@ -453,8 +464,10 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
     /* Hay que cambiar esto para que printee todos los objetos*/
     sprintf(str, "      Player has object: YES");
     screen_area_puts(ge->descript, str);
-    sprintf(str, "  %s", object_get_name(game_get_object_with_id(game, inventory_find_object(player_get_objects(game_get_player(game)), 0))));
-    screen_area_puts(ge->descript, str);
+    for (i=0; i<inventory_get_n_objs(player_get_objects(game_get_player(game))); i++) {
+      sprintf(str, "  %s", object_get_name(game_get_object_with_id(game,set_get_id_at(inventory_get_objs(player_get_objects(game_get_player(game))), i))));
+      screen_area_puts(ge->descript, str);
+    }
   }
   else
   {
@@ -465,6 +478,8 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
   /* Paint in the banner area */
   screen_area_clear(ge->banner);
   screen_area_puts(ge->banner, "   The haunted castle game");
+  sprintf(str, "   Player %d/%d", game_get_turn(game), game_get_n_players(game));
+  screen_area_puts(ge->banner, str);
 
   /* Paint in the help area */
   screen_area_clear(ge->help);

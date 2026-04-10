@@ -7,7 +7,6 @@
  * @date 21-03-2026
  * @copyright GNU Public License
  */
-
 #ifndef LINK_H
 #define LINK_H
 

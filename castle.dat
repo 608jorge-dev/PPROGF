@@ -9,18 +9,19 @@
 #s:16|Garden| /\ /\ /\ |//\\/\\/\|//\\/\\/\| II II II |---------|0|
 #s:0|NULL| | | | | |0|
 
-#o:1|Sword|11|
-#o:2|Knife|14|
-#o:3|Lantern|131|
-#o:4|Toilet_paper|132|
+#o:1|Sword|11| Just a normal Sword |
+#o:2|Knife|14| A knife to cut some onions |
+#o:3|Lantern|131| How are you going to see in the night? |
+#o:4|Toilet_paper|132| I dont think you need to know about these one|
 
 #c:1|Vendor|(o)|12|3|1|Hello traveler! Would you like to buy something?|
-#c:2|Knight|^M*|13|5|0|-|
+#c:2|Knight|^M*|13|9|0|-|
 #c:3|Phantom|'o'|132|2|1|I won't talk to you! I have been hiding from humans like you for a very long time!|
 
 
-#p:1|Knigth|^C>|7|11|3|
-#p:2|Thief|^d>|3|11|5|
+#p:1|Knigth|^C>|1|11|3|
+#p:2|Thief|^d>|1|11|5|
+#p:3|K|<o>|1|11|5|
 
 #l:31|EntryS|11|12|1|1|
 #l:32|CorridorS|12|13|1|1|

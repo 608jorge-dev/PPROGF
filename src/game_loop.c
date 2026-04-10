@@ -1,5 +1,5 @@
 /**
- * @brief It defines the game loop
+ * @brief It defines and implements the game loop
  *
  * @file game_loop.c
  * @author Profesores PPROG
@@ -17,6 +17,7 @@
 #include "game_reader.h"
 #include "game_actions.h"
 #include "graphic_engine.h"
+#include <unistd.h>
 
 int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name);
 
@@ -79,6 +80,9 @@ int main(int argc, char *argv[])
 
   while ((game_get_finished(game) == FALSE))
   {
+    while (player_get_health(game_get_player(game)) == 0)  {
+      game_next_turn(game);
+    }
     graphic_engine_paint_game(gengine, game);
     if (cmd == 0)
     {
@@ -98,15 +102,16 @@ int main(int argc, char *argv[])
 
       if (arg && arg[0] != '\0')
       {
-        fprintf(log_file, "%s %s: %s \n", cmd_to_str[code - NO_CMD][CMDL], arg, (st == OK) ? "OK" : "ERROR");
+        fprintf(log_file, "Player %d: %s %s: %s \n", game_get_turn(game), cmd_to_str[code - NO_CMD][CMDL], arg, (st == OK) ? "OK" : "ERROR");
       }
       else
       {
-        fprintf(log_file, "%s: %s \n", cmd_to_str[code - NO_CMD][CMDL], (st == OK) ? "OK" : "ERROR");
+        fprintf(log_file, "Player %d: %s: %s \n", game_get_turn(game), cmd_to_str[code - NO_CMD][CMDL], (st == OK) ? "OK" : "ERROR");
       }
     }
     
-    /*game_set_turn(game, (game_get_turn(game) + 1)%game_get_n_player(game));*/
+    /*sleep (1);*/
+    game_next_turn(game);
   }
 
   if (log == 1)

@@ -81,7 +81,7 @@ char *object_get_name(Object *object);
  * @param desc A string with the description to store
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Status object_set_gdesc(Object *object, char *desc);
+Status object_set_desc(Object *object, char *desc);
 
 /**
  * @brief It gets the description of an object
@@ -90,7 +90,7 @@ Status object_set_gdesc(Object *object, char *desc);
  * @param object A pointer to the object
  * @return A string with the description of the object
  */
-char *object_get_gdesc(Object *object);
+char *object_get_desc(Object *object);
 
 /**
  * @brief It prints the object information

@@ -12,8 +12,9 @@
 #define TYPES_H
 
 #define WORD_SIZE 1000 /*!< Max amount of characters a word can have */
+#define MAC_SIZE 100   /*!< Macro for characters for words */
 #define NO_ID -1       /*!< Id is non existent*/
-#define NUL 0         /*!< Id is blank*/
+#define NUL 0          /*!< Id is blank*/
 #define NO_SPACE -2    /*!< space is non existent*/
 
 /* Command fields macros */
@@ -25,12 +26,12 @@
 /* Game fields macros */
 #define MAX_SPACES 100    /*!< Max amount of spaces possible in the game structure*/
 #define MAX_CHARACTERS 50 /*!< Max amount of character possible in the game structure*/
-#define MAX_OBJECTS 4     /*!< Max amount of objects possible in the game structure*/
+#define MAX_OBJECTS 100   /*!< Max amount of objects possible in the game structure*/
 #define MAX_LINKS 100     /*!< Max amount of links possible in the game structure*/
 #define MAX_PLAYERS 4     /*!< Max amount of players possible in the game structure*/
 
 /* Graphic engine fields macros */
-#define WIDTH_MAP 65  /*!< Width of the map area in the textual graphic engine*/
+#define WIDTH_MAP 69  /*!< Width of the map area in the textual graphic engine*/
 #define WIDTH_DES 53  /*!< Width of the description area in the textual graphic engine*/
 #define WIDTH_BAN 29  /*!< Width of the banner area in the textual graphic engine*/
 #define HEIGHT_MAP 29 /*!< Height of the map area in the textual graphic engine*/

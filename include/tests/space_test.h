@@ -81,7 +81,7 @@ void test2_space_set_name();
 void test3_space_set_name();
 
 /**
- * @test Test function for space_object getting
+ * @test Test function for space_name getting
  * @pre Name of the space
  * @post Ouput==TRUE
  */

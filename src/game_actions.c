@@ -81,22 +81,14 @@ Status game_actions_update(Game *game, Command *command)
 		break;
 
 	case CHAT:
-		if (game_actions_chat(game) == -2)
-		{
-			command_set_status(command, -2);
-		}
-		else if (game_actions_chat(game) == ERROR)
+		if (game_actions_chat(game) == ERROR)
 		{
 			command_set_status(command, ERROR);
 		}
 		break;
 
 	case INSPECT:
-		if (game_actions_inspect(game) == -2)
-		{
-			command_set_status(command, -2);
-		}
-		else if (game_actions_inspect(game) == ERROR)
+		if (game_actions_inspect(game) == ERROR)
 		{
 			command_set_status(command, ERROR);
 		}
@@ -379,11 +371,7 @@ Status game_actions_attack(Game *game)
 		if (n <= 4 && n >= 0)
 		{
 			player_set_health(player, player_get_health(player) - 1);
-			game_set_n_players(game, game_get_n_players(game)-1);
-			if (game_get_n_players(game) == 0)
-			{
-				game_set_finished(game, TRUE);
-			}
+			game_set_dead_players(game, game_get_dead_players(game)+1);
 		}
 		else if (n >= 5 && n <= 9)
 		{
@@ -451,7 +439,7 @@ Status game_actions_chat(Game *game)
 	if (character_get_friendly(character))
 	{
 		command_set_description(cmd, message);
-		return -2;
+		return OK;
 	}
 
 	return ERROR;
@@ -515,7 +503,7 @@ Status game_actions_inspect(Game *game)
 		}
 	}
 
-	if (object_space_id != player_space_id)
+	if (object_space_id != player_space_id && inventory_find_object(player_get_objects(game_get_player(game)), object_get_id(object)) != TRUE)
 	{
 		return ERROR;
 	}
@@ -525,5 +513,5 @@ Status game_actions_inspect(Game *game)
 		return ERROR;
 	}
 
-	return -2;
+	return OK;
 }

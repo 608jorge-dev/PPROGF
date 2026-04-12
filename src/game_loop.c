@@ -91,8 +91,11 @@ int main(int argc, char *argv[])
     if (command_get_code(last_cmd) == EXIT) {
       break;
     }
-
-    game_actions_update(game, last_cmd);
+    
+    if (command_get_code(last_cmd) != UNKNOWN) 
+    {
+      game_actions_update(game, last_cmd);
+    }
 
     if (log == 1)
     {

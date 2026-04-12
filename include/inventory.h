@@ -101,8 +101,22 @@ Status inventory_del_object(Inventory *inventory, Id id);
  */
 Bool inventory_find_object(Inventory *inventory, Id object_id);
 
+/**
+ * @brief It sets the number of objects
+ * @author Álvaro Bravo González
+ *
+ * @param inventory A pointer to the inventory data
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
 Status inventory_set_n_objs(Inventory *inventory, int n_objs);
 
+/**
+ * @brief It gets the number of objects
+ * @author Álvaro Bravo González
+ *
+ * @param inventory A pointer to the inventory data
+ * @return The number of objects
+ */
 int inventory_get_n_objs(Inventory *inventory);
 
 /**

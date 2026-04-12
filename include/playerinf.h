@@ -13,12 +13,12 @@
 
 #include "types.h"
 #include "set.h"
+#include "command.h"
 #include "inventory.h"
 
 /** Playerinf structure type definition
  */
 typedef struct _Playerinf Playerinf;
-
 
 /**
  * @brief It creates a new playerinf, allocating memory and initializing its members
@@ -65,7 +65,7 @@ Id playerinf_get_id(Playerinf *playerinf);
  * @param lastcommand A pointer to the lastcommand to set
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Status playerinf_set_lastcommand(Playerinf *playerinf, char *lastcommand);
+Status playerinf_set_lastcommand(Playerinf *playerinf, CommandCode lastcommand);
 
 /**
  * @brief It gets the lastcommand of playerinf
@@ -74,7 +74,7 @@ Status playerinf_set_lastcommand(Playerinf *playerinf, char *lastcommand);
  * @param playerinf A pointer to the Playerinf
  * @return lastcommand, if everything goes well or NULL if there was some mistake
  */
-char *playerinf_get_lastcommand(Playerinf *playerinf);
+CommandCode playerinf_get_lastcommand(Playerinf *playerinf);
 
 /**
  * @brief It sets the laststatus of a playerinf
@@ -84,7 +84,7 @@ char *playerinf_get_lastcommand(Playerinf *playerinf);
  * @param laststatus A pointer to the laststatus to set
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Status player_set_laststatus(Playerinf *playerinf, Bool laststatus);
+Status playerinf_set_laststatus(Playerinf *playerinf, Bool laststatus);
 
 /**
  * @brief It gets the laststatus of playerinf
@@ -93,7 +93,7 @@ Status player_set_laststatus(Playerinf *playerinf, Bool laststatus);
  * @param playerinf A pointer to the Playerinf
  * @return laststatus, if everything goes well or FALSE if there was some mistake
  */
-Bool player_get_laststatus(Playerinf *playerinf);
+Bool playerinf_get_laststatus(Playerinf *playerinf);
 
 /**
  * @brief It sets the lastchat of a playerinf
@@ -103,7 +103,7 @@ Bool player_get_laststatus(Playerinf *playerinf);
  * @param lastchat A pointer to the lastchat to set
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Status player_set_lastchat(Playerinf *playerinf, char *lastchat);
+Status playerinf_set_lastchat(Playerinf *playerinf, char *lastchat);
 
 /**
  * @brief It gets the lastchat of playerinf
@@ -112,7 +112,7 @@ Status player_set_lastchat(Playerinf *playerinf, char *lastchat);
  * @param playerinf A pointer to the Playerinf
  * @return lastchat, if everything goes well or NULL if there was some mistake
  */
-char *player_get_lastchat(Playerinf *playerinf);
+const char *playerinf_get_lastchat(Playerinf *playerinf);
 
 /**
  * @brief It sets the lastinspect of a playerinf
@@ -122,7 +122,7 @@ char *player_get_lastchat(Playerinf *playerinf);
  * @param lastinspect A pointer to the lastinspect to set
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Status player_set_lastinspect(Playerinf *playerinf, char *lastinspect);
+Status playerinf_set_lastinspect(Playerinf *playerinf, char *lastinspect);
 
 /**
  * @brief It gets the lastinspect of playerinf
@@ -131,7 +131,7 @@ Status player_set_lastinspect(Playerinf *playerinf, char *lastinspect);
  * @param playerinf A pointer to the Playerinf
  * @return lastinspect, if everything goes well or NULL if there was some mistake
  */
-char *player_get_lastinspect(Playerinf *playerinf);
+const char *playerinf_get_lastinspect(Playerinf *playerinf);
 
 /**
  * @brief It prints the playerinf information

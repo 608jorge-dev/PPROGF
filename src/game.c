@@ -133,7 +133,7 @@ Status game_set_player(Game *game, Player *player)
     return ERROR;
   }
 
-  game->players[0] = player;
+  game->players[game->turn] = player;
 
   return OK;
 }
@@ -761,7 +761,7 @@ void game_print(Game *game)
   }
 
   printf("\n");
-  player_print(game->players[0]);
+  player_print(game->players[game->turn]);
   printf("\n");
   printf("\n");
   character_print(game->characters[0]);

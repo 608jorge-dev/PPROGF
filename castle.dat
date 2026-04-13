@@ -12,13 +12,13 @@
 #o:1|Sword|11| Just a normal sword |
 #o:2|Knife|14| A knife to cut some onions |
 #o:3|Lantern|131| How are you going to see at night? |
-#o:4|Toilet_paper|132| I dont think you need to know about these one |
+#o:4|Toilet_paper|132| I don't think you need to know about this one |
 #o:5|Dagger|11| To stab |
 
 
 #c:1|Vendor|(o)|12|3|1|Hello traveler! Would you like to buy something?|
 #c:2|Knight|^M*|13|7|0|-|
-#c:3|Phantom|'o'|132|1|1|I won't talk to you! I have been hiding from humans like you for a very long time!|
+#c:3|Phantom|'o'|132|1|1|I won't talk to you! I've been hiding from humans like you for a very long time!|
 
 
 #p:1|Knigth|^C>|7|11|3|

@@ -189,6 +189,9 @@ run_cmd_all:
 runv:
 	@echo ">>>>>> Running castle.dat with valgrind"
 	valgrind --leak-check=full ./$(EXE) castle.dat
-
+	@for t in $(TEST); do \
+		echo "Running $$t..."; \
+		valgrind --leak-check=full ./$$t; \
+	done
 
 

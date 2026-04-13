@@ -510,17 +510,17 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
   p_obj = inventory_get_n_objs(player_get_objects(game_get_player(game)));
   if (p_obj > 0)
   {
-    sprintf(str, "      Player has object (%d/%d): YES", inventory_get_n_objs(player_get_objects(game_get_player(game))), inventory_get_max_objs(player_get_objects(game_get_player(game))));
+    sprintf(str, "  Player has object (%d/%d): YES", inventory_get_n_objs(player_get_objects(game_get_player(game))), inventory_get_max_objs(player_get_objects(game_get_player(game))));
     screen_area_puts(ge->descript, str);
     for (i = 0; i < inventory_get_n_objs(player_get_objects(game_get_player(game))); i++)
     {
-      sprintf(str, "  %s", object_get_name(game_get_object_with_id(game, set_get_id_at(inventory_get_objs(player_get_objects(game_get_player(game))), i))));
+      sprintf(str, "  - %s", object_get_name(game_get_object_with_id(game, set_get_id_at(inventory_get_objs(player_get_objects(game_get_player(game))), i))));
       screen_area_puts(ge->descript, str);
     }
   }
   else
   {
-    sprintf(str, "      Player has no objects");
+    sprintf(str, "  Player has no objects");
     screen_area_puts(ge->descript, str);
   }
 
@@ -538,9 +538,9 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
   {
     strcpy(last_inspect, playerinf_get_lastinspect(game_get_playerinf(game)));
   }
-  sprintf(str, "      Chat: %s", last_chat);
+  sprintf(str, "  Chat: %s", last_chat);
   screen_area_puts(ge->descript, str);
-  sprintf(str, "      Inspect: %s", last_inspect);
+  sprintf(str, "  Inspect: %s", last_inspect);
   screen_area_puts(ge->descript, str);
   /* Paint in the banner area */
   screen_area_clear(ge->banner);

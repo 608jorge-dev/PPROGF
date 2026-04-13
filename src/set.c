@@ -103,8 +103,8 @@ Status set_del(Set *set, Id id)
         return ERROR;
     }
 
-    set->ids[pos] = set->ids[set->n_ids-1];
-    set->ids[set->n_ids-1] = NO_ID;
+    set->ids[pos] = set->ids[set->n_ids - 1];
+    set->ids[set->n_ids - 1] = NO_ID;
     set->n_ids--;
 
     return OK;
@@ -122,7 +122,9 @@ Bool set_find(Set *set, Id id)
     for (i = 0; i < set->n_ids; i++)
     {
         if (set->ids[i] == id)
+        {
             return TRUE;
+        }
     }
 
     return FALSE;

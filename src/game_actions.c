@@ -375,7 +375,10 @@ Status game_actions_attack(Game *game)
 		if (n <= 4 && n >= 0)
 		{
 			player_set_health(player, player_get_health(player) - 1);
-			game_set_dead_players(game, game_get_dead_players(game) + 1);
+			if (player_get_health(player) == 0)
+			{
+				game_set_dead_players(game, game_get_dead_players(game) + 1);
+			}
 		}
 		else if (n >= 5 && n <= 9)
 		{
@@ -499,17 +502,12 @@ Status game_actions_inspect(Game *game)
 		if (strcasecmp(object_get_name(object), name) == 0)
 		{
 			object_space_id = game_get_object_location(game, object_get_id(object));
-			if (object_space_id == NO_ID)
+			if (object_space_id != player_space_id && object_space_id == NO_ID && inventory_find_object(player_get_objects(game_get_player(game)), object_get_id(object)) != TRUE)
 			{
 				return ERROR;
 			}
 			break;
 		}
-	}
-
-	if (object_space_id != player_space_id && inventory_find_object(player_get_objects(game_get_player(game)), object_get_id(object)) != TRUE)
-	{
-		return ERROR;
 	}
 
 	if (command_set_description(cmd, object_get_desc(object)) == ERROR)

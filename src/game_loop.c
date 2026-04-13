@@ -102,11 +102,11 @@ int main(int argc, char *argv[])
     }
     playerinf_set_lastcommand(game_get_playerinf(game), command_get_code(last_cmd));
     playerinf_set_laststatus(game_get_playerinf(game), command_get_status(last_cmd));
-    if (command_get_code(last_cmd) == CHAT)
+    if (command_get_code(last_cmd) == CHAT && command_get_status(last_cmd) == OK)
     {
       playerinf_set_lastchat(game_get_playerinf(game), command_get_description(last_cmd));
     }
-    if (command_get_code(last_cmd) == INSPECT)
+    if (command_get_code(last_cmd) == INSPECT && command_get_status(last_cmd) == OK)
     {
       playerinf_set_lastinspect(game_get_playerinf(game), command_get_description(last_cmd));
     }
@@ -137,7 +137,7 @@ int main(int argc, char *argv[])
       fprintf(stdout, "\n \\_____| |   | |_| |_| |____  \\____/   \\___/  |____  |_|\\_\\\n\n");
       game_set_finished(game, TRUE);
     }
-    /*sleep (1);*/
+    sleep(1);
     game_next_turn(game);
   }
 

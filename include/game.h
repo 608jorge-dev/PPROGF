@@ -19,6 +19,7 @@
 #include "link.h"
 #include "types.h"
 #include "inventory.h"
+#include "playerinf.h"
 
 /**Game structure type definition
  */
@@ -370,7 +371,7 @@ Id game_get_connection(Game *game, Id actual_space, Direction link_dir);
  * @param game A pointer to the game data
  * @param actual_space The id of the current id
  * @param link_dir The direction where the space is relative to the link
- * @return A pointer to the command structure
+ * @return The boolean value of the open connection
  */
 Bool game_connection_is_open(Game *game, Id actual_space, Direction link_dir);
 
@@ -440,6 +441,54 @@ int game_get_turn(Game *game);
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
 Status game_next_turn(Game *game);
+
+/**
+ * @brief It sets the amount of  deadplayers
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ * @param amount The amount of dead players
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status game_set_dead_players(Game *game, int amount);
+
+/**
+ * @brief It gets the amount of dead players
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ * @return The number of dead players
+ */
+int game_get_dead_players(Game *game);
+
+/**
+ * @brief It gets the discovery status of a character
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ * @param char_id The id of the character
+ * @return The boolean value of the discovery status
+ */
+Bool game_get_character_discovered(Game *game, Id char_id);
+
+/**
+ * @brief It gets the discovery status of an object
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ * @param object_id The id of the object
+ * @return The boolean value of the discovery status
+ */
+Bool game_get_object_discovered(Game *game, Id object_id);
+
+/**
+ * @brief It gets the playerinf pointer
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ * @return A pointer to the playerinf structure
+ */
+Playerinf *game_get_playerinf(Game *game);
 
 /**
  * @brief It prints the game information

@@ -16,7 +16,7 @@ CFLAGS = -Wall -ansi -pedantic -I$(INC) -I$(TEST_INC)
 OBJECTS = $(OBJ)/character.o $(OBJ)/command.o $(OBJ)/game_actions.o \
           $(OBJ)/game_loop.o $(OBJ)/game_reader.o $(OBJ)/game.o \
           $(OBJ)/graphic_engine.o $(OBJ)/inventory.o $(OBJ)/link.o \
-          $(OBJ)/object.o $(OBJ)/player.o $(OBJ)/set.o $(OBJ)/space.o
+          $(OBJ)/object.o $(OBJ)/player.o $(OBJ)/playerinf.o $(OBJ)/set.o $(OBJ)/space.o
 
 TEST = character_test inventory_test link_test object_test \
              player_test set_test space_test
@@ -34,7 +34,7 @@ $(OBJ)/command.o: $(SRC)/command.c $(INC)/command.h $(INC)/types.h | $(OBJ)
 $(OBJ)/game_actions.o: $(SRC)/game_actions.c $(INC)/game_actions.h $(INC)/command.h $(INC)/types.h $(INC)/game.h $(INC)/player.h $(INC)/object.h $(INC)/space.h $(INC)/set.h $(INC)/character.h | $(OBJ)
 	$(CC) $(CFLAGS) -c $(SRC)/game_actions.c -o $(OBJ)/game_actions.o
 
-$(OBJ)/game_loop.o: $(SRC)/game_loop.c $(INC)/command.h $(INC)/types.h $(INC)/game.h $(INC)/player.h $(INC)/object.h $(INC)/space.h $(INC)/set.h $(INC)/character.h $(INC)/game_reader.h $(INC)/game_actions.h $(INC)/graphic_engine.h | $(OBJ)
+$(OBJ)/game_loop.o: $(SRC)/game_loop.c $(INC)/command.h $(INC)/types.h $(INC)/game.h $(INC)/player.h $(INC)/object.h $(INC)/space.h $(INC)/set.h $(INC)/character.h $(INC)/game_reader.h $(INC)/game_actions.h $(INC)/graphic_engine.h $(INC)/playerinf.h | $(OBJ)
 	$(CC) $(CFLAGS) -c $(SRC)/game_loop.c -o $(OBJ)/game_loop.o
 
 $(OBJ)/game_reader.o: $(SRC)/game_reader.c $(INC)/game_reader.h $(INC)/command.h $(INC)/types.h $(INC)/game.h $(INC)/player.h $(INC)/object.h $(INC)/space.h $(INC)/set.h $(INC)/character.h | $(OBJ)
@@ -43,7 +43,7 @@ $(OBJ)/game_reader.o: $(SRC)/game_reader.c $(INC)/game_reader.h $(INC)/command.h
 $(OBJ)/game.o: $(SRC)/game.c $(INC)/game.h $(INC)/command.h $(INC)/types.h $(INC)/player.h $(INC)/object.h $(INC)/space.h $(INC)/set.h $(INC)/character.h $(INC)/game_reader.h $(SRC)/link.c $(INC)/link.h | $(OBJ)
 	$(CC) $(CFLAGS) -c $(SRC)/game.c -o $(OBJ)/game.o
 
-$(OBJ)/graphic_engine.o: $(SRC)/graphic_engine.c $(INC)/graphic_engine.h $(INC)/game.h $(INC)/command.h $(INC)/types.h $(INC)/player.h $(INC)/object.h $(INC)/space.h $(INC)/set.h $(INC)/character.h $(INC)/libscreen.h | $(OBJ)
+$(OBJ)/graphic_engine.o: $(SRC)/graphic_engine.c $(INC)/graphic_engine.h $(INC)/game.h $(INC)/command.h $(INC)/types.h $(INC)/player.h $(INC)/object.h $(INC)/space.h $(INC)/set.h $(INC)/character.h $(INC)/libscreen.h $(INC)/playerinf.h | $(OBJ)
 	$(CC) $(CFLAGS) -c $(SRC)/graphic_engine.c -o $(OBJ)/graphic_engine.o
 
 $(OBJ)/inventory.o: $(SRC)/inventory.c $(INC)/inventory.h $(INC)/types.h $(INC)/object.h $(INC)/set.h | $(OBJ)
@@ -57,6 +57,9 @@ $(OBJ)/object.o: $(SRC)/object.c $(INC)/object.h $(INC)/types.h | $(OBJ)
 
 $(OBJ)/player.o: $(SRC)/player.c $(INC)/player.h $(INC)/inventory.h $(INC)/object.h $(INC)/set.h $(INC)/types.h | $(OBJ)
 	$(CC) $(CFLAGS) -c $(SRC)/player.c -o $(OBJ)/player.o
+
+$(OBJ)/playerinf.o: $(SRC)/playerinf.c $(INC)/playerinf.h $(INC)/command.h $(INC)/inventory.h $(INC)/set.h $(INC)/types.h | $(OBJ)
+	$(CC) $(CFLAGS) -c $(SRC)/playerinf.c -o $(OBJ)/playerinf.o
 
 $(OBJ)/set.o: $(SRC)/set.c $(INC)/set.h $(INC)/types.h | $(OBJ)
 	$(CC) $(CFLAGS) -c $(SRC)/set.c -o $(OBJ)/set.o
@@ -116,11 +119,10 @@ space_test: $(TEST_OBJ)/space_test.o $(OBJ)/space.o $(OBJ)/set.o
 
 ######################################################## CLEAN, RUN, LOG, RUNV, TEST, DOXY (TOOLS)
 .PHONY: clean run obj_clean run_log runv test test_clean doc doc_clean
+
 clear: 
 	@echo ">>>>>> Deleting all files"
 	rm -rf $(TEST_OBJ) $(TEST) $(OBJ) $(EXE)
-	rm -rf $(OBJ) $(EXE)
-	rm -rf $(TEST_OBJ) $(TEST) $(OBJ) 
 	rm -rf ./doc
 	rm -rf logFile1
 	rm -rf logFile2
@@ -187,6 +189,9 @@ run_cmd_all:
 runv:
 	@echo ">>>>>> Running castle.dat with valgrind"
 	valgrind --leak-check=full ./$(EXE) castle.dat
-
+	@for t in $(TEST); do \
+		echo "Running $$t..."; \
+		valgrind --leak-check=full ./$$t; \
+	done
 
 

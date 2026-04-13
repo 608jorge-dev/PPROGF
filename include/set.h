@@ -60,9 +60,19 @@ Status set_del(Set *set, Id id);
  *
  * @param set A pointer to the set that must be destroyed
  * @param id The id you are finding
- * @return The position of the id in the id array of the set
+ * @return TRUE if the id is in the set or FALSE if it is not
  */
 Bool set_find(Set *set, Id id);
+
+/**
+ * @brief It finds the position in the id array of the set
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param set A pointer to the set that must be destroyed
+ * @param id The id you are finding
+ * @return The position of the id in the id array of the set
+ */
+Bool set_findpos(Set *set, Id id);
 
 /**
  * @brief It gets an id in the id array of the set by its position
@@ -97,7 +107,7 @@ int set_get_n_ids(Set *set);
  * @brief It gets the id from its position
  * @author Álvaro Bravo González
  *
- * @param set A pointer to the set 
+ * @param set A pointer to the set
  * @param position The position of the id in the set
  * @return OK, if everything goes well or ERROR if there was some mistake
  */

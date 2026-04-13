@@ -15,6 +15,7 @@
 #include "command.h"
 #include "libscreen.h"
 #include "space.h"
+#include "playerinf.h"
 #include "types.h"
 
 /**Graphic structure type definition

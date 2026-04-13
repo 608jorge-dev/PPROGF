@@ -1,5 +1,5 @@
 /**
-* @brief It tests player module
+ * @brief It tests player module
  *
  * @file player_test.c
  * @author Álvaro Bravo González

@@ -78,7 +78,23 @@ Status command_set_code(Command *command, CommandCode code);
  */
 CommandCode command_get_code(Command *command);
 
+/**
+ * @brief It sets the status of a command
+ * @author Profesores PPROG
+ *
+ * @param command A pointer to the command structure
+ * @param status The status of the command
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
 Status command_set_status(Command *command, Status status);
+
+/**
+ * @brief It gets the status of a command
+ * @author Profesores PPROG
+ *
+ * @param command A pointer to the command structure
+ * @return Status of the command
+ */
 Status command_get_status(Command *command);
 
 /**
@@ -100,9 +116,6 @@ Status command_set_argstr(Command *command, char *argstr);
  */
 char *command_get_argstr(Command *command);
 
-
-
-
 /**
  * @brief It sets the description of a command
  * @author Álvaro Bravo González
@@ -111,9 +124,7 @@ char *command_get_argstr(Command *command);
  * @param  description The description of the string
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
-
 Status command_set_description(Command *command, char *description);
-
 
 /**
  * @brief It gets the description of a command

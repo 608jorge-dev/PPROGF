@@ -12,19 +12,20 @@
 
 #pragma GCC diagnostic ignored "-Wpedantic"
 
-#ifndef NOCOLOR
-#define KRED "\x1B[31m"
-#define KGRN "\x1B[32m"
-#define KYEL "\x1B[33m"
-#define KCYN "\x1B[36m"
-#define RESET "\033[0m"
-#define MAX_TESTS 50
+#ifndef NOCOLOR         /*!< No color */
+#define KRED "\x1B[31m" /*!< Red color */
+#define KGRN "\x1B[32m" /*!< Green color */
+#define KYEL "\x1B[33m" /*!< Yellow color */
+#define KCYN "\x1B[36m" /*!< Cyan color */
+#define RESET "\033[0m" /*!< Reset color */
+
+#define MAX_TESTS 50 /*!< Max amount of test possible */
 #else
-#define KRED
-#define KGRN
-#define KYEL
-#define KCYN
-#define RESET
+#define KRED  /*!< Red color */
+#define KGRN  /*!< Green color*/
+#define KYEL  /*!< Yellow color */
+#define KCYN  /*!< Cyan color */
+#define RESET /*!< Reset color */
 #endif
 
 #define PRINT_TEST_RESULT(x)                                         \
@@ -37,9 +38,9 @@
                 "%d " KCYN "%s" RESET ": %s\n",                      \
            __FILE__, __LINE__, __FUNCTION__,                         \
            ((!__pass) ? KRED "NOT PASS" RESET : KGRN "PASS" RESET)); \
-  } while (0)
+  } while (0) /*!< Prints the result of a test */
 
-#define PRINT_PASSED_PERCENTAGE printf("Tests passed %d%%\n", ((__test_passed * 100) / __test_counter))
+#define PRINT_PASSED_PERCENTAGE printf("Tests passed %d%%\n", ((__test_passed * 100) / __test_counter)) /*!< Print the percentage of tests that passed */
 
 static int __test_counter = 0;
 static int __test_passed = 0;

@@ -24,6 +24,8 @@ struct _Game
 {
   Player *players[MAX_OBJECTS];          /*!< Player structure pointer */
   int n_players;                         /*!< Total amount of players created */
+  Playerinf *playerinf[MAX_PLAYERS];     /*!< Player info structure pointer */
+  int dead_players;                      /*!< Total amount of dead players */
   Object *objects[MAX_OBJECTS];          /*!< Object structure pointer */
   int n_objects;                         /*!< Total amount of objects created */
   Space *spaces[MAX_SPACES];             /*!< Space structure pointer */
@@ -50,6 +52,11 @@ Game *game_create()
     game->players[i] = NULL;
   }
   game->n_players = 0;
+
+  for (i = 0; i < MAX_PLAYERS; i++)
+  {
+    game->playerinf[i] = playerinf_create(i);
+  }
 
   for (i = 0; i < MAX_OBJECTS; i++)
   {
@@ -78,6 +85,7 @@ Game *game_create()
   game->last_cmd = command_create();
   game->finished = FALSE;
   game->turn = 0;
+  game->dead_players = 0;
 
   return game;
 }
@@ -90,6 +98,11 @@ Status game_destroy(Game *game)
   for (i = 0; i < game->n_players; i++)
   {
     player_destroy(game->players[i]);
+  }
+
+  for (i = 0; i < MAX_PLAYERS; i++)
+  {
+    playerinf_destroy(game->playerinf[i]);
   }
 
   for (i = 0; i < game->n_objects; i++)
@@ -133,7 +146,7 @@ Status game_set_player(Game *game, Player *player)
     return ERROR;
   }
 
-  game->players[0] = player;
+  game->players[game->turn] = player;
 
   return OK;
 }
@@ -191,6 +204,30 @@ int game_get_n_players(Game *game)
   return game->n_players;
 }
 
+/*It sets the amount of  deadplayers */
+Status game_set_dead_players(Game *game, int amount)
+{
+  if (!game || amount < 0)
+  {
+    return ERROR;
+  }
+
+  game->dead_players = amount;
+
+  return OK;
+}
+
+/* It gets the amount of dead players */
+int game_get_dead_players(Game *game)
+{
+  if (!game)
+  {
+    return 0;
+  }
+
+  return game->dead_players;
+}
+
 /** It sets the player's location */
 Status game_set_player_location(Game *game, Id id)
 {
@@ -214,8 +251,6 @@ Id game_get_player_location(Game *game)
 
   return player_get_location(game->players[game_get_turn(game)]);
 }
-
-
 
 /* OBJECT FUNCTIONS : */
 
@@ -346,8 +381,7 @@ Id game_get_object_location(Game *game, Id object_id)
   return NO_ID;
 }
 
-
-/* CHARACTER FUNCTIONS : */ 
+/* CHARACTER FUNCTIONS : */
 /** It sets the character's location */
 Status game_set_character_location(Game *game, Id space_id, Id character_id)
 {
@@ -459,11 +493,7 @@ int game_get_n_characters(Game *game)
   return game->n_characters;
 }
 
-
-
-
-
-/* SPACE FUNCTIONS : */ 
+/* SPACE FUNCTIONS : */
 
 /** It gets the spaces */
 Space *game_get_space(Game *game, Id id)
@@ -703,7 +733,8 @@ int game_get_n_links(Game *game)
 }
 
 /*It sets the actual turn */
-Status game_set_turn(Game *game, int turn){
+Status game_set_turn(Game *game, int turn)
+{
   if (!game || turn < 0)
   {
     return ERROR;
@@ -715,8 +746,9 @@ Status game_set_turn(Game *game, int turn){
 }
 
 /*It gets the actual turn */
-int game_get_turn(Game *game){
-  if(!game)
+int game_get_turn(Game *game)
+{
+  if (!game)
   {
     return -1;
   }
@@ -725,20 +757,63 @@ int game_get_turn(Game *game){
 }
 
 /*It sets next turn */
-Status game_next_turn(Game *game) {
-  if(!game)
+Status game_next_turn(Game *game)
+{
+  if (!game)
   {
     return ERROR;
   }
 
   game->turn++;
-  if (game_get_turn(game) == game_get_n_players(game))  {
+  if (game_get_turn(game) == game_get_n_players(game))
+  {
     game_set_turn(game, 0);
   }
 
   return OK;
 }
 
+/*It gets the discovered object*/
+Bool game_get_object_discovered(Game *game, Id object_id)
+{
+  if (object_id == NO_ID)
+  {
+    return FALSE;
+  }
+
+  if (space_get_discovered(game_get_space(game, game_get_object_location(game, object_id))) == TRUE)
+  {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+Bool game_get_character_discovered(Game *game, Id char_id)
+{
+  if (char_id == NO_ID)
+  {
+    return FALSE;
+  }
+
+  if (space_get_discovered(game_get_space(game, game_get_character_location(game, char_id))) == TRUE)
+  {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/* It gets the playerinf pointer*/
+Playerinf *game_get_playerinf(Game *game)
+{
+  if (!game)
+  {
+    return ERROR;
+  }
+
+  return game->playerinf[game_get_turn(game)];
+}
 
 /** It prints the game information
  */
@@ -761,7 +836,7 @@ void game_print(Game *game)
   }
 
   printf("\n");
-  player_print(game->players[0]);
+  player_print(game->players[game->turn]);
   printf("\n");
   printf("\n");
   character_print(game->characters[0]);

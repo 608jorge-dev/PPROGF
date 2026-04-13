@@ -17,6 +17,10 @@ struct _Inventory
     int n_objs;   /*!< Total amount of objects */
 };
 
+/* It creates an inventory allocating memory
+ *and initializing its members
+ */
+
 Inventory *inventory_create()
 {
     Inventory *newInventory;
@@ -34,6 +38,7 @@ Inventory *inventory_create()
     return newInventory;
 }
 
+/*Its destroys an inventory freeing the allocated memory*/
 Status inventory_destroy(Inventory *inventory)
 {
     if (!inventory)
@@ -47,6 +52,7 @@ Status inventory_destroy(Inventory *inventory)
     return OK;
 }
 
+/*It sets the set of objects*/
 Status inventory_set_objs(Inventory *inventory, Set *objs)
 {
     if (!inventory || !objs)
@@ -59,6 +65,7 @@ Status inventory_set_objs(Inventory *inventory, Set *objs)
     return OK;
 }
 
+/*It gets the set of objects*/
 Set *inventory_get_objs(Inventory *inventory)
 {
     if (!inventory)

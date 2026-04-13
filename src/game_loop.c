@@ -17,6 +17,7 @@
 #include "game_reader.h"
 #include "game_actions.h"
 #include "graphic_engine.h"
+#include "playerinf.h"
 #include <unistd.h>
 
 int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name);
@@ -51,7 +52,7 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  if (strcmp(argv[argc-2], "-l") == 0)
+  if (strcmp(argv[argc - 2], "-l") == 0)
   {
     log_file = fopen(argv[argc - 1], "w");
     if (log_file == NULL)
@@ -80,7 +81,8 @@ int main(int argc, char *argv[])
 
   while ((game_get_finished(game) == FALSE))
   {
-    while (player_get_health(game_get_player(game)) == 0)  {
+    while (player_get_health(game_get_player(game)) == 0)
+    {
       game_next_turn(game);
     }
     graphic_engine_paint_game(gengine, game);
@@ -88,11 +90,26 @@ int main(int argc, char *argv[])
     {
       command_get_user_input(last_cmd);
     }
-    if (command_get_code(last_cmd) == EXIT) {
+    if (command_get_code(last_cmd) == EXIT)
+    {
       break;
     }
 
     game_actions_update(game, last_cmd);
+    if (game_get_playerinf(game) == NULL)
+    {
+      fprintf(stdout, "%ld", playerinf_get_id(game_get_playerinf(game)));
+    }
+    playerinf_set_lastcommand(game_get_playerinf(game), command_get_code(last_cmd));
+    playerinf_set_laststatus(game_get_playerinf(game), command_get_status(last_cmd));
+    if (command_get_code(last_cmd) == CHAT)
+    {
+      playerinf_set_lastchat(game_get_playerinf(game), command_get_description(last_cmd));
+    }
+    if (command_get_code(last_cmd) == INSPECT)
+    {
+      playerinf_set_lastinspect(game_get_playerinf(game), command_get_description(last_cmd));
+    }
 
     if (log == 1)
     {
@@ -109,7 +126,17 @@ int main(int argc, char *argv[])
         fprintf(log_file, "Player %d: %s: %s \n", game_get_turn(game), cmd_to_str[code - NO_CMD][CMDL], (st == OK) ? "OK" : "ERROR");
       }
     }
-    
+
+    if (game_get_dead_players(game) == game_get_n_players(game))
+    {
+      graphic_engine_paint_game(gengine, game);
+      fprintf(stdout, "\n  ____     _    _   _   ____   ____    __  __  ____  _____ ");
+      fprintf(stdout, "\n / ___|   / \\  | \\_/ | |      /    \\  | | | | |      | /\\ \\");
+      fprintf(stdout, "\n|  |  _  | O | |  _  | |____ |  /\\  | | |_| | |____  | \\/ /");
+      fprintf(stdout, "\n|  |_| | |___| | | | | |     |  \\/  | |     | |      | | \\");
+      fprintf(stdout, "\n \\_____| |   | |_| |_| |____  \\____/   \\___/  |____  |_|\\_\\\n\n");
+      game_set_finished(game, TRUE);
+    }
     /*sleep (1);*/
     game_next_turn(game);
   }

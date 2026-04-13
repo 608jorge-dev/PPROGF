@@ -253,7 +253,7 @@ Status command_get_user_input(Command *command)
     strcpy(cmdarg, token);
     command_set_status(command, OK);
     command_set_argstr(command, cmdarg);
-    command_set_nArgs(command, command_get_nArgs(command)+1);
+    command_set_nArgs(command, command_get_nArgs(command) + 1);
     return command_set_code(command, cmd);
   }
 

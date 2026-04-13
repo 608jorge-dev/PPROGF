@@ -28,7 +28,7 @@
 #define RESET /*!< Reset color */
 #endif
 
-#define PRINT_TEST_RESULT(x)        /*!< Prints the result of a test */                                 \
+#define PRINT_TEST_RESULT(x)                                         \
   do                                                                 \
   {                                                                  \
     __test_counter++;                                                \
@@ -38,7 +38,7 @@
                 "%d " KCYN "%s" RESET ": %s\n",                      \
            __FILE__, __LINE__, __FUNCTION__,                         \
            ((!__pass) ? KRED "NOT PASS" RESET : KGRN "PASS" RESET)); \
-  } while (0)
+  } while (0) /*!< Prints the result of a test */
 
 #define PRINT_PASSED_PERCENTAGE printf("Tests passed %d%%\n", ((__test_passed * 100) / __test_counter)) /*!< Print the percentage of tests that passed */
 

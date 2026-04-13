@@ -14,6 +14,8 @@
 #include "set.h"
 #include "object.h"
 
+/** Inventory structure type definition
+ */
 typedef struct _Inventory Inventory;
 
 /**

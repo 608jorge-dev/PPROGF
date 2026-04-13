@@ -83,7 +83,6 @@ Status set_add(Set *set, Id id)
     }
 
     set->ids[set->n_ids] = id;
-
     set->n_ids++;
 
     return OK;
@@ -98,14 +97,14 @@ Status set_del(Set *set, Id id)
         return ERROR;
     }
 
-    pos = set_find(set, id);
+    pos = set_findpos(set, id);
     if (pos == -1)
     {
         return ERROR;
     }
 
-    set->ids[pos] = set->ids[set->n_ids];
-    set->ids[set->n_ids] = NO_ID;
+    set->ids[pos] = set->ids[set->n_ids-1];
+    set->ids[set->n_ids-1] = NO_ID;
     set->n_ids--;
 
     return OK;
@@ -127,6 +126,24 @@ Bool set_find(Set *set, Id id)
     }
 
     return FALSE;
+}
+
+Bool set_findpos(Set *set, Id id)
+{
+    int i;
+
+    if (!set || id == NO_ID || set->n_ids >= MAX_IDS)
+    {
+        return FALSE;
+    }
+
+    for (i = 0; i < set->n_ids; i++)
+    {
+        if (set->ids[i] == id)
+            return i;
+    }
+
+    return -1;
 }
 
 Id set_get_id_at(Set *set, int position)

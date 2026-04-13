@@ -1,0 +1,28 @@
+Player 0: Take Sword: OK 
+Player 1: Move south: OK 
+Player 2: Move north: ERROR 
+Player 0: Drop Sword: OK 
+Player 1: Move south: OK 
+Player 2: Move south: OK 
+Player 0: Move east: ERROR 
+Player 1: Move west: ERROR 
+Player 2: Move north: OK 
+Player 0: Move south: OK 
+Player 1: Attack: OK 
+Player 2: Move east: ERROR 
+Player 0: Take Lantern: ERROR 
+Player 1: Move east: OK 
+Player 2: Take Toilet: ERROR 
+Player 0: Drop Toilet: OK 
+Player 1: Take Toilet: ERROR 
+Player 2: Move west: ERROR 
+Player 0: Move east: ERROR 
+Player 1: Chat: ERROR 
+Player 2: Move west: ERROR 
+Player 0: Move west: ERROR 
+Player 1: Move north: ERROR 
+Player 2: Move north: ERROR 
+Player 0: Take Sword: ERROR 
+Player 1: Drop Sword: OK 
+Player 2: Drop Lantern: OK 
+Player 0: Drop Toilet: OK 

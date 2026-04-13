@@ -119,11 +119,10 @@ space_test: $(TEST_OBJ)/space_test.o $(OBJ)/space.o $(OBJ)/set.o
 
 ######################################################## CLEAN, RUN, LOG, RUNV, TEST, DOXY (TOOLS)
 .PHONY: clean run obj_clean run_log runv test test_clean doc doc_clean
+
 clear: 
 	@echo ">>>>>> Deleting all files"
 	rm -rf $(TEST_OBJ) $(TEST) $(OBJ) $(EXE)
-	rm -rf $(OBJ) $(EXE)
-	rm -rf $(TEST_OBJ) $(TEST) $(OBJ) 
 	rm -rf ./doc
 	rm -rf logFile1
 	rm -rf logFile2

@@ -95,38 +95,38 @@ void test1_object_get_name();
 void test2_object_get_name();
 
 /**
- * @test Test function for space_gdesc setting
- * @pre String with object graphic description
+ * @test Test function for space_desc setting
+ * @pre String with object description
  * @post Ouput==OK
  */
-void test1_object_set_gdesc();
+void test1_object_set_desc();
 
 /**
  * @test Test function for object_gdesc setting
  * @pre Pointer to object = NULL
  * @post Output==ERROR
  */
-void test2_object_set_gdesc();
+void test2_object_set_desc();
 
 /**
- * @test Test function for object_gdesc setting
- * @pre Pointer to object_gdesc = NULL
+ * @test Test function for object_desc setting
+ * @pre Pointer to object_desc = NULL
  * @post Output==ERROR
  */
-void test3_object_set_gdesc();
+void test3_object_set_desc();
 
 /**
- * @test Test function for object_gdesc getting
- * @pre Graphic description of the object
+ * @test Test function for object_desc getting
+ * @pre Description of the object
  * @post Ouput==TRUE
  */
-void test1_object_get_gdesc();
+void test1_object_get_desc();
 
 /**
- * @test Test function for object_gdesc getting
+ * @test Test function for object_desc getting
  * @pre Pointer to object = NULL
  * @post Ouput==NULL
  */
-void test2_object_get_gdesc();
+void test2_object_get_desc();
 
 #endif

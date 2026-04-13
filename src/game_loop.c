@@ -96,18 +96,19 @@ int main(int argc, char *argv[])
     }
 
     game_actions_update(game, last_cmd);
-    if (game_get_playerinf(game) == NULL) {
-      fprintf (stdout, "%ld", playerinf_get_id(game_get_playerinf(game)));
+    if (game_get_playerinf(game) == NULL)
+    {
+      fprintf(stdout, "%ld", playerinf_get_id(game_get_playerinf(game)));
     }
     playerinf_set_lastcommand(game_get_playerinf(game), command_get_code(last_cmd));
     playerinf_set_laststatus(game_get_playerinf(game), command_get_status(last_cmd));
     if (command_get_code(last_cmd) == CHAT)
     {
-      playerinf_set_lastchat(game_get_playerinf(game), command_get_description(last_cmd)); 
+      playerinf_set_lastchat(game_get_playerinf(game), command_get_description(last_cmd));
     }
     if (command_get_code(last_cmd) == INSPECT)
     {
-      playerinf_set_lastinspect(game_get_playerinf(game), command_get_description(last_cmd)); 
+      playerinf_set_lastinspect(game_get_playerinf(game), command_get_description(last_cmd));
     }
 
     if (log == 1)

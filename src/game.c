@@ -100,11 +100,10 @@ Status game_destroy(Game *game)
     player_destroy(game->players[i]);
   }
 
-   for (i = 0; i < game->n_players; i++)
+  for (i = 0; i < MAX_PLAYERS; i++)
   {
     playerinf_destroy(game->playerinf[i]);
   }
-
 
   for (i = 0; i < game->n_objects; i++)
   {
@@ -127,7 +126,7 @@ Status game_destroy(Game *game)
   }
 
   command_destroy(game->last_cmd);
-  
+
   free(game);
 
   return OK;

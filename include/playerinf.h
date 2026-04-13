@@ -136,7 +136,7 @@ const char *playerinf_get_lastinspect(Playerinf *playerinf);
 /**
  * @brief It prints the playerinf information
  * @author Jorge Torrijos de la Cruz
- * 
+ *
  * @param playerinf A pointer to the Playerinf
  * @return OK, if everything goes well or ERROR if there was some mistake
  */

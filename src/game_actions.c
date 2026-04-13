@@ -252,6 +252,10 @@ Status game_actions_take(Game *game)
 		return ERROR;
 	}
 
+	if (inventory_get_n_objs(player_get_objects(game_get_player(game))) == inventory_get_max_objs(player_get_objects(game_get_player(game))))
+	{
+		return ERROR;
+	}
 	player_add_object(player, object_id);
 	space_del_object(game_get_space(game, object_space_id), object_id);
 
@@ -358,12 +362,12 @@ Status game_actions_attack(Game *game)
 	{
 		return ERROR;
 	}
-	
+
 	if ((character_get_health(enemy)) == 0)
 	{
 		return ERROR;
 	}
-	
+
 	if (character_get_friendly(enemy) != TRUE)
 	{
 		srand(time(NULL));
@@ -371,7 +375,7 @@ Status game_actions_attack(Game *game)
 		if (n <= 4 && n >= 0)
 		{
 			player_set_health(player, player_get_health(player) - 1);
-			game_set_dead_players(game, game_get_dead_players(game)+1);
+			game_set_dead_players(game, game_get_dead_players(game) + 1);
 		}
 		else if (n >= 5 && n <= 9)
 		{

@@ -21,9 +21,9 @@
  */
 struct _Playerinf
 {
-  Id id;                           /*!< Id number of the player*/
-  CommandCode lastcommand;         /*!< Last command the player sent */
-  Bool laststatus;                 /*!< Status of last command */
+  Id id;                          /*!< Id number of the player*/
+  CommandCode lastcommand;        /*!< Last command the player sent */
+  Bool laststatus;                /*!< Status of last command */
   char lastchat[MAC_SIZE + 1];    /*!< Last chat from the player*/
   char lastinspect[MAC_SIZE + 1]; /*!< Last inspect from the player*/
 };

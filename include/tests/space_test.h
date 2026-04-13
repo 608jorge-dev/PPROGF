@@ -64,7 +64,7 @@ void test2_space_get_id();
  * @pre String with space name
  * @post Ouput==OK
  */
-void test1_space_set_name(); 
+void test1_space_set_name();
 
 /**
  * @test Test function for space_name setting

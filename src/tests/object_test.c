@@ -1,5 +1,5 @@
 /**
-* @brief It tests object module
+ * @brief It tests object module
  *
  * @file object_test.c
  * @author Álvaro Bravo González
@@ -63,15 +63,15 @@ int main(int argc, char **argv)
   if (all || test == 11)
     test2_object_get_name();
   if (all || test == 12)
-    test1_object_set_gdesc();
+    test1_object_set_desc();
   if (all || test == 13)
-    test2_object_set_gdesc();
+    test2_object_set_desc();
   if (all || test == 14)
-    test3_object_set_gdesc();
+    test3_object_set_desc();
   if (all || test == 15)
-    test1_object_get_gdesc();
+    test1_object_get_desc();
   if (all || test == 16)
-    test2_object_get_gdesc();
+    test2_object_get_desc();
 
   PRINT_PASSED_PERCENTAGE;
 
@@ -161,39 +161,39 @@ void test2_object_get_name()
   PRINT_TEST_RESULT(object_get_name(o) == NULL);
 }
 
-void test1_object_set_gdesc()
+void test1_object_set_desc()
 {
   Object *o;
   o = object_create(5);
-  PRINT_TEST_RESULT(object_set_gdesc(o, "hola") == OK);
+  PRINT_TEST_RESULT(object_set_desc(o, "hola") == OK);
   object_destroy(o);
 }
 
-void test2_object_set_gdesc()
+void test2_object_set_desc()
 {
   Object *o = NULL;
-  PRINT_TEST_RESULT(object_set_gdesc(o, "hola") == ERROR);
+  PRINT_TEST_RESULT(object_set_desc(o, "hola") == ERROR);
 }
 
-void test3_object_set_gdesc()
+void test3_object_set_desc()
 {
   Object *o;
   o = object_create(5);
-  PRINT_TEST_RESULT(object_set_gdesc(o, NULL) == ERROR);
+  PRINT_TEST_RESULT(object_set_desc(o, NULL) == ERROR);
   object_destroy(o);
 }
 
-void test1_object_get_gdesc()
+void test1_object_get_desc()
 {
   Object *o;
   o = object_create(5);
-  object_set_gdesc(o, "adios");
-  PRINT_TEST_RESULT(strcmp(object_get_gdesc(o), "adios") == 0);
+  object_set_desc(o, "adios");
+  PRINT_TEST_RESULT(strcmp(object_get_desc(o), "adios") == 0);
   object_destroy(o);
 }
 
-void test2_object_get_gdesc()
+void test2_object_get_desc()
 {
   Object *o = NULL;
-  PRINT_TEST_RESULT(object_get_gdesc(o) == NULL);
+  PRINT_TEST_RESULT(object_get_desc(o) == NULL);
 }

@@ -469,7 +469,7 @@ int game_get_dead_players(Game *game);
  * @param char_id The id of the character
  * @return The boolean value of the discovery status
  */
-Bool game_get_character_discovered (Game *game, Id char_id);
+Bool game_get_character_discovered(Game *game, Id char_id);
 
 /**
  * @brief It gets the discovery status of an object
@@ -479,8 +479,7 @@ Bool game_get_character_discovered (Game *game, Id char_id);
  * @param char_id The id of the object
  * @return The boolean value of the discovery status
  */
-Bool game_get_object_discovered (Game *game, Id object_id);
-
+Bool game_get_object_discovered(Game *game, Id object_id);
 
 /**
  * @brief It gets the playerinf pointer

@@ -114,9 +114,9 @@ void graphic_engine_paint_blankspace(Graphic_engine *ge, Id id)
 void graphic_engine_paint_northorsouthspace(Game *game, Id id_paint, Id id_act, Graphic_engine *ge, int D)
 {
   char str[255], c_gdesc[MAC_SIZE], link1 = 'X', obj[MAC_SIZE], obj1[MAC_SIZE];
-  int i;
+  int i = 0;
   Id char_id = NO_ID;
-  Object *ob;
+  Object *ob = NULL;
 
   /* CHARACTER GDESC*/
   for (i = 0; i < MAC_SIZE; i++)
@@ -502,7 +502,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
   p_obj = inventory_get_n_objs(player_get_objects(game_get_player(game)));
   if (p_obj > 0)
   {
-    sprintf(str, "      Player has object: YES");
+    sprintf(str, "      Player has object (%d/%d): YES", inventory_get_n_objs(player_get_objects(game_get_player(game))), inventory_get_max_objs(player_get_objects(game_get_player(game))));
     screen_area_puts(ge->descript, str);
     for (i = 0; i < inventory_get_n_objs(player_get_objects(game_get_player(game))); i++)
     {

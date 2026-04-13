@@ -69,7 +69,7 @@ int main(int argc, char **argv)
     test1_inventory_get_n_objects();
   if (all || test == 14)
     test2_inventory_get_n_objects();
-  
+
   PRINT_PASSED_PERCENTAGE;
 
   return 0;

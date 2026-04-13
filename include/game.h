@@ -476,7 +476,7 @@ Bool game_get_character_discovered(Game *game, Id char_id);
  * @author Jorge Torrijos de la Cruz
  *
  * @param game A pointer to the game data
- * @param char_id The id of the object
+ * @param object_id The id of the object
  * @return The boolean value of the discovery status
  */
 Bool game_get_object_discovered(Game *game, Id object_id);

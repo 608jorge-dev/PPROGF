@@ -106,6 +106,7 @@ Bool inventory_find_object(Inventory *inventory, Id object_id);
  * @author Álvaro Bravo González
  *
  * @param inventory A pointer to the inventory data
+ * @param n_objs the number of objects
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
 Status inventory_set_n_objs(Inventory *inventory, int n_objs);
@@ -127,6 +128,6 @@ int inventory_get_n_objs(Inventory *inventory);
  * @param inventory A pointer to the inventory
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Status inventory_print();
+Status inventory_print(Inventory *inventory);
 
 #endif

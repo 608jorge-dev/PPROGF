@@ -773,6 +773,7 @@ Status game_next_turn(Game *game)
   return OK;
 }
 
+/*It gets the discovered object*/
 Bool game_get_object_discovered(Game *game, Id object_id)
 {
   if (object_id == NO_ID)

@@ -9,6 +9,15 @@
  */
 #include "link_test.h"
 
+/**
+ * @brief Main function for LINK unit tests.
+ *
+ * You may execute ALL or a SINGLE test
+ *   1.- No parameter -> ALL test are executed
+ *   2.- A number means a particular test (the one identified by that number)
+ *       is executed
+ *
+ */
 int main(int argc, char **argv)
 {
   int test = 0;
@@ -16,7 +25,7 @@ int main(int argc, char **argv)
 
   if (argc < 2)
   {
-    printf("Running all test for module Character:\n");
+    printf("Running all test for module Link:\n");
   }
   else
   {
@@ -76,6 +85,7 @@ int main(int argc, char **argv)
     test1_link_get_open();
   if (all || test == 23)
     test2_link_get_open();
+
   PRINT_PASSED_PERCENTAGE;
 
   return 0;

@@ -113,7 +113,7 @@ void graphic_engine_paint_blankspace(Graphic_engine *ge, Id id)
  */
 void graphic_engine_paint_northorsouthspace(Game *game, Id id_paint, Id id_act, Graphic_engine *ge, int D)
 {
-  char str[255], c_gdesc[MAC_SIZE+1], link1 = 'X', obj[MAC_SIZE+1], obj1[MAC_SIZE+1];
+  char str[255], c_gdesc[MAC_SIZE + 1], link1 = 'X', obj[MAC_SIZE + 1], obj1[MAC_SIZE + 1];
   int i = 0;
   Id char_id = NO_ID;
   Object *ob = NULL;
@@ -133,9 +133,9 @@ void graphic_engine_paint_northorsouthspace(Game *game, Id id_paint, Id id_act, 
   for (i = 0; i < MAC_SIZE; i++)
   {
     obj[i] = ' ';
-    obj[MAC_SIZE+1] = '\0';
+    obj[MAC_SIZE] = '\0';
     obj1[i] = ' ';
-    obj1[MAC_SIZE+1] = '\0';
+    obj1[MAC_SIZE] = '\0';
   }
   for (i = 0; i < game_get_n_objects(game); i++)
   {
@@ -241,17 +241,17 @@ void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id
   for (i = 0; i < MAC_SIZE; i++)
   {
     obj[i] = ' ';
-    obj[MAC_SIZE+1] = '\0';
+    obj[MAC_SIZE] = '\0';
     obj1[i] = ' ';
-    obj1[MAC_SIZE+1] = '\0';
+    obj1[MAC_SIZE] = '\0';
     obj2[i] = ' ';
-    obj2[MAC_SIZE+1] = '\0';
+    obj2[MAC_SIZE] = '\0';
     obj3[i] = ' ';
-    obj3[MAC_SIZE+1] = '\0';
+    obj3[MAC_SIZE] = '\0';
     obj4[i] = ' ';
-    obj4[MAC_SIZE+1] = '\0';
+    obj4[MAC_SIZE] = '\0';
     obj5[i] = ' ';
-    obj5[MAC_SIZE+1] = '\0';
+    obj5[MAC_SIZE] = '\0';
   }
   if (space_get_discovered(game_get_space(game, id_west)) == TRUE)
   {

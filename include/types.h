@@ -32,7 +32,7 @@
 
 /* Graphic engine fields macros */
 #define WIDTH_MAP 69   /*!< Width of the map area in the textual graphic engine*/
-#define WIDTH_DES 70   /*!< Width of the description area in the textual graphic engine*/
+#define WIDTH_DES 75   /*!< Width of the description area in the textual graphic engine*/
 #define WIDTH_BAN 29   /*!< Width of the banner area in the textual graphic engine*/
 #define HEIGHT_MAP 29  /*!< Height of the map area in the textual graphic engine*/
 #define HEIGHT_BAN 2   /*!< Height of the description area in the textual graphic engine*/

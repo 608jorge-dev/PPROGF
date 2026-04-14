@@ -21,6 +21,8 @@ OBJECTS = $(OBJ)/character.o $(OBJ)/command.o $(OBJ)/game_actions.o \
 TEST = character_test inventory_test link_test object_test \
              player_test set_test space_test
 
+LOGS = logFile1 logFile2 logFile3 logFile4 logFile5
+
 ######################################################## MAIN
 $(EXE): $(OBJECTS)
 	$(CC) $(CFLAGS) -o $(EXE) $(OBJECTS) $(LDFLAGS)
@@ -124,11 +126,7 @@ clear:
 	@echo ">>>>>> Deleting all files"
 	rm -rf $(TEST_OBJ) $(TEST) $(OBJ) $(EXE)
 	rm -rf ./doc
-	rm -rf logFile1
-	rm -rf logFile2
-	rm -rf logFile3
-	rm -rf logFile4
-	rm -rf logFile5
+	rm -rf $(LOGS)
 	clear
 
 ## PROJECT COMMANDS
@@ -168,11 +166,7 @@ run_log: $(EXE)
 
 log_clean:
 	@echo ">>>>>> Deleting log file"
-	rm -rf logFile1
-	rm -rf logFile2
-	rm -rf logFile3
-	rm -rf logFile4
-	rm -rf logFile5
+	rm -rf $(LOGS)
 
 run_cmd: 
 	@echo ">>>>>> Running project files with input commands and output log"

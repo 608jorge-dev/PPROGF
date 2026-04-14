@@ -24,7 +24,7 @@ struct _Object
 {
   Id id;                          /*!< Id number of the object, it must be unique */
   char name[WORD_SIZE + 1];       /*!< Name of the object */
-  char descripton[WORD_SIZE + 1]; /*!< Description of the object */
+  char description[WORD_SIZE + 1]; /*!< Description of the object */
 };
 
 /* It creates a new object, allocating memory and initializing its members
@@ -46,6 +46,7 @@ Object *object_create(Id id)
   /* Initialization of an empty object*/
   newObject->id = id;
   newObject->name[0] = '\0';
+  newObject->description[0] = '\0';
 
   return newObject;
 }
@@ -122,7 +123,7 @@ Status object_set_desc(Object *object, char *desc)
     return ERROR;
   }
 
-  if (!strcpy(object->descripton, desc))
+  if (!strcpy(object->description, desc))
   {
     return ERROR;
   }
@@ -139,7 +140,7 @@ char *object_get_desc(Object *object)
     return NULL;
   }
 
-  return object->descripton;
+  return object->description;
 }
 
 /* It prints the object information

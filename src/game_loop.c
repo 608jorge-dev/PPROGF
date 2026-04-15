@@ -30,7 +30,7 @@ extern char *cmd_to_str[N_CMD][N_CMDT];
  * @brief General game loop, based on calling graphic_engine, command get user input and game_actions_update
  * @author Profesores PPROG
  *
- * @param argc amount of arguments sent
+ * @param argc Amount of arguments sent
  * @param argv Array of arguments sent
  * @return 1 if game loop has an error and 0 if everything is ok
  */

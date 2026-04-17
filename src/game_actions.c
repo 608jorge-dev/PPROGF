@@ -318,13 +318,14 @@ Status game_actions_drop(Game *game)
 	}
 
 	space = game_get_space(game, player_space_id);
-	if (space != NULL)
+	if (space != NULL && (inventory_find_object(player_get_objects(game_get_player(game)), object_get_id(object)) == TRUE))
 	{
 		game_set_object_location(game, player_space_id, object_id);
 		player_del_object(player, object_id);
+		return OK;
 	}
 
-	return OK;
+	return ERROR;;
 }
 
 /**

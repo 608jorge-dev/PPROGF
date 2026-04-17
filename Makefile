@@ -21,7 +21,7 @@ OBJECTS = $(OBJ)/character.o $(OBJ)/command.o $(OBJ)/game_actions.o \
 TEST = character_test inventory_test link_test object_test \
              player_test set_test space_test
 
-LOGS = logFile1 logFile2 logFile3 logFile4 logFile5
+LOGS = logFile
 
 ######################################################## MAIN
 $(EXE): $(OBJECTS)
@@ -171,14 +171,7 @@ log_clean:
 run_cmd: 
 	@echo ">>>>>> Running project files with input commands and output log"
 	./$(EXE) castle.dat -l logFile < ./cmd/game1.cmd
-
-run_cmd_all: 
-	@echo ">>>>>> Running project files with all input commands and output log"
-	./$(EXE) castle.dat -l logFile1 < ./cmd/game1.cmd
-	./$(EXE) castle.dat -l logFile2 < ./cmd/game2.cmd
-	./$(EXE) castle.dat -l logFile3 < ./cmd/game3.cmd
-	./$(EXE) castle.dat -l logFile4 < ./cmd/game4.cmd
-	./$(EXE) castle.dat -l logFile5 < ./cmd/game5.cmd
+	diff -y logFile ./cmd/log-game1 
 
 runv:
 	@echo ">>>>>> Running castle.dat with valgrind"
@@ -187,5 +180,4 @@ runv:
 		echo "Running $$t..."; \
 		valgrind --leak-check=full ./$$t; \
 	done
-
 

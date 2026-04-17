@@ -93,10 +93,86 @@ Status object_set_desc(Object *object, char *desc);
 char *object_get_desc(Object *object);
 
 /**
+ * @brief It sets the health value of an object
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param object A pointer to the object
+ * @param health An integer with the amount of health to store
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status object_set_health(Object *object, int health);
+
+/**
+ * @brief It gets the health value of an object
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param object A pointer to the object
+ * @return An integer with the amount of health to store
+ */
+int object_get_health(Object *object);
+
+/**
+ * @brief It sets the health movable value of an object
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param object A pointer to the object
+ * @param movable The boolean value, if it can be moved or not
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status object_set_movable(Object *object, Bool movable);
+
+/**
+ * @brief It gets the movable value of an object
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param object A pointer to the object
+ * @return The boolean value, if it can be moved or not
+ */
+Bool object_get_movable(Object *object);
+
+/**
+ * @brief It sets the dependency value of an object
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param object A pointer to the object
+ * @param dependency_id The id of the object or space needed
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status object_set_dependency(Object *object, Id dependency_id);
+
+/**
+ * @brief It gets the dependency value of an object
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param object A pointer to the object
+ * @return The id of the object or space needed
+ */
+Id object_get_dependency(Object *object);
+
+/**
+ * @brief It sets the open value of an object
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param object A pointer to the object
+ * @param space_id The id of the link it opens
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Id object_set_open(Object *object, Id space_id);
+
+/**
+ * @brief It gets the open value of an object
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param object A pointer to the object
+ * @return The id of the link it opens
+ */
+Id object_get_open(Object *object);
+
+/**
  * @brief It prints the object information
  * @author Álvaro Bravo González
  *
- * This fucntion shows the id and name of the object.
+ * This fucntion shows the id, name of the object, description, health value, movable value, dependency ID and open ID.
  * @param object A pointer to the object
  * @return OK, if everything goes well or ERROR if there was some mistake
  */

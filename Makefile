@@ -11,7 +11,7 @@ TEST_OBJ = obj/tests
 EXE = castle
 CC = gcc
 LDFLAGS = -L$(LIB) -lscreen
-CFLAGS = -Wall -ansi -pedantic -I$(INC) -I$(TEST_INC)
+CFLAGS = -Wall -ansi -pedantic -g -I$(INC) -I$(TEST_INC)
 
 OBJECTS = $(OBJ)/character.o $(OBJ)/command.o $(OBJ)/game_actions.o \
           $(OBJ)/game_loop.o $(OBJ)/game_reader.o $(OBJ)/game.o \

@@ -171,7 +171,7 @@ int object_get_health(Object *object)
 {
   if (!object)
   {
-    return NULL;
+    return 0;
   }
 
   return object->health;
@@ -197,7 +197,7 @@ Bool object_get_movable(Object *object)
 {
   if (!object)
   {
-    return NULL;
+    return FALSE;
   }
 
   return object->movable;
@@ -223,7 +223,7 @@ Id object_get_dependency(Object *object)
 {
   if (!object)
   {
-    return NULL;
+    return NO_ID;
   }
 
   return object->dependency;
@@ -249,7 +249,7 @@ Id object_get_open(Object *object)
 {
   if (!object)
   {
-    return NULL;
+    return NO_ID;
   }
 
   return object->open;
@@ -269,6 +269,6 @@ Status object_print(Object *object)
   fprintf(stdout, "--> Object (Id: %ld; Name: %s)\n", object->id, object->name);
 
   /*2. Prints the health value of the object, the boolean value of the movable field, the id of the dependency and the id of the space it opens*/
-  fprintf(stdout, "--> Health: %d, Movable: %d, Dependency: %d, Open: %d\n", object->health, object->movable, object->dependency, object->open);
+  fprintf(stdout, "--> Health: %d, Movable: %d, Dependency: %ld, Open: %ld\n", object->health, object->movable, object->dependency, object->open);
   return OK;
 }

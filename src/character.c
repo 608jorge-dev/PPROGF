@@ -27,6 +27,7 @@ struct _Character
   int health;                  /*!< Amount of health the character has */
   Bool friendly;               /*!< Wether the character is friendly or not */
   char message[WORD_SIZE + 1]; /*!< The message the character says */
+  Id following;                /*!< The id of the player the character follows */
 };
 
 /* It creates a new character, allocating memory and initializing its members */
@@ -38,11 +39,13 @@ Character *character_create(Id id)
   {
     return NULL;
   }
+
   newCharacter = (Character *)calloc(1, sizeof(Character));
   if (newCharacter == NULL)
   {
     return NULL;
   }
+
   /* Initialization of an empty character*/
   newCharacter->id = id;
   newCharacter->name[0] = '\0';
@@ -50,6 +53,7 @@ Character *character_create(Id id)
   newCharacter->health = '0';
   newCharacter->friendly = TRUE;
   newCharacter->message[0] = '\0';
+  newCharacter->following = NO_ID;
 
   return newCharacter;
 }
@@ -69,11 +73,13 @@ Status character_destroy(Character *character)
 /* It sets the id of a character */
 Status character_set_id(Character *character, Id id)
 {
-  if (!character)
+  if (!character || id == NO_ID)
   {
     return ERROR;
   }
+
   character->id = id;
+
   return OK;
 }
 
@@ -84,6 +90,7 @@ Id character_get_id(Character *character)
   {
     return NO_ID;
   }
+
   return character->id;
 }
 
@@ -99,6 +106,7 @@ Status character_set_name(Character *character, char *name)
   {
     return ERROR;
   }
+
   return OK;
 }
 
@@ -125,6 +133,7 @@ Status character_set_gdesc(Character *character, char *gdesc)
   {
     return ERROR;
   }
+
   return OK;
 }
 
@@ -146,7 +155,9 @@ Status character_set_health(Character *character, int health)
   {
     return ERROR;
   }
+
   character->health = health;
+
   return OK;
 }
 
@@ -157,6 +168,7 @@ int character_get_health(Character *character)
   {
     return NO_ID;
   }
+
   return character->health;
 }
 
@@ -167,7 +179,9 @@ Status character_set_friendly(Character *character, Bool friendly)
   {
     return ERROR;
   }
+
   character->friendly = friendly;
+
   return OK;
 }
 
@@ -178,6 +192,7 @@ Bool character_get_friendly(Character *character)
   {
     return FALSE;
   }
+
   return character->friendly;
 }
 
@@ -193,6 +208,7 @@ Status character_set_message(Character *character, char *msg)
   {
     return ERROR;
   }
+
   return OK;
 }
 
@@ -205,6 +221,30 @@ char *character_get_message(Character *character)
   }
 
   return character->message;
+}
+
+/* It sets the id of the player the character follows */
+Status character_set_following(Character *character, Id following)
+{
+  if (!character || following == NO_ID)
+  {
+    return ERROR;
+  }
+
+  character->following = following;
+
+  return OK;
+}
+
+/* It gets the id of the player the character follows */
+Id character_get_following(Character *character)
+{
+  if (!character)
+  {
+    return NO_ID;
+  }
+
+  return character->following;
 }
 
 /* It prints the character information */
@@ -228,11 +268,21 @@ Status character_print(Character *character)
   /* 4. Print if the character is friendly or not */
   if (character_get_friendly(character) == TRUE)
   {
-    fprintf(stdout, "---> The character is friendly .\n");
+    fprintf(stdout, "---> The character is friendly\n");
   }
   else
   {
     fprintf(stdout, "---> The character is not friendly\n");
+  }
+
+  /* 5. Print if the character is following a player or not */
+  if (character_get_following(character) != NO_ID)
+  {
+    fprintf(stdout, "---> The character is following player %ld\n", character_get_following(character));
+  }
+  else
+  {
+    fprintf(stdout, "---> The character is not following any player\n");
   }
 
   /* 5. Print the character's message */

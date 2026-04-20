@@ -41,7 +41,9 @@ typedef enum
     CHAT,
     INSPECT,
     RECRUIT,
-    ABANDON
+    ABANDON,
+    USE,
+    OPEN
 } CommandCode;
 
 /**
@@ -114,9 +116,10 @@ Status command_set_argstr(Command *command, char *argstr);
  * @author Álvaro Bravo González
  *
  * @param command A pointer to the command structure
+ * @param position Position in the command array
  * @return Argument of the command
  */
-char *command_get_argstr(Command *command);
+char *command_get_argstr(Command *command, int position);
 
 /**
  * @brief It sets the description of a command

@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
   Graphic_engine *gengine;
   int result;
   Command *last_cmd;
-  Status st;
+  Status st, actions_status;
   FILE *log_file = NULL;
   int log = 0, cmd = 0;
   CommandCode code;
@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
       break;
     }
 
-    game_actions_update(game, last_cmd);
+    actions_status = game_actions_update(game, last_cmd);
     if (game_get_playerinf(game) == NULL)
     {
       fprintf(stdout, "%ld", playerinf_get_id(game_get_playerinf(game)));
@@ -111,10 +111,11 @@ int main(int argc, char *argv[])
       playerinf_set_lastinspect(game_get_playerinf(game), command_get_description(last_cmd));
     }
 
+    /* Hay que actualizar esta parte del código*/
     if (log == 1)
     {
       code = command_get_code(last_cmd);
-      arg = command_get_argstr(last_cmd);
+      arg = command_get_argstr(last_cmd, 0);
       st = command_get_status(last_cmd);
 
       if (arg && arg[0] != '\0')
@@ -130,15 +131,22 @@ int main(int argc, char *argv[])
     if (game_get_dead_players(game) == game_get_n_players(game))
     {
       graphic_engine_paint_game(gengine, game);
-      fprintf(stdout, "\n  ____     _    _   _   ____   ____    __  __  ____  _____ ");
-      fprintf(stdout, "\n / ___|   / \\  | \\_/ | |      /    \\  | | | | |      | /\\ \\");
-      fprintf(stdout, "\n|  |  _  | O | |  _  | |____ |  /\\  | | |_| | |____  | \\/ /");
-      fprintf(stdout, "\n|  |_| | |___| | | | | |     |  \\/  | |     | |      | | \\");
-      fprintf(stdout, "\n \\_____| |   | |_| |_| |____  \\____/   \\___/  |____  |_|\\_\\\n\n");
+      fprintf(stdout, "\n   ____     _    _    _   ____   ____    __  __   ____   _____ ");
+      fprintf(stdout, "\n  / ___|   / \\ | \\_/ | |      /    \\  | | | | |      | |  \\");
+      fprintf(stdout, "\n |  |  _  | O | |  _   | |____ |  /\\  | | |_| | |____  | |_ //");
+      fprintf(stdout, "\n |  |_| | |___| | | |  | |     |  \\/  | |     | |      | |  \\ ");
+      fprintf(stdout, "\n \\_____| |   | |_| |_ | |____ \\_____/  \\___/  |____  |_|   \\ \n\n");
       game_set_finished(game, TRUE);
     }
     sleep(1);
-    game_next_turn(game);
+    if (actions_status == ERROR)
+    {
+      fprintf(stdout, "ERROR, REPEAT TURN");
+    }
+    else if (code == MOVE)
+    {
+      game_next_turn(game);
+    }
   }
 
   if (log == 1)

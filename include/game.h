@@ -264,6 +264,17 @@ int game_get_n_characters(Game *game);
  */
 Space *game_get_space(Game *game, Id id);
 
+/* SPACE FUNCTIONS : */
+/**
+ * @brief It gets the spaces at the positio
+ * @author Profesores PPROG
+ *
+ * @param id The identification number for the new space
+ * @param game A pointer to the game data
+ * @return A pointer to the space structure
+ */
+Space *game_get_space_at(Game *game, int position);
+
 /**
  * @brief It gets the id from a space
  * @author Jorge Torrijos de la Cruz
@@ -413,6 +424,16 @@ Status game_set_n_links(Game *game, int amount);
  * @return The amount of links, as an integer
  */
 int game_get_n_links(Game *game);
+
+/**
+ * @brief It gets the link from its position
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ * @param position The position of the object in the object array
+ * @return A pointer to the link structure
+ */
+Object *game_get_link_at(Game *game, int position);
 
 /**
  * @brief It sets turn

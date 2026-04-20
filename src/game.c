@@ -516,6 +516,16 @@ Space *game_get_space(Game *game, Id id)
   return NULL;
 }
 
+Space *game_get_space_at(Game *game, int position)
+{
+  if (!game || position < 0)
+  {
+    return NULL;
+  }
+
+  return game->spaces[position];
+}
+
 /** It gets the id from a space */
 Id game_get_space_id_at(Game *game, int position)
 {
@@ -730,6 +740,17 @@ int game_get_n_links(Game *game)
   }
 
   return game->n_links;
+}
+
+/** It gets the link from its position */
+Object *game_get_link_at(Game *game, int position)
+{
+  if (!game || position < 0 || position >= game_get_n_objects(game))
+  {
+    return NULL;
+  }
+
+  return game->links[position];
 }
 
 /*It sets the actual turn */

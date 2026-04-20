@@ -18,7 +18,7 @@
 /**
  * String that stores all the commands that can be used
  */
-char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"m", "Move"}, {"t", "Take"}, {"d", "Drop"}, {"at", "Attack"}, {"c", "Chat"}, {"i", "Inspect"}, {"r", "Recruit"}, {"ab", "Abandon"}};
+char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"m", "Move"}, {"t", "Take"}, {"d", "Drop"}, {"at", "Attack"}, {"c", "Chat"}, {"i", "Inspect"}, {"r", "Recruit"}, {"ab", "Abandon"}, {"u", "Use"}, {"o", "Open"}};
 
 /**
  * @brief Character
@@ -145,14 +145,14 @@ Status command_set_argstr(Command *command, char *argstr)
 
 /** It gets the argument of a command
  */
-char *command_get_argstr(Command *command)
+char *command_get_argstr(Command *command, int position)
 {
   if (!command || command->nArgs == 0)
   {
     return NULL;
   }
 
-  return command->argstr[0];
+  return command->argstr[position];
 }
 
 /** It sets the description of a command
@@ -210,7 +210,7 @@ int command_get_nArgs(Command *command)
  */
 Status command_get_user_input(Command *command)
 {
-  char input[CMD_LENGHT] = "", cmdarg[CMD_LENGHT] = "", *token = NULL;
+  char input[CMD_LENGHT] = "", cmdarg[CMD_LENGHT] = "", cmdarg2[CMD_LENGHT] = "", *token = NULL;
   int i = UNKNOWN - NO_CMD + 1;
   CommandCode cmd;
 
@@ -244,16 +244,13 @@ Status command_get_user_input(Command *command)
     }
 
     token = strtok(NULL, " \n");
-    if (!token)
-    {
-      command_set_status(command, OK);
-      return command_set_code(command, cmd);
-    }
-
     strcpy(cmdarg, token);
+    token = strtok(NULL, " \n");
+    strcpy(cmdarg2, token);
+
     command_set_status(command, OK);
     command_set_argstr(command, cmdarg);
-    command_set_nArgs(command, command_get_nArgs(command) + 1);
+    command_set_argstr(command, cmdarg2);
     return command_set_code(command, cmd);
   }
 

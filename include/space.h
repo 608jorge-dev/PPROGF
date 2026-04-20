@@ -117,7 +117,7 @@ Status space_add_object(Space *space, Id id);
 Status space_del_object(Space *space, Id id);
 
 /**
- * @brief It find wether an object is in the set or not
+ * @brief It finds wether an object is in the set or not
  * @author Jorge Torrijos de la Cruz
  *
  * @param space A pointer to the space
@@ -136,33 +136,43 @@ Bool space_find_object(Space *space, Id id);
 Set *space_get_objects(Space *space);
 
 /**
- * @brief It sets the character id of a space
- * @author Jorge Torrijos de la Cruz
+ * @brief It adds the id of a character to the character set
+ * @author Álvaro Bravo González
  *
  * @param space A pointer to the space
- * @param id The id number of the character
+ * @param id The id of the character
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Status space_set_character(Space *space, Id id);
+Status space_add_character(Space *space, Id id);
 
 /**
- * @brief It gets the character id of a space
- * @author Jorge Torrijos de la Cruz
+ * @brief It deletes the id of a character from the character set
+ * @author Álvaro Bravo González
  *
  * @param space A pointer to the space
- * @return The id of the character in the space
- */
-Id space_get_character(Space *space);
-
-/**
- * @brief It find wether a character is in the set or not
- * @author Jorge Torrijos de la Cruz
- *
- * @param space A pointer to the space
- * @param character_id The id of the character
+ * @param id The id of the character
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Bool space_find_character(Space *space, Id character_id);
+Status space_del_character(Space *space, Id id);
+
+/**
+ * @brief It finds wether a character is in the set or not
+ * @author Álvaro Bravo González
+ *
+ * @param space A pointer to the space
+ * @param id The id of the character
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Bool space_find_character(Space *space, Id id);
+
+/**
+ * @brief It gets the characters of a space
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param space A pointer to the space
+ * @return The set of characters in the space
+ */
+Set *space_get_characters(Space *space);
 
 /**
  * @brief It sets the discovered status of a space

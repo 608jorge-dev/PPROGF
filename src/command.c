@@ -18,7 +18,7 @@
 /**
  * String that stores all the commands that can be used
  */
-char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"m", "Move"}, {"t", "Take"}, {"d", "Drop"}, {"a", "Attack"}, {"c", "Chat"}, {"i", "Inspect"}};
+char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"m", "Move"}, {"t", "Take"}, {"d", "Drop"}, {"at", "Attack"}, {"c", "Chat"}, {"i", "Inspect"}, {"r", "Recruit"}, {"ab", "Abandon"}};
 
 /**
  * @brief Character

@@ -151,6 +151,25 @@ Status character_set_message(Character *character, char *msg);
 char *character_get_message(Character *character);
 
 /**
+ * @brief It sets the id of the player being followed
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param character A pointer to the character
+ * @param id The id of the player being followed
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status character_set_following(Character *character, Id id);
+
+/**
+ * @brief It gets the id of the player being followed
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param character A pointer to the character
+ * @return The id of the player being followed
+ */
+Id character_get_following(Character *character);
+
+/**
  * @brief It prints the character information
  * @author Jorge Torrijos de la Cruz
  * This function shows the id and name of the character, the description and health from the character, wether is friendly or not and the message is contains

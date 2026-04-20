@@ -24,7 +24,7 @@ struct _Space
   Id id;                    /*!< Id number of the space, it must be unique */
   char name[WORD_SIZE + 1]; /*!< Name of the space */
   Set *objects;             /*!< The object id array */
-  Id character;             /*!< The character id  */
+  Set *characters;          /*!< The character id array */
   char gdesc[MAX_S][MAX_C]; /*!< Description of the space */
   Bool discovered;          /*!< Discovered state of the space */
 };
@@ -49,7 +49,7 @@ Space *space_create(Id id)
   newSpace->id = id;
   newSpace->name[0] = '\0';
   newSpace->objects = set_create();
-  newSpace->character = NO_ID;
+  newSpace->characters = set_create();
   newSpace->discovered = FALSE;
   for (i = 0; i < MAX_S; i++)
   {
@@ -181,13 +181,13 @@ Status space_del_object(Space *space, Id id)
 }
 
 /* It finds wether the object is in the space or not*/
-Bool space_find_object(Space *space, Id object_id)
+Bool space_find_object(Space *space, Id id)
 {
-  if (!space)
+  if (!space || id == NO_ID)
   {
     return FALSE;
   }
-  if (set_find(space->objects, object_id) == TRUE)
+  if (set_find(space->objects, id) == TRUE)
   {
     return TRUE;
   }
@@ -203,48 +203,62 @@ Set *space_get_objects(Space *space)
   {
     return NULL;
   }
+
   return space->objects;
 }
 
-/* It sets the character id
- */
-Status space_set_character(Space *space, Id id)
+/* It adds the id of a character to the character set*/
+Status space_add_character(Space *space, Id id)
 {
-  if (!space)
+  if (!space || id == NO_ID)
   {
     return ERROR;
   }
 
-  space->character = id;
+  if (set_get_n_ids(space->characters) == MAX_CHARACTERS)
+  {
+    return NO_SPACE;
+  }
+
+  set_add(space->characters, id);
+
   return OK;
 }
 
-/* It gets the id of the character in the space
- */
-Id space_get_character(Space *space)
+/*  It deletes the id of a character from the character set*/
+Status space_del_character(Space *space, Id id)
 {
-  if (!space)
+  if (!space || id == NO_ID)
   {
-    return NO_ID;
+    return ERROR;
   }
 
-  return space->character;
+  set_del(space->characters, id);
+  return OK;
 }
 
 /* It finds wether the character is in the space or not*/
-Bool space_find_character(Space *space, Id character_id)
+Bool space_find_character(Space *space, Id id)
 {
-  if (!space)
+  if (!space || id == NO_ID)
   {
     return FALSE;
   }
-
-  if (space->character == character_id)
+  if (set_find(space->characters, id) == TRUE)
   {
     return TRUE;
   }
 
   return FALSE;
+}
+Set *space_get_characters(Space *space)
+{
+  if (!space)
+  {
+    return NULL;
+  }
+
+  return space->characters;
 }
 
 /* It sets the discovered status */
@@ -302,14 +316,14 @@ Status space_print(Space *space)
     fprintf(stdout, "---> Space has no objects.");
   }
 
-  /* 4. Print if there is a character in the space or not */
-  if (space_get_character(space))
+  /* 3. Print if there is a character in the space or not */
+  if (set_get_n_ids(space->characters) > 0)
   {
-    fprintf(stdout, "---> Character in the space.\n");
+    set_print(space->characters);
   }
   else
   {
-    fprintf(stdout, "---> No character in the space.\n");
+    fprintf(stdout, "---> Space has no characters.");
   }
 
   /* 4. Prints space gdesc */

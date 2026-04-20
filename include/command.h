@@ -39,7 +39,9 @@ typedef enum
     DROP,
     ATTACK,
     CHAT,
-    INSPECT
+    INSPECT,
+    RECRUIT,
+    ABANDON
 } CommandCode;
 
 /**

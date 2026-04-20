@@ -385,25 +385,25 @@ Id game_get_object_location(Game *game, Id object_id)
 /** It sets the character's location */
 Status game_set_character_location(Game *game, Id space_id, Id character_id)
 {
-  Space *new_space;
+  Space *space;
 
   if (!game || space_id == NO_ID || character_id == NO_ID)
   {
     return ERROR;
   }
 
-  new_space = game_get_space(game, space_id);
-  if (!new_space)
+  space = game_get_space(game, space_id);
+  if (!space)
   {
     return ERROR;
   }
 
-  space_set_character(new_space, character_id);
+  space_add_character(space, character_id);
 
   return OK;
 }
 
-/** It gets the id of the character's location*/
+/** It gets the id of the character's location */
 Id game_get_character_location(Game *game, Id character_id)
 {
   int i;
@@ -423,7 +423,7 @@ Id game_get_character_location(Game *game, Id character_id)
   return NO_ID;
 }
 
-/** It gets the character from an id*/
+/** It gets the character from an id */
 Character *game_get_character_with_id(Game *game, Id id)
 {
   int i;
@@ -444,7 +444,7 @@ Character *game_get_character_with_id(Game *game, Id id)
   return NULL;
 }
 
-/** It gets the character from its position*/
+/** It gets the character from its position */
 Character *game_get_character_at(Game *game, int position)
 {
   if (!game || position < 0 || position >= game_get_n_characters(game))

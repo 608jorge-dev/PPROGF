@@ -12,6 +12,9 @@
 
 #include "command.h"
 #include "game.h"
+#include "player.h"
+#include "object.h"
+#include "game_management.h"
 #include "types.h"
 
 /**

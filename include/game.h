@@ -109,6 +109,17 @@ Status game_set_player_location(Game *game, Id id);
  */
 Id game_get_player_location(Game *game);
 
+
+/**
+ * @brief It gets Player from its position
+ * @author Ivan Rodriguez
+ *
+ * @param game A pointer to the game data
+ * @param position The position of the player in the player array
+ * @return A pointer to the Player structure
+ */
+Player *game_get_player_at(Game * game, int position);
+
 /* OBJECT FUNCTIONS : */
 
 /**
@@ -433,7 +444,7 @@ int game_get_n_links(Game *game);
  * @param position The position of the object in the object array
  * @return A pointer to the link structure
  */
-Object *game_get_link_at(Game *game, int position);
+Link *game_get_link_at(Game *game, int position);
 
 /**
  * @brief It sets turn
@@ -464,7 +475,7 @@ int game_get_turn(Game *game);
 Status game_next_turn(Game *game);
 
 /**
- * @brief It sets the amount of  deadplayers
+ * @brief It sets the amount of  dead players
  * @author Jorge Torrijos de la Cruz
  *
  * @param game A pointer to the game data
@@ -510,6 +521,25 @@ Bool game_get_object_discovered(Game *game, Id object_id);
  * @return A pointer to the playerinf structure
  */
 Playerinf *game_get_playerinf(Game *game);
+
+/**
+ * @brief It sets the game determinism
+ * @author Guillermo Nuñez Bravo
+ *
+ * @param game A pointer to the game data
+ * @param deterministic a variable to save is the game is deterministic or not
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status game_set_deterministic(Game *game, Bool deterministic);
+
+/**
+ * @brief It gets the deterministic status of the game
+ * @author Guillermo Nuñez Bravo
+ *
+ * @param game A pointer to the game data
+ * @return The boolean value of the deterministic status
+ */
+Bool game_get_deterministic(Game *game);
 
 /**
  * @brief It prints the game information

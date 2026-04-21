@@ -43,7 +43,9 @@ typedef enum
     RECRUIT,
     ABANDON,
     USE,
-    OPEN
+    OPEN,
+    SAVE,
+    LOAD
 } CommandCode;
 
 /**

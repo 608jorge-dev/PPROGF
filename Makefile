@@ -1,9 +1,9 @@
 ######################################################## DIRECTORIOS
 SRC = src
 OBJ = obj
-INC = include
+INC = inc
 LIB = lib
-TEST_INC = include/tests
+TEST_INC = inc/tests
 TEST_SRC = src/tests
 TEST_OBJ = obj/tests
 
@@ -14,9 +14,14 @@ LDFLAGS = -L$(LIB) -lscreen
 CFLAGS = -Wall -ansi -pedantic -g -I$(INC) -I$(TEST_INC)
 
 OBJECTS = $(OBJ)/character.o $(OBJ)/command.o $(OBJ)/game_actions.o \
-          $(OBJ)/game_loop.o $(OBJ)/game_reader.o $(OBJ)/game.o \
+          $(OBJ)/game_loop.o $(OBJ)/game_management.o $(OBJ)/game.o \
           $(OBJ)/graphic_engine.o $(OBJ)/inventory.o $(OBJ)/link.o \
           $(OBJ)/object.o $(OBJ)/player.o $(OBJ)/playerinf.o $(OBJ)/set.o $(OBJ)/space.o
+
+SOURCE = $(SRC)/character.c $(SRC)/command.c $(SRC)/game_actions.c \
+          $(SRC)/game_loop.c $(SRC)/game_management.c $(SRC)/game.c \
+		  $(SRC)/gamerule.c $(SRC)/graphic_engine.c $(SRC)/inventory.c $(SRC)/link.c \
+          $(SRC)/object.c $(SRC)/player.c $(SRC)/playerinf.c $(SRC)/set.c $(SRC)/space.c
 
 TEST = character_test inventory_test link_test object_test \
              player_test set_test space_test
@@ -33,16 +38,16 @@ $(OBJ)/character.o: $(SRC)/character.c $(INC)/character.h $(INC)/types.h | $(OBJ
 $(OBJ)/command.o: $(SRC)/command.c $(INC)/command.h $(INC)/types.h | $(OBJ)
 	$(CC) $(CFLAGS) -c $(SRC)/command.c -o $(OBJ)/command.o
 
-$(OBJ)/game_actions.o: $(SRC)/game_actions.c $(INC)/game_actions.h $(INC)/command.h $(INC)/types.h $(INC)/game.h $(INC)/player.h $(INC)/object.h $(INC)/space.h $(INC)/set.h $(INC)/character.h | $(OBJ)
+$(OBJ)/game_actions.o: $(SRC)/game_actions.c $(INC)/game_actions.h $(INC)/command.h $(INC)/types.h $(INC)/game.h $(INC)/player.h $(INC)/set.h $(INC)/inventory.h $(INC)/object.h $(INC)/space.h $(INC)/character.h $(INC)/link.h $(INC)/playerinf.h $(INC)/game_management.h | $(OBJ)
 	$(CC) $(CFLAGS) -c $(SRC)/game_actions.c -o $(OBJ)/game_actions.o
 
-$(OBJ)/game_loop.o: $(SRC)/game_loop.c $(INC)/command.h $(INC)/types.h $(INC)/game.h $(INC)/player.h $(INC)/object.h $(INC)/space.h $(INC)/set.h $(INC)/character.h $(INC)/game_reader.h $(INC)/game_actions.h $(INC)/graphic_engine.h $(INC)/playerinf.h | $(OBJ)
+$(OBJ)/game_loop.o: $(SRC)/game_loop.c $(INC)/command.h $(INC)/types.h $(INC)/game.h $(INC)/player.h $(INC)/object.h $(INC)/space.h $(INC)/set.h $(INC)/character.h $(INC)/game_management.h $(INC)/game_actions.h $(INC)/graphic_engine.h $(INC)/playerinf.h | $(OBJ)
 	$(CC) $(CFLAGS) -c $(SRC)/game_loop.c -o $(OBJ)/game_loop.o
 
-$(OBJ)/game_reader.o: $(SRC)/game_reader.c $(INC)/game_reader.h $(INC)/command.h $(INC)/types.h $(INC)/game.h $(INC)/player.h $(INC)/object.h $(INC)/space.h $(INC)/set.h $(INC)/character.h | $(OBJ)
-	$(CC) $(CFLAGS) -c $(SRC)/game_reader.c -o $(OBJ)/game_reader.o
+$(OBJ)/game_management.o: $(SRC)/game_management.c $(INC)/game_management.h $(INC)/character.h $(INC)/command.h $(INC)/set.h $(INC)/player.h $(INC)/inventory.h $(INC)/game.h $(INC)/space.h $(INC)/types.h $(INC)/link.h | $(OBJ)
+	$(CC) $(CFLAGS) -c $(SRC)/game_management.c -o $(OBJ)/game_management.o
 
-$(OBJ)/game.o: $(SRC)/game.c $(INC)/game.h $(INC)/command.h $(INC)/types.h $(INC)/player.h $(INC)/object.h $(INC)/space.h $(INC)/set.h $(INC)/character.h $(INC)/game_reader.h $(SRC)/link.c $(INC)/link.h | $(OBJ)
+$(OBJ)/game.o: $(SRC)/game.c $(INC)/game.h $(INC)/command.h $(INC)/types.h $(INC)/player.h $(INC)/object.h $(INC)/space.h $(INC)/set.h $(INC)/character.h $(INC)/game_management.h $(SRC)/link.c $(INC)/link.h | $(OBJ)
 	$(CC) $(CFLAGS) -c $(SRC)/game.c -o $(OBJ)/game.o
 
 $(OBJ)/graphic_engine.o: $(SRC)/graphic_engine.c $(INC)/graphic_engine.h $(INC)/game.h $(INC)/command.h $(INC)/types.h $(INC)/player.h $(INC)/object.h $(INC)/space.h $(INC)/set.h $(INC)/character.h $(INC)/libscreen.h $(INC)/playerinf.h | $(OBJ)
@@ -60,13 +65,13 @@ $(OBJ)/object.o: $(SRC)/object.c $(INC)/object.h $(INC)/types.h | $(OBJ)
 $(OBJ)/player.o: $(SRC)/player.c $(INC)/player.h $(INC)/inventory.h $(INC)/object.h $(INC)/set.h $(INC)/types.h | $(OBJ)
 	$(CC) $(CFLAGS) -c $(SRC)/player.c -o $(OBJ)/player.o
 
-$(OBJ)/playerinf.o: $(SRC)/playerinf.c $(INC)/playerinf.h $(INC)/command.h $(INC)/inventory.h $(INC)/set.h $(INC)/types.h | $(OBJ)
+$(OBJ)/playerinf.o: $(SRC)/playerinf.c $(INC)/playerinf.h $(INC)/types.h $(INC)/set.h | $(OBJ)
 	$(CC) $(CFLAGS) -c $(SRC)/playerinf.c -o $(OBJ)/playerinf.o
 
 $(OBJ)/set.o: $(SRC)/set.c $(INC)/set.h $(INC)/types.h | $(OBJ)
 	$(CC) $(CFLAGS) -c $(SRC)/set.c -o $(OBJ)/set.o
 
-$(OBJ)/space.o: $(SRC)/space.c $(INC)/space.h $(INC)/types.h $(INC)/object.h $(INC)/set.h | $(OBJ)
+$(OBJ)/space.o: $(SRC)/space.c $(INC)/space.h $(INC)/object.h $(INC)/types.h $(INC)/set.h | $(OBJ)
 	$(CC) $(CFLAGS) -c $(SRC)/space.c -o $(OBJ)/space.o
 
 ######################################################## CARPETAS OBJ
@@ -181,3 +186,6 @@ runv:
 		valgrind --leak-check=full ./$$t; \
 	done
 
+dep:
+	@echo ">>>>>> Checking all dependencies"
+	$(CC) -I$(INC) -MM $(SOURCE)

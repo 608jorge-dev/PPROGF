@@ -14,11 +14,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-Status game_management_save_spaces(Game *game, char *filename)
+Status game_management_save(Game *game, char *filename)
 {
     FILE *f = NULL;
-    int i;
+    int i = 0;
     Space *s = NULL;
+    Object *o = NULL;
+    Character *c = NULL;
+    Player *p = NULL;
+    Link *l = NULL;
 
     if (!filename || !game)
     {
@@ -26,14 +30,70 @@ Status game_management_save_spaces(Game *game, char *filename)
     }
 
     f = fopen(filename, "w");
+
     if (!f)
     {
         return ERROR;
     }
-    while (game_get_space_at(game, i))
+
+    while (game_get_space_at(game, i) != NULL)
+    {
         s = game_get_space_at(game, i);
-    fprintf(f, "#s:%ld|%s|%s|%s|%s|%s|%s|%d| \n", )
+        fprintf(f, "#s:%ld|%s|%s|%s|%s|%s|%s|%d| \n", space_get_id(s), space_get_name(s), space_get_gdesc(s, 1), space_get_gdesc(s, 2), space_get_gdesc(s, 3), space_get_gdesc(s, 4), space_get_gdesc(s, 5), space_get_discovered(s));
+
         i++;
+    }
+
+    i = 0;
+
+    fprintf(f, "\n");
+
+    while (game_get_object_at(game, i) != NULL)
+    {
+        o = game_get_object_at(game, i);
+        fprintf(f, "#o:%ld|%s|%ld|%s|  \n", object_get_id(o), object_get_name(o), game_get_object_location(game, object_get_id(o)), object_get_desc(o));
+        i++;
+    }
+
+    i = 0;
+
+    fprintf(f, "\n");
+    fprintf(f, "\n");
+
+    while (game_get_character_at(game, i) != NULL)
+    {
+        c = game_get_character_at(game, i);
+        fprintf(f, "#c:%ld|%s|%s|%ld|%d|%hu|%s| \n", character_get_id(c), character_get_name(c), character_get_gdesc(c), game_get_character_location(game, character_get_id(c)), character_get_health(c), character_get_friendly(c), character_get_message(c));
+        i++;
+    }
+
+    i = 0;
+
+    fprintf(f, "\n");
+
+    while (game_get_player_at(game, i) != NULL)
+    {
+        p = game_get_player_at(game, i);
+        fprintf(f, "#p:%ld|%s|%s|%d|%ld|%d| \n", player_get_id(p), player_get_name(p), player_get_gdesc(p), player_get_health(p), player_get_location(p), inventory_get_max_objs(player_get_objects(p)));
+        i++;
+    }
+
+    i = 0;
+
+    fprintf(f, "\n");
+    fprintf(f, "\n");
+
+    while (game_get_link_at(game, i) != NULL)
+    {
+        l = game_get_link_at(game, i);
+
+        fprintf(f, "#l:%ld|%s|%ld|%ld|%d|%d|", link_get_id(l), link_get_name(l), link_get_origin(l), link_get_destination(l), link_get_direction(l), link_get_open(l));
+        i++;
+    }
+
+    fprintf(f, "\n");
+
+    return OK;
 }
 
 Status game_management_load_spaces(Game *game, char *filename)
@@ -249,7 +309,7 @@ Status game_management_load_characters(Game *game, char *filename)
 /**
   Loads the player read on the .dat file
 */
-Status game_managements_load_player(Game *game, char *filename)
+Status game_management_load_player(Game *game, char *filename)
 {
     FILE *file = NULL;
     Player *player = NULL;
@@ -318,7 +378,7 @@ Status game_managements_load_player(Game *game, char *filename)
     return status;
 }
 
-Status game_managements_load_link(Game *game, char *filename)
+Status game_management_load_link(Game *game, char *filename)
 {
     FILE *file = NULL;
     Link *link = NULL;
@@ -386,29 +446,29 @@ Status game_managements_load_link(Game *game, char *filename)
 
 /** It creates a new game data structure, allocating memory and initializing its members starting from the .dat file
  */
-Status game_managements_load(Game *game, char *filename)
+Status game_management_load(Game *game, char *filename)
 {
-    if (game_reader_load_spaces(game, filename) == ERROR)
+    if (game_management_load_spaces(game, filename) == ERROR)
     {
         return ERROR;
     }
 
-    if (game_reader_load_objects(game, filename) == ERROR)
+    if (game_management_load_objects(game, filename) == ERROR)
     {
         return ERROR;
     }
 
-    if (game_reader_load_characters(game, filename) == ERROR)
+    if (game_management_load_spaces(game, filename) == ERROR)
     {
         return ERROR;
     }
 
-    if (game_reader_load_player(game, filename) == ERROR)
+    if (game_management_load_player(game, filename) == ERROR)
     {
         return ERROR;
     }
 
-    if (game_reader_load_link(game, filename) == ERROR)
+    if (game_management_load_link(game, filename) == ERROR)
     {
         return ERROR;
     }

@@ -9,8 +9,6 @@
  */
 
 #include "game_actions.h"
-#include "player.h"
-#include "object.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,6 +30,8 @@ Status game_actions_recruit(Game *game);
 Status game_actions_abandon(Game *game);
 Status game_actions_use(Game *game);
 Status game_actions_open(Game *game);
+Status game_actions_save(Game *game);
+Status game_actions_load(Game *game);
 
 /**
    Transfers the actual command state to the game function and calls the respective command function
@@ -121,6 +121,20 @@ Status game_actions_update(Game *game, Command *command)
 
 	case OPEN:
 		if (game_actions_open(game) == ERROR)
+		{
+			command_set_status(command, ERROR);
+		}
+		break;
+
+	case SAVE:
+		if (game_actions_save(game) == ERROR)
+		{
+			command_set_status(command, ERROR);
+		}
+		break;
+
+	case LOAD:
+		if (game_actions_load(game) == ERROR)
 		{
 			command_set_status(command, ERROR);
 		}
@@ -289,7 +303,7 @@ Status game_actions_take(Game *game)
 		return ERROR;
 	}
 
-	if (object_space_id != player_space_id && object_get_movable(object) == TRUE)
+	if (object_space_id != player_space_id && object_get_movable(object) != TRUE)
 	{
 		return ERROR;
 	}
@@ -391,7 +405,7 @@ Status game_actions_attack(Game *game)
 	Set *characters = NULL;
 	Character *enemy = NULL;
 	Id player_space_id = NO_ID;
-	int n_rand, choice, i, j = 0, position_rand[MAX_CHARACTERS], followers = 0;
+	int n_rand, choice, i, followers = 0;
 
 	if (!game)
 	{
@@ -417,18 +431,18 @@ Status game_actions_attack(Game *game)
 	}
 
 	enemy = game_get_character_with_id(game, set_get_id_at(characters, 0));
-	if (!enemy)
-	{
-		return ERROR;
-	}
-
-	if ((character_get_health(enemy)) == 0)
+	if (!enemy || character_get_health(enemy) == 0)
 	{
 		return ERROR;
 	}
 
 	if (character_get_friendly(enemy) != TRUE)
 	{
+		/*if(game_get_deterministic(game) == TRUE){
+			srand(1);
+		}else{
+			srand(time(NULL));
+		}*/
 		srand(time(NULL));
 		choice = rand() % 10;
 		for (i = 0; i < game_get_n_characters(game); i++)
@@ -438,9 +452,17 @@ Status game_actions_attack(Game *game)
 				followers++;
 			}
 		}
-		if (choice <= 4 && choice >= 0)
+		if (choice >= 5)
 		{
-			n_rand = rand() % (followers + 2); /* +1 por player y +1 para que el modulo no se salte numeros en ese rango */
+			character_set_health(enemy, character_get_health(enemy) - (1 + followers));
+			if ((character_get_health(enemy)) <= 0)
+			{
+				character_set_gdesc(enemy, "   ");
+			}
+		}
+		else
+		{
+			n_rand = rand() % (followers + 1); /* +1 por player y +1 para que el modulo no se salte numeros en ese rango */
 			if (n_rand == 0)
 			{
 				player_set_health(player, player_get_health(player) - 1);
@@ -455,20 +477,13 @@ Status game_actions_attack(Game *game)
 				{
 					if (character_get_following(game_get_character_at(game, i)) == player_get_id(player))
 					{
-						if (j >= followers)
+						if (n_rand > 0)
 						{
-							break;
+							n_rand--;
 						}
-						position_rand[j] = followers - 1;
-						j++;
-						for (i = 0; i < followers; i++)
+						else
 						{
-
-							if (position_rand[j] == n_rand)
-							{
-								character_set_health(game_get_character_at(game, i), character_get_health(game_get_character_at(game, i)) - 1);
-								break;
-							}
+							character_set_health(game_get_character_at(game, i), character_get_health(game_get_character_at(game, i)) - 1);
 						}
 						if (character_get_health(game_get_character_at(game, i)) == 0)
 						{
@@ -478,14 +493,6 @@ Status game_actions_attack(Game *game)
 						break;
 					}
 				}
-			}
-		}
-		else if (choice >= 5 && choice <= 9)
-		{
-			character_set_health(enemy, character_get_health(enemy) - (1 + followers));
-			if ((character_get_health(enemy)) <= 0)
-			{
-				character_set_gdesc(enemy, "   ");
 			}
 		}
 
@@ -503,10 +510,13 @@ Status game_actions_attack(Game *game)
  */
 Status game_actions_chat(Game *game)
 {
+	int i;
 	Player *player = NULL;
 	Character *character = NULL;
-	char *message = NULL;
+	Set *characters = NULL;
+	char *message = NULL, *name = NULL;
 	Id player_space_id = NO_ID;
+	Space *space = NULL;
 	Command *cmd = NULL;
 
 	if (!game)
@@ -532,10 +542,31 @@ Status game_actions_chat(Game *game)
 		return ERROR;
 	}
 
-	character = game_get_character_with_id(game, space_get_character(game_get_space(game, player_space_id)));
-	if (!character)
+	space = game_get_space(game, player_space_id);
+	if(!space)
 	{
 		return ERROR;
+	}
+
+	characters = space_get_characters(space);
+	if (!characters)
+	{
+		return ERROR;
+	}
+
+	name = command_get_argstr(cmd, 0);
+	if (!name)
+	{
+		return ERROR;
+	}
+
+	for (i = 0; i < game_get_n_characters(game); i++)
+	{
+		character = game_get_character_at(game, i);
+		if (!strcasecmp(character_get_name(character), name))
+		{
+			break;
+		}
 	}
 
 	message = character_get_message(character);
@@ -543,7 +574,7 @@ Status game_actions_chat(Game *game)
 	{
 		return ERROR;
 	}
-
+	
 	if (character_get_friendly(character))
 	{
 		command_set_description(cmd, message);
@@ -760,6 +791,12 @@ Status game_actions_use(Game *game)
 		return ERROR;
 	}
 
+	player = game_get_player(game);
+	if (!player)
+	{
+		return ERROR;
+	}
+
 	for (i = 0; i < game_get_n_objects(game); i++)
 	{
 		object = game_get_object_at(game, i);
@@ -772,7 +809,7 @@ Status game_actions_use(Game *game)
 	arg2 = command_get_argstr(cmd, 1);
 	if (!arg2)
 	{
-		if (player_set_health(game_get_player(game), player_get_health(game_get_player(game)) + object_get_health(object)) == ERROR)
+		if (player_set_health(player, player_get_health(player) + object_get_health(object)) == ERROR)
 		{
 			return ERROR;
 		}
@@ -782,7 +819,7 @@ Status game_actions_use(Game *game)
 	for (i = 0; i < game_get_n_characters(game); i++)
 	{
 		character = game_get_character_at(game, i);
-		if (!strcasecmp(character_get_name(object), arg2))
+		if (!strcasecmp(character_get_name(character), arg2))
 		{
 			break;
 		}
@@ -827,7 +864,7 @@ Status game_actions_open(Game *game)
 		return ERROR;
 	}
 
-	for (i = 0; i < game_get_n_objects(game); i++)
+	for (i = 0; i < game_get_n_links(game); i++)
 	{
 		link = game_get_link_at(game, i);
 		if (!strcasecmp(link_get_name(link), arg1))
@@ -836,15 +873,15 @@ Status game_actions_open(Game *game)
 		}
 	}
 
-	if (game_get_player_location(game_get_player(game)) != link_get_origin(link))
+	if (game_get_player_location(game) != link_get_origin(link))
 	{
 		return ERROR;
 	}
 
 	for (i = 0; i < game_get_n_objects(game); i++)
 	{
-		object = game_get_link_at(game, i);
-		if (!strcasecmp(object_get_name(link), arg2))
+		object = game_get_object_at(game, i);
+		if (!strcasecmp(object_get_name(object), arg2))
 		{
 			break;
 		}
@@ -856,6 +893,66 @@ Status game_actions_open(Game *game)
 	}
 
 	if (link_set_open(link, TRUE) == ERROR)
+	{
+		return ERROR;
+	}
+
+	return OK;
+}
+
+Status game_actions_save(Game *game)
+{
+	Command *cmd = NULL;
+	char *arg1 = NULL;
+
+	if (!game)
+	{
+		return ERROR;
+	}
+
+	cmd = game_get_last_command(game);
+	if (!cmd)
+	{
+		return ERROR;
+	}
+
+	arg1 = command_get_argstr(cmd, 0);
+	if (!arg1)
+	{
+		return ERROR;
+	}
+
+	if (game_management_save(game, arg1) == ERROR)
+	{
+		return ERROR;
+	}
+
+	return OK;
+}
+
+Status game_actions_load(Game *game)
+{
+	Command *cmd = NULL;
+	char *arg1 = NULL;
+
+	if (!game)
+	{
+		return ERROR;
+	}
+
+	cmd = game_get_last_command(game);
+	if (!cmd)
+	{
+		return ERROR;
+	}
+
+	arg1 = command_get_argstr(cmd, 0);
+	if (!arg1)
+	{
+		return ERROR;
+	}
+
+	if (game_management_load(game, arg1) == ERROR)
 	{
 		return ERROR;
 	}

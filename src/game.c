@@ -9,7 +9,7 @@
  */
 
 #include "game.h"
-#include "game_reader.h"
+#include "game_management.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,6 +37,7 @@ struct _Game
   Command *last_cmd;                     /*!< Command structure pointer */
   Bool finished;                         /*!< States the finished status in the game */
   int turn;                              /*!< Indicates actual turn */
+  Bool deterministic;                    /*!< Indicates if game its deterministic or not */
 };
 
 /* It creates a new game, allocating memory and initializing its members */
@@ -204,7 +205,7 @@ int game_get_n_players(Game *game)
   return game->n_players;
 }
 
-/*It sets the amount of  deadplayers */
+/*It sets the amount of  dead players */
 Status game_set_dead_players(Game *game, int amount)
 {
   if (!game || amount < 0)
@@ -251,6 +252,17 @@ Id game_get_player_location(Game *game)
 
   return player_get_location(game->players[game_get_turn(game)]);
 }
+
+/*Its get the player from its position*/
+/*Player *game_get_player_at(Game * game, int position){
+
+  if (!game || position < 0 || position >= game_get_n_players(game))
+  {
+    return NULL;
+  }
+
+  return game->players[position];
+}*/
 
 /* OBJECT FUNCTIONS : */
 
@@ -743,7 +755,7 @@ int game_get_n_links(Game *game)
 }
 
 /** It gets the link from its position */
-Object *game_get_link_at(Game *game, int position)
+Link *game_get_link_at(Game *game, int position)
 {
   if (!game || position < 0 || position >= game_get_n_objects(game))
   {
@@ -819,6 +831,28 @@ Bool game_get_character_discovered(Game *game, Id char_id)
 
   if (space_get_discovered(game_get_space(game, game_get_character_location(game, char_id))) == TRUE)
   {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+Status game_set_deterministic(Game *game, Bool deterministic){
+  if(game == NULL){
+    return ERROR;
+  }
+
+  game->deterministic = deterministic;
+  return OK;
+}
+
+
+Bool game_get_deterministic(Game *game){
+  if(game == NULL){
+    return FALSE;
+  }
+
+  if(game->deterministic == 1){
     return TRUE;
   }
 

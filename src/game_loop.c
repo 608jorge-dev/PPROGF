@@ -14,7 +14,7 @@
 
 #include "command.h"
 #include "game.h"
-#include "game_reader.h"
+#include "game_management.h"
 #include "game_actions.h"
 #include "graphic_engine.h"
 #include "playerinf.h"
@@ -42,9 +42,23 @@ int main(int argc, char *argv[])
   Command *last_cmd;
   Status st, actions_status;
   FILE *log_file = NULL;
-  int log = 0, cmd = 0;
+  int log = 0, cmd = 0, deterministic = 0, i;
   CommandCode code;
   char *arg = NULL;
+
+  for(i = 0; i<argc; i++){
+    if(strcmp(argv[i] , "-d") == 0){
+      deterministic = 1;
+    }
+    if(strcmp(argv[i] , "-l") == 0){
+      log_file = fopen(argv[argc - 1], "w");
+      if (log_file == NULL)
+      {
+        return 1;
+      }
+      log = 1;
+    }
+  }
 
   if (argc < 2)
   {
@@ -52,19 +66,10 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  if (strcmp(argv[argc - 2], "-l") == 0)
-  {
-    log_file = fopen(argv[argc - 1], "w");
-    if (log_file == NULL)
-    {
-      game_loop_cleanup(game, gengine);
-      return 1;
-    }
-    log = 1;
-  }
 
   game = game_create();
   result = game_loop_init(game, &gengine, argv[1]);
+  game_set_deterministic(game, deterministic);
 
   if (result == 1)
   {
@@ -170,7 +175,7 @@ int main(int argc, char *argv[])
  */
 int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name)
 {
-  if (game_reader_create_from_file(game, file_name) == ERROR)
+  if (game_management_create_from_file(game, file_name) == ERROR)
   {
     return 1;
   }

@@ -12,7 +12,8 @@ typedef enum
     OPEN_LINK,
     CLOSE_LINK,
     CHANGE_OBJ_LOCATION,
-    RAND_ATTACK,
+    FOG,
+
 } Rules;
 
 Gamerule *gamerule_create();

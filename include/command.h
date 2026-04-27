@@ -45,7 +45,8 @@ typedef enum
     USE,
     OPEN,
     SAVE,
-    LOAD
+    LOAD,
+    COLLAB
 } CommandCode;
 
 /**

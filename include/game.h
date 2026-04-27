@@ -109,7 +109,6 @@ Status game_set_player_location(Game *game, Id id);
  */
 Id game_get_player_location(Game *game);
 
-
 /**
  * @brief It gets Player from its position
  * @author Ivan Rodriguez
@@ -118,7 +117,7 @@ Id game_get_player_location(Game *game);
  * @param position The position of the player in the player array
  * @return A pointer to the Player structure
  */
-Player *game_get_player_at(Game * game, int position);
+Player *game_get_player_at(Game *game, int position);
 
 /* OBJECT FUNCTIONS : */
 

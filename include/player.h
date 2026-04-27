@@ -171,6 +171,10 @@ Status player_set_health(Player *player, int health);
  */
 int player_get_health(Player *player);
 
+Status player_set_team(Player *player, Id team);
+
+Id player_get_team(Player *player);
+
 /**
  * @brief It prints the player information
  * @author Jorge Torrijos de la Cruz

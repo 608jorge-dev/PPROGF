@@ -37,20 +37,23 @@ extern char *cmd_to_str[N_CMD][N_CMDT];
 int main(int argc, char *argv[])
 {
   Game *game = NULL;
-  Graphic_engine *gengine;
-  int result;
-  Command *last_cmd;
+  Graphic_engine *gengine = NULL;
+  int result = 0;
+  Command *last_cmd = NULL;
   Status st, actions_status;
   FILE *log_file = NULL;
   int log = 0, cmd = 0, deterministic = 0, i;
-  CommandCode code;
+  CommandCode code = -1;
   char *arg = NULL;
 
-  for(i = 0; i<argc; i++){
-    if(strcmp(argv[i] , "-d") == 0){
+  for (i = 0; i < argc; i++)
+  {
+    if (strcmp(argv[i], "-d") == 0)
+    {
       deterministic = 1;
     }
-    if(strcmp(argv[i] , "-l") == 0){
+    if (strcmp(argv[i], "-l") == 0)
+    {
       log_file = fopen(argv[argc - 1], "w");
       if (log_file == NULL)
       {
@@ -65,7 +68,6 @@ int main(int argc, char *argv[])
     fprintf(stderr, "Use: %s <game_data_file>\n", argv[0]);
     return 1;
   }
-
 
   game = game_create();
   result = game_loop_init(game, &gengine, argv[1]);
@@ -116,13 +118,12 @@ int main(int argc, char *argv[])
       playerinf_set_lastinspect(game_get_playerinf(game), command_get_description(last_cmd));
     }
 
-    /* Hay que actualizar esta parte del código*/
+    code = command_get_code(last_cmd);
+    arg = command_get_argstr(last_cmd, 0);
+    st = command_get_status(last_cmd);
+
     if (log == 1)
     {
-      code = command_get_code(last_cmd);
-      arg = command_get_argstr(last_cmd, 0);
-      st = command_get_status(last_cmd);
-
       if (arg && arg[0] != '\0')
       {
         fprintf(log_file, "Player %d: %s %s: %s \n", game_get_turn(game), cmd_to_str[code - NO_CMD][CMDL], arg, (st == OK) ? "OK" : "ERROR");
@@ -138,9 +139,9 @@ int main(int argc, char *argv[])
       graphic_engine_paint_game(gengine, game);
       fprintf(stdout, "\n   ____     _    _    _   ____   ____    __  __   ____   _____ ");
       fprintf(stdout, "\n  / ___|   / \\ | \\_/ | |      /    \\  | | | | |      | |  \\");
-      fprintf(stdout, "\n |  |  _  | O | |  _   | |____ |  /\\  | | |_| | |____  | |_ //");
-      fprintf(stdout, "\n |  |_| | |___| | | |  | |     |  \\/  | |     | |      | |  \\ ");
-      fprintf(stdout, "\n \\_____| |   | |_| |_ | |____ \\_____/  \\___/  |____  |_|   \\ \n\n");
+      fprintf(stdout, "\n |  |  _  | O | |  __  | |____ |  /\\  | | |_| | |____  | |_ //");
+      fprintf(stdout, "\n |  |_| | |___| | |  | | |     |  \\/  | |     | |      | |  \\ ");
+      fprintf(stdout, "\n \\_____| |   | |_|  |_| |____ \\_____/  \\___/  |____  |_|   \\ \n\n");
       game_set_finished(game, TRUE);
     }
     sleep(1);
@@ -175,7 +176,7 @@ int main(int argc, char *argv[])
  */
 int game_loop_init(Game *game, Graphic_engine **gengine, char *file_name)
 {
-  if (game_management_create_from_file(game, file_name) == ERROR)
+  if (game_management_load(game, file_name) == ERROR)
   {
     return 1;
   }

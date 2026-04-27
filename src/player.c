@@ -28,6 +28,7 @@ struct _Player
   int n_objects;             /*!< Total amount of objects created */
   int health;                /*!< Amount of health the player has */
   char gdesc[WORD_SIZE + 1]; /*!< Description of the player */
+  Id team;                   /*!< Id of the players of the team*/
 };
 
 /* It creates a new player, allocating memory
@@ -274,6 +275,28 @@ const char *player_get_gdesc(Player *player)
   }
 
   return player->gdesc;
+}
+
+Status player_set_team(Player *player, Id team)
+{
+
+  if (!player || team == NO_ID)
+  {
+    return ERROR;
+  }
+
+  player->team = team;
+  return OK;
+}
+
+Id player_get_team(Player *player)
+{
+  if (!player)
+  {
+    return NO_ID;
+  }
+
+  return player->team;
 }
 
 /* It prints the player information

@@ -32,6 +32,7 @@ Status game_actions_use(Game *game);
 Status game_actions_open(Game *game);
 Status game_actions_save(Game *game);
 Status game_actions_load(Game *game);
+Status game_actions_collab(Game *game);
 
 /**
    Transfers the actual command state to the game function and calls the respective command function
@@ -135,6 +136,13 @@ Status game_actions_update(Game *game, Command *command)
 
 	case LOAD:
 		if (game_actions_load(game) == ERROR)
+		{
+			command_set_status(command, ERROR);
+		}
+		break;
+
+	case COLLAB:
+		if (game_actions_collab(game) == ERROR)
 		{
 			command_set_status(command, ERROR);
 		}
@@ -401,11 +409,11 @@ Status game_actions_drop(Game *game)
  */
 Status game_actions_attack(Game *game)
 {
-	Player *player = NULL;
+	Player *player = NULL, *p = NULL;
 	Set *characters = NULL;
 	Character *enemy = NULL;
 	Id player_space_id = NO_ID;
-	int n_rand, choice, i, followers = 0;
+	int n_rand, choice, i, followers = 0, teammate = 0;
 
 	if (!game)
 	{
@@ -451,10 +459,19 @@ Status game_actions_attack(Game *game)
 			{
 				followers++;
 			}
+
+			p = game_get_player_at(game, i);
+			if (p != player &&
+				player_get_team(p) == player_get_team(player) &&
+				player_get_location(p) == player_space_id &&
+				player_get_health(p) > 0)
+			{
+				teammate++;
+			}
 		}
-		if (choice >= 5)
+		if (choice >= 5 && choice <= 9)
 		{
-			character_set_health(enemy, character_get_health(enemy) - (1 + followers));
+			character_set_health(enemy, character_get_health(enemy) - (1 + followers + teammate));
 			if ((character_get_health(enemy)) <= 0)
 			{
 				character_set_gdesc(enemy, "   ");
@@ -543,7 +560,7 @@ Status game_actions_chat(Game *game)
 	}
 
 	space = game_get_space(game, player_space_id);
-	if(!space)
+	if (!space)
 	{
 		return ERROR;
 	}
@@ -574,7 +591,7 @@ Status game_actions_chat(Game *game)
 	{
 		return ERROR;
 	}
-	
+
 	if (character_get_friendly(character))
 	{
 		command_set_description(cmd, message);
@@ -769,7 +786,7 @@ Status game_actions_use(Game *game)
 {
 	int i;
 	Object *object = NULL;
-	Player *player = NULL;
+	Player *player = NULL, *teammate = NULL;
 	Character *character = NULL;
 	Command *cmd = NULL;
 	char *arg1 = NULL, *arg2 = NULL;
@@ -796,6 +813,8 @@ Status game_actions_use(Game *game)
 	{
 		return ERROR;
 	}
+
+	/*teammate = game_get_player_id_with_id(game, player_get_team(player));*/
 
 	for (i = 0; i < game_get_n_objects(game); i++)
 	{
@@ -959,3 +978,61 @@ Status game_actions_load(Game *game)
 
 	return OK;
 }
+
+Status game_actions_collab(Game *game)
+{
+	int i;
+	char *name = NULL;
+	Player *player = NULL, *target = NULL;
+	Id player_space_id = NO_ID;
+	Command *cmd = NULL;
+
+	if (!game)
+	{
+		return ERROR;
+	}
+
+	cmd = game_get_last_command(game);
+	if (!cmd)
+	{
+		return ERROR;
+	}
+
+	name = command_get_argstr(cmd, 0);
+	if (!name)
+	{
+		return ERROR;
+	}
+
+	player = game_get_player(game);
+	if (!player)
+	{
+		return ERROR;
+	}
+
+	player_space_id = game_get_player_location(game);
+	if (player_space_id == NO_ID)
+	{
+		return ERROR;
+	}
+
+	for (i = 0; i < game_get_n_players(game); i++)
+	{
+		if (!strcasecmp(player_get_name(game_get_player_at(game, i)), name))
+		{
+			target = game_get_player_at(game, i);
+			break;
+		}
+	}
+
+	if (!target || target == player)
+	{
+		return ERROR;
+	}
+
+	player_set_team(player, player_get_id(target));
+	player_set_team(target, player_get_id(player));
+	
+
+	return OK;
+	}

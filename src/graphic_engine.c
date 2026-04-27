@@ -115,7 +115,7 @@ void graphic_engine_paint_northorsouthspace(Game *game, Id id_paint, Id id_act, 
 {
   char str[255], c_gdesc[MAC_SIZE + 1], link1 = 'X', obj[MAC_SIZE + 1], obj1[MAC_SIZE + 1];
   int i = 0;
-  Id char_id = NO_ID;
+  /*Id char_id = NO_ID;*/
   Object *ob = NULL;
 
   /* CHARACTER GDESC*/
@@ -123,11 +123,11 @@ void graphic_engine_paint_northorsouthspace(Game *game, Id id_paint, Id id_act, 
   {
     c_gdesc[i] = ' ';
   }
-  char_id = space_get_character(game_get_space(game, id_paint));
+  /*char_id = space_get_character(game_get_space(game, id_paint));
   if (char_id != NO_ID)
   {
     strcpy(c_gdesc, character_get_gdesc(game_get_character_with_id(game, char_id)));
-  }
+  }*/
 
   /*OBJECT NAME*/
   for (i = 0; i < MAC_SIZE; i++)
@@ -211,7 +211,7 @@ void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id
 {
   char str[255], c_gdesc[MAC_SIZE], c_gdesc1[MAC_SIZE], c_gdesc2[MAC_SIZE], link1 = 'X', link2 = 'X', obj[MAC_SIZE], obj1[MAC_SIZE], obj2[MAC_SIZE], obj3[MAC_SIZE], obj4[MAC_SIZE], obj5[MAC_SIZE];
   int i;
-  Id char_id = NO_ID;
+  /*Id char_id = NO_ID;*/
   Object *ob;
 
   /* CHARACTER GDESC*/
@@ -221,7 +221,7 @@ void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id
     c_gdesc1[i] = ' ';
     c_gdesc2[i] = ' ';
   }
-  char_id = space_get_character(game_get_space(game, id_west));
+  /*char_id = space_get_character(game_get_space(game, id_west));
   if (char_id != NO_ID && space_get_discovered(game_get_space(game, id_west)) == TRUE)
   {
     strcpy(c_gdesc1, character_get_gdesc(game_get_character_with_id(game, char_id)));
@@ -235,7 +235,7 @@ void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id
   if (char_id != NO_ID && space_get_discovered(game_get_space(game, id_east)) == TRUE)
   {
     strcpy(c_gdesc2, character_get_gdesc(game_get_character_with_id(game, char_id)));
-  }
+  }*/
 
   /*OBJECT NAME*/
   for (i = 0; i < MAC_SIZE; i++)

@@ -254,7 +254,7 @@ Id game_get_player_location(Game *game)
 }
 
 /*Its get the player from its position*/
-/*Player *game_get_player_at(Game * game, int position){
+Player *game_get_player_at(Game * game, int position){
 
   if (!game || position < 0 || position >= game_get_n_players(game))
   {
@@ -262,7 +262,7 @@ Id game_get_player_location(Game *game)
   }
 
   return game->players[position];
-}*/
+}
 
 /* OBJECT FUNCTIONS : */
 

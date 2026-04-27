@@ -244,9 +244,15 @@ Status command_get_user_input(Command *command)
     }
 
     token = strtok(NULL, " \n");
-    strcpy(cmdarg, token);
+    if (token != NULL)
+    {
+      strcpy(cmdarg, token);
+    }
     token = strtok(NULL, " \n");
-    strcpy(cmdarg2, token);
+    if (token != NULL)
+    {
+      strcpy(cmdarg2, token);
+    }
 
     command_set_status(command, OK);
     command_set_argstr(command, cmdarg);

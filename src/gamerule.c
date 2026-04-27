@@ -165,3 +165,45 @@ int gamerule_get_nArgs(Gamerule *gamerule)
 
     return gamerule->nArgs;
 }
+
+
+Status gamerule_check(Gamerule * gamerule){
+
+
+if(gamerule->status == ERROR){
+return ERROR;
+}
+
+if(gamerule->rule == NO_RULE){
+return ERROR;
+
+}
+
+if(gamerule->description == NULL){
+
+return ERROR;
+}
+
+if(gamerule->nArgs == -1){
+    return ERROR;
+}
+
+
+return OK;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -30,7 +30,6 @@ Status game_management_save(Game *game, char *filename)
     }
 
     f = fopen(filename, "w");
-
     if (!f)
     {
         return ERROR;
@@ -39,7 +38,7 @@ Status game_management_save(Game *game, char *filename)
     while (game_get_space_at(game, i) != NULL)
     {
         s = game_get_space_at(game, i);
-        fprintf(f, "#s:%ld|%s|%s|%s|%s|%s|%s|%d| \n", space_get_id(s), space_get_name(s), space_get_gdesc(s, 1), space_get_gdesc(s, 2), space_get_gdesc(s, 3), space_get_gdesc(s, 4), space_get_gdesc(s, 5), space_get_discovered(s));
+        fprintf(f, "#s:%ld|%s|%s|%s|%s|%s|%s|%d| \n", space_get_id(s), space_get_name(s), space_get_gdesc(s, 0), space_get_gdesc(s, 1), space_get_gdesc(s, 2), space_get_gdesc(s, 3), space_get_gdesc(s, 4), space_get_discovered(s));
 
         i++;
     }
@@ -51,14 +50,13 @@ Status game_management_save(Game *game, char *filename)
     while (game_get_object_at(game, i) != NULL)
     {
         o = game_get_object_at(game, i);
-        fprintf(f, "#o:%ld|%s|%ld|%s|  \n", object_get_id(o), object_get_name(o), game_get_object_location(game, object_get_id(o)), object_get_desc(o));
+        fprintf(f, "#o:%ld|%s|%ld|%s|  \n", object_get_id(o), object_get_name(o), game_get_object_location(game, object_get_id(o)), object_get_desc(o),object_get_movable(o),object_get_dependency(o));
         i++;
     }
 
     i = 0;
 
-    fprintf(f, "\n");
-    fprintf(f, "\n");
+    fprintf(f, "\n\n");
 
     while (game_get_character_at(game, i) != NULL)
     {
@@ -87,7 +85,7 @@ Status game_management_save(Game *game, char *filename)
     {
         l = game_get_link_at(game, i);
 
-        fprintf(f, "#l:%ld|%s|%ld|%ld|%d|%d|", link_get_id(l), link_get_name(l), link_get_origin(l), link_get_destination(l), link_get_direction(l), link_get_open(l));
+        fprintf(f, "#l:%ld|%s|%ld|%ld|%d|%d| \n", link_get_id(l), link_get_name(l), link_get_origin(l), link_get_destination(l), link_get_direction(l), link_get_open(l));
         i++;
     }
 

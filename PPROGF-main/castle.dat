@@ -1,0 +1,43 @@
+#s:11|Entry| _  !# |[_]--'---|!'!""`""!|! ! /^ !|!_!_!I!_!|0|
+#s:12|Corridor|!-------!|! .   . !|! .   . !|! .   . !|!-------!|0|
+#s:121|Dungeon|!XXXXXXX!|!X [ ] X!|!X  _  X!|!X ( ) X!|!XXXXXXX!|0|
+#s:13|Dining Room| .-===-. | ! . . ! | ! .'. ! |()_____()|II_____II|0|
+#s:131|Room|  _____  | !  _  ! | ! ! ! ! | !/_\! ! | !_____! |0|
+#s:132|Bathroom|  _____  | ! [O] ! | !  _  ! | ! (___) ! | !_____! |0|
+#s:14|Kitchen|  _____  | ! ^^^ ! | ! [###] ! | !  ___  ! | !_____! |0|
+#s:15|Inner Courtyard|  -----  | /  _  \ | ! (_) ! | \ ___ / |  -----  |0|
+#s:16|Garden| /\ /\ /\ |//\\/\\/\|//\\/\\/\| II II II |---------|0|
+#s:0|NULL| | | | | |0|
+
+#o:1|Sword|11| Just a normal sword |
+#o:2|Knife|14| A knife to cut some onions |
+#o:3|Lantern|131| How are you going to see at night? |
+#o:4|Toilet_paper|132| I don't think you need to know about this one | | | 
+#o:5|Dagger|11| To stab | | |
+
+
+#c:1|Vendor|(o)|12|3|1|Hello traveler! Would you like to buy something?|
+#c:2|Knight|^M*|13|7|0|-|
+#c:3|Phantom|'o'|132|1|1|I won't talk to you! I've been hiding from humans like you for a very long time!|
+
+#p:1|Damsel|<o>|7|11|5|
+#p:2|Knigth|^C>|3|16|3|
+#p:3|Thief|^d>|5|132|5|
+
+
+#l:31|EntryS|11|12|1|1|
+#l:32|CorridorS|12|13|1|1|
+#l:34|Dining RoomS|13|14|1|1|
+#l:35|KitchenS|14|15|1|1|
+#l:36|Inner CourtyardS|15|16|1|1|
+#l:37|CorridorN|12|11|0|1|
+#l:38|Dining RoomN|13|12|0|1|
+#l:39|KitchenN|14|13|0|1|
+#l:40|Inner CourtyardN|15|14|0|1|
+#l:41|GardenN|16|15|0|1|
+#l:42|CorridorW|12|121|3|0|
+#l:43|RoomW|131|13|3|1|
+#l:44|BathroomW|132|131|3|1|
+#l:34|Dungeon|121|16|1|1|
+#l:34|Dining RoomE|13|131|2|1|
+#l:34|RoomE|131|132|2|1|

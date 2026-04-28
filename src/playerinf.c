@@ -1,10 +1,10 @@
 /**
- * @brief It implements the player info module
+ * @brief It implements the player information module
  *
  * @file playerinf.c
- * @author Jorge Torrijos de la Cruz
- * @version 0
- * @date 03-02-2026
+ * @author Guillermo Núñez Bravo
+ * @version 7.0
+ * @date 28-04-2026
  * @copyright GNU Public License
  */
 
@@ -15,9 +15,9 @@
 #include <string.h>
 
 /**
- * @brief Player
+ * @brief Playerinf
  *
- * This struct stores all the information of a player.
+ * This struct stores all the information related to a player.
  */
 struct _Playerinf
 {

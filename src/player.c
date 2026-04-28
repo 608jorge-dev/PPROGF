@@ -2,9 +2,9 @@
  * @brief It implements the player module
  *
  * @file player.c
- * @author Jorge Torrijos de la Cruz
- * @version 0
- * @date 03-02-2026
+ * @author Álvaro Bravo González, Guillermo Núñez Bravo, Iván Rodríguez Camacho, Jorge Torrijos de la Cruz
+ * @version 7.0
+ * @date 28-04-2026
  * @copyright GNU Public License
  */
 
@@ -17,7 +17,7 @@
 /**
  * @brief Player
  *
- * This struct stores all the information of a player.
+ * This struct stores all the information related to a player.
  */
 struct _Player
 {

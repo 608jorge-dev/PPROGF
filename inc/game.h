@@ -43,6 +43,7 @@ Game *game_create();
 Status game_destroy(Game *game);
 
 /* PLAYER FUNCTIONS : */
+
 /**
  * @brief It sets player pointer
  * @author Jorge Torrijos de la Cruz
@@ -73,6 +74,45 @@ Player *game_get_player(Game *game);
 Status game_add_player(Game *game, Player *player);
 
 /**
+ * @brief It gets Player from its position
+ * @author Ivan Rodriguez
+ *
+ * @param game A pointer to the game data
+ * @param position The position of the player in the player array
+ * @return A pointer to the Player structure
+ */
+Player *game_get_player_at(Game *game, int position);
+
+/**
+ * @brief It gets Player from with the id
+ * @author Ivan Rodriguez
+ *
+ * @param game A pointer to the game data
+ * @param id The id of the player in the player array
+ * @return A pointer to the Player structure
+ */
+Player *game_get_player_with_id(Game *game, Id id);
+
+/**
+ * @brief It sets the player's location
+ * @author Álvaro Bravo González
+ *
+ * @param game A pointer to the game data
+ * @param id The identification number for the location of the player
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status game_set_player_location(Game *game, Id id);
+
+/**
+ * @brief It gets the id of the player's location
+ * @author Álvaro Bravo González
+ *
+ * @param game A pointer to game
+ * @return The id of the player's location
+ */
+Id game_get_player_location(Game *game);
+
+/**
  * @brief It sets the amount of players
  * @author Guillermo Nuñez Bravo
  *
@@ -91,35 +131,47 @@ Status game_set_n_players(Game *game, int amount);
  */
 int game_get_n_players(Game *game);
 
+/* PLAYERINF FUNCTIONS : */
+
 /**
- * @brief It sets the player's location
- * @author Álvaro Bravo González
+ * @brief It gets the playerinf pointer
+ * @author Jorge Torrijos de la Cruz
  *
  * @param game A pointer to the game data
- * @param id The identification number for the location of the player
+ * @return A pointer to the playerinf structure
+ */
+Playerinf *game_get_playerinf(Game *game);
+
+/**
+ * @brief It sets the amount of  dead players
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ * @param amount The amount of dead players
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Status game_set_player_location(Game *game, Id id);
-/**
- * @brief It gets the id of the player's location
- * @author Álvaro Bravo González
- *
- * @param game A pointer to game
- * @return The id of the player's location
- */
-Id game_get_player_location(Game *game);
+Status game_set_dead_players(Game *game, int amount);
 
 /**
- * @brief It gets Player from its position
- * @author Ivan Rodriguez
+ * @brief It gets the amount of dead players
+ * @author Jorge Torrijos de la Cruz
  *
  * @param game A pointer to the game data
- * @param position The position of the player in the player array
- * @return A pointer to the Player structure
+ * @return The number of dead players
  */
-Player *game_get_player_at(Game *game, int position);
+int game_get_dead_players(Game *game);
 
 /* OBJECT FUNCTIONS : */
+
+/**
+ * @brief It adds the object to the game objects pointer
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ * @param object A pointer to the allocated memory for the object
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status game_add_object(Game *game, Object *object);
 
 /**
  * @brief It gets the object from an id
@@ -142,35 +194,6 @@ Object *game_get_object_with_id(Game *game, Id id);
 Object *game_get_object_at(Game *game, int position);
 
 /**
- * @brief It adds the object to the game objects pointer
- * @author Jorge Torrijos de la Cruz
- *
- * @param game A pointer to the game data
- * @param object A pointer to the allocated memory for the object
- * @return OK, if everything goes well or ERROR if there was some mistake
- */
-Status game_add_object(Game *game, Object *object);
-
-/**
- * @brief It sets the amount of objects
- * @author Jorge Torrijos de la Cruz
- *
- * @param game A pointer to the game data
- * @param amount The new quantity of objects
- * @return OK, if everything goes well or ERROR if there was some mistake
- */
-Status game_set_n_objects(Game *game, int amount);
-
-/**
- * @brief It gets the amount of objects
- * @author Jorge Torrijos de la Cruz
- *
- * @param game A pointer to the game data
- * @return The quantity of objects
- */
-int game_get_n_objects(Game *game);
-
-/**
  * @brief It sets the object's location
  * @author Jorge Torrijos de la Cruz
  *
@@ -191,7 +214,56 @@ Status game_set_object_location(Game *game, Id space_id, Id object_id);
  */
 Id game_get_object_location(Game *game, Id object_id);
 
+/**
+ * @brief It sets the amount of objects
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ * @param amount The new quantity of objects
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status game_set_n_objects(Game *game, int amount);
+
+/**
+ * @brief It gets the amount of objects
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ * @return The quantity of objects
+ */
+int game_get_n_objects(Game *game);
+
 /* CHARACTER FUNCTIONS : */
+
+/**
+ * @brief It adds the character to the game character pointer
+ * @author Guillermo Nuñez Bravo
+ *
+ * @param game A pointer to the game data
+ * @param character A pointer to the allocated memory for the character
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status game_add_character(Game *game, Character *character);
+
+/**
+ * @brief It gets the character from an id
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ * @param id The id of the character
+ * @return A pointer to the character structure
+ */
+Character *game_get_character_with_id(Game *game, Id id);
+
+/**
+ * @brief It gets the character from its position
+ * @author Álvaro Bravo González
+ *
+ * @param game A pointer to the game data
+ * @param position The position of the character in the character array
+ * @return A pointer to the character structure
+ */
+Character *game_get_character_at(Game *game, int position);
 
 /**
  * @brief It sets the character's location
@@ -215,36 +287,6 @@ Status game_set_character_location(Game *game, Id space_id, Id character_id);
 Id game_get_character_location(Game *game, Id character_id);
 
 /**
- * @brief It gets the character from an id
- * @author Jorge Torrijos de la Cruz
- *
- * @param game A pointer to the game data
- * @param id The id of the character
- * @return A pointer to the character structure
- */
-Character *game_get_character_with_id(Game *game, Id id);
-
-/**
- * @brief It gets the character from its position
- * @author Álvaro Bravo González
- *
- * @param game A pointer to the game data
- * @param position The position of the character in the character array
- * @return A pointer to the character structure
- */
-Character *game_get_character_at(Game *game, int position);
-
-/**
- * @brief It adds the character to the game character pointer
- * @author Guillermo Nuñez Bravo
- *
- * @param game A pointer to the game data
- * @param character A pointer to the allocated memory for the character
- * @return OK, if everything goes well or ERROR if there was some mistake
- */
-Status game_add_character(Game *game, Character *character);
-
-/**
  * @brief It sets n_characters
  * @author Álvaro Bravo González
  *
@@ -264,6 +306,7 @@ Status game_set_n_characters(Game *game, int number);
 int game_get_n_characters(Game *game);
 
 /* SPACE FUNCTIONS : */
+
 /**
  * @brief It gets the spaces
  * @author Profesores PPROG
@@ -272,9 +315,8 @@ int game_get_n_characters(Game *game);
  * @param game A pointer to the game data
  * @return A pointer to the space structure
  */
-Space *game_get_space(Game *game, Id id);
+Space *game_get_space(Game *game, Id space_id);
 
-/* SPACE FUNCTIONS : */
 /**
  * @brief It gets the spaces at the positio
  * @author Profesores PPROG
@@ -284,6 +326,16 @@ Space *game_get_space(Game *game, Id id);
  * @return A pointer to the space structure
  */
 Space *game_get_space_at(Game *game, int position);
+
+/**
+ * @brief Adds spaces when called
+ * @author Profesores PPROG
+ *
+ * @param game A pointer to the game data
+ * @param space A pointer to a space
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status game_add_space(Game *game, Space *space);
 
 /**
  * @brief It gets the id from a space
@@ -306,16 +358,6 @@ Id game_get_space_id_at(Game *game, int position);
 Space *game_get_space_with_id(Game *game, Id id);
 
 /**
- * @brief Adds spaces when called
- * @author Profesores PPROG
- *
- * @param game A pointer to the game data
- * @param space A pointer to a space
- * @return OK, if everything goes well or ERROR if there was some mistake
- */
-Status game_add_space(Game *game, Space *space);
-
-/**
  * @brief It sets n_spaces
  * @author Jorge Torrijos de la Cruz
  *
@@ -333,6 +375,8 @@ Status game_set_n_spaces(Game *game, int number);
  * @return The amount of spaces, as an integer
  */
 int game_get_n_spaces(Game *game);
+
+/* COMMAND FUNCTIONS : */
 
 /**
  * @brief It sets last command
@@ -352,25 +396,6 @@ Status game_set_last_command(Game *game, Command *command);
  * @return A pointer to the command structure
  */
 Command *game_get_last_command(Game *game);
-
-/**
- * @brief It sets the finished status
- * @author Profesores PPROG
- *
- * @param game A pointer to the game data
- * @param finished A variable to save wether the action has finished or not
- * @return OK, if everything goes well or ERROR if there was some mistake
- */
-Status game_set_finished(Game *game, Bool finished);
-
-/**
- * @brief It gets whether the game finishes or not
- * @author Profesores PPROG
- *
- * @param game A pointer to the game data
- * @return A boolean, specifying if the game finishes (TRUE) or not (FALSE)
- */
-Bool game_get_finished(Game *game);
 
 /* LINK FUNCTIONS : */
 
@@ -397,6 +422,16 @@ Id game_get_connection(Game *game, Id actual_space, Direction link_dir);
 Bool game_connection_is_open(Game *game, Id actual_space, Direction link_dir);
 
 /**
+ * @brief It adds the link to the game links pointer
+ * @author Guillermo Nuñez Bravo
+ *
+ * @param game A pointer to the game data
+ * @param link A pointer to the allocated memory for the link
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status game_add_link(Game *game, Link *link);
+
+/**
  * @brief It gets the link from an id
  * @author Jorge Torrijos de la Cruz
  *
@@ -407,14 +442,14 @@ Bool game_connection_is_open(Game *game, Id actual_space, Direction link_dir);
 Link *game_get_link_with_id(Game *game, Id id);
 
 /**
- * @brief It adds the link to the game links pointer
- * @author Guillermo Nuñez Bravo
+ * @brief It gets the link from its position
+ * @author Jorge Torrijos de la Cruz
  *
  * @param game A pointer to the game data
- * @param link A pointer to the allocated memory for the link
- * @return OK, if everything goes well or ERROR if there was some mistake
+ * @param position The position of the object in the object array
+ * @return A pointer to the link structure
  */
-Status game_add_link(Game *game, Link *link);
+Link *game_get_link_at(Game *game, int position);
 
 /**
  * @brief It sets the amount of links
@@ -436,14 +471,23 @@ Status game_set_n_links(Game *game, int amount);
 int game_get_n_links(Game *game);
 
 /**
- * @brief It gets the link from its position
- * @author Jorge Torrijos de la Cruz
+ * @brief It sets the finished status
+ * @author Profesores PPROG
  *
  * @param game A pointer to the game data
- * @param position The position of the object in the object array
- * @return A pointer to the link structure
+ * @param finished A variable to save wether the action has finished or not
+ * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Link *game_get_link_at(Game *game, int position);
+Status game_set_finished(Game *game, Bool finished);
+
+/**
+ * @brief It gets whether the game finishes or not
+ * @author Profesores PPROG
+ *
+ * @param game A pointer to the game data
+ * @return A boolean, specifying if the game finishes (TRUE) or not (FALSE)
+ */
+Bool game_get_finished(Game *game);
 
 /**
  * @brief It sets turn
@@ -474,25 +518,6 @@ int game_get_turn(Game *game);
 Status game_next_turn(Game *game);
 
 /**
- * @brief It sets the amount of  dead players
- * @author Jorge Torrijos de la Cruz
- *
- * @param game A pointer to the game data
- * @param amount The amount of dead players
- * @return OK, if everything goes well or ERROR if there was some mistake
- */
-Status game_set_dead_players(Game *game, int amount);
-
-/**
- * @brief It gets the amount of dead players
- * @author Jorge Torrijos de la Cruz
- *
- * @param game A pointer to the game data
- * @return The number of dead players
- */
-int game_get_dead_players(Game *game);
-
-/**
  * @brief It gets the discovery status of a character
  * @author Jorge Torrijos de la Cruz
  *
@@ -511,15 +536,6 @@ Bool game_get_character_discovered(Game *game, Id char_id);
  * @return The boolean value of the discovery status
  */
 Bool game_get_object_discovered(Game *game, Id object_id);
-
-/**
- * @brief It gets the playerinf pointer
- * @author Jorge Torrijos de la Cruz
- *
- * @param game A pointer to the game data
- * @return A pointer to the playerinf structure
- */
-Playerinf *game_get_playerinf(Game *game);
 
 /**
  * @brief It sets the game determinism

@@ -20,7 +20,7 @@ Gamerule *gamerule_create();
 
 Status gamerule_destroy(Gamerule *gamerule);
 
-Status gamerule_set_rule(Gamerule *gamerule, Rule r);
+Status gamerule_set_rule(Gamerule *gamerule, Rules r);
 
 Rules *gamerule_get_rule(Gamerule *gamerule);
 

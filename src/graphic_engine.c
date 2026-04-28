@@ -1,11 +1,10 @@
-
 /**
  * @brief It implements a textual graphic engine
  *
  * @file graphic_engine.c
- * @author Profesores PPROG
- * @version 0
- * @date 24-01-2026
+ * @author Jorge Torrijos de la Cruz
+ * @version 7.0
+ * @date 28-04-2026
  * @copyright GNU Public License
  */
 
@@ -18,7 +17,7 @@
 /**
  * @brief Graphic engine
  *
- * This struct stores all the information of the graphic engine.
+ * This struct stores all the information related to the graphic engine.
  */
 struct _Graphic_engine
 {
@@ -109,57 +108,67 @@ void graphic_engine_paint_blankspace(Graphic_engine *ge, Id id)
   screen_area_puts(ge->map, str);
 }
 
-/** It paints the space on the north of the actual space
- */
-void graphic_engine_paint_northorsouthspace(Game *game, Id id_paint, Id id_act, Graphic_engine *ge, int D)
+char *graphic_engine_get_objects(Game *game, Id id_paint, Graphic_engine *ge)
 {
-  char str[255], c_gdesc[MAC_SIZE + 1], link1 = 'X', obj[MAC_SIZE + 1], obj1[MAC_SIZE + 1];
-  int i = 0;
-  /*Id char_id = NO_ID;*/
+  int i;
+  char obj[MAC_SIZE + 1], *obs = NULL;
   Object *ob = NULL;
 
-  /* CHARACTER GDESC*/
-  for (i = 0; i < MAC_SIZE; i++)
-  {
-    c_gdesc[i] = ' ';
-  }
-  /*char_id = space_get_character(game_get_space(game, id_paint));
-  if (char_id != NO_ID)
-  {
-    strcpy(c_gdesc, character_get_gdesc(game_get_character_with_id(game, char_id)));
-  }*/
-
-  /*OBJECT NAME*/
   for (i = 0; i < MAC_SIZE; i++)
   {
     obj[i] = ' ';
-    obj[MAC_SIZE] = '\0';
-    obj1[i] = ' ';
-    obj1[MAC_SIZE] = '\0';
   }
+  obj[MAC_SIZE] = '\0';
+
   for (i = 0; i < game_get_n_objects(game); i++)
   {
     ob = game_get_object_at(game, i);
     if (set_find(space_get_objects(game_get_space(game, id_paint)), object_get_id(ob)) == TRUE)
     {
-      if (obj[0] == ' ')
-      {
-        strcpy(obj, object_get_name(game_get_object_at(game, i)));
-      }
-      strcpy(obj1, object_get_name(game_get_object_at(game, i)));
+      strcat(obj, object_get_name(ob));
     }
   }
-  if (strcmp(obj, obj1) == 0)
+
+  strcpy(obs, obj);
+  return obs;
+}
+
+char *graphic_engine_get_characters(Game *game, Id id_paint, Graphic_engine *ge)
+{
+  int i;
+  char charac[MAC_SIZE + 1], *chs = NULL;
+  Character *ch = NULL;
+
+  for (i = 0; i < MAC_SIZE; i++)
   {
-    for (i = 0; i < MAC_SIZE; i++)
+    charac[i] = ' ';
+  }
+  charac[MAC_SIZE] = '\0';
+
+  for (i = 0; i < game_get_n_characters(game); i++)
+  {
+    ch = game_get_character_at(game, i);
+    if (set_find(space_get_characters(game_get_space(game, id_paint)), character_get_id(ch)) == TRUE)
     {
-      obj1[i] = ' ';
+      strcat(charac, character_get_gdesc(ch));
     }
   }
-  else
-  {
-    obj[strlen(obj)] = ',';
-  }
+
+  strcpy(chs, charac);
+  return chs;
+}
+
+/** It paints the space on the north of the actual space
+ */
+void graphic_engine_paint_northorsouthspace(Game *game, Id id_paint, Id id_act, Graphic_engine *ge, int D)
+{
+  char str[255], link1 = 'X', ob[MAC_SIZE + 1], ch[MAC_SIZE + 1];
+  int i = 0;
+
+  /* CHARACTER GDESC*/
+  strcpy(ch, graphic_engine_get_characters(game, id_paint, ge));
+  /*OBJECT NAME*/
+  strcpy(ob, graphic_engine_get_objects(game, id_paint, ge));
 
   /* SPACE PRINTING*/
   if (id_paint != NO_ID)
@@ -174,14 +183,14 @@ void graphic_engine_paint_northorsouthspace(Game *game, Id id_paint, Id id_act, 
     {
       sprintf(str, "                         +----------------+");
       screen_area_puts(ge->map, str);
-      sprintf(str, "                         |      %-3.3s     %2d|", c_gdesc, (int)id_paint);
+      sprintf(str, "                         |      %-3.3s     %2d|", ch, (int)id_paint);
       screen_area_puts(ge->map, str);
       for (i = 0; i < MAX_S; i++)
       {
         sprintf(str, "                         |   %-9.9s    |  ", space_get_gdesc(game_get_space(game, id_paint), i));
         screen_area_puts(ge->map, str);
       }
-      sprintf(str, "                         | %-7.7s%-7.7s |  ", obj, obj1);
+      sprintf(str, "                         | %-12.12s |  ", ob);
       screen_area_puts(ge->map, str);
       sprintf(str, "                         +----------------+");
       screen_area_puts(ge->map, str);
@@ -209,126 +218,18 @@ void graphic_engine_paint_northorsouthspace(Game *game, Id id_paint, Id id_act, 
  */
 void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id_act, Graphic_engine *ge)
 {
-  char str[255], c_gdesc[MAC_SIZE], c_gdesc1[MAC_SIZE], c_gdesc2[MAC_SIZE], link1 = 'X', link2 = 'X', obj[MAC_SIZE], obj1[MAC_SIZE], obj2[MAC_SIZE], obj3[MAC_SIZE], obj4[MAC_SIZE], obj5[MAC_SIZE];
+  char str[255], ch[MAC_SIZE], ch1[MAC_SIZE], ch2[MAC_SIZE], link1 = 'X', link2 = 'X', ob[MAC_SIZE], ob1[MAC_SIZE], ob2[MAC_SIZE];
   int i;
-  /*Id char_id = NO_ID;*/
-  Object *ob;
 
   /* CHARACTER GDESC*/
-  for (i = 0; i < MAC_SIZE; i++)
-  {
-    c_gdesc[i] = ' ';
-    c_gdesc1[i] = ' ';
-    c_gdesc2[i] = ' ';
-  }
-  /*char_id = space_get_character(game_get_space(game, id_west));
-  if (char_id != NO_ID && space_get_discovered(game_get_space(game, id_west)) == TRUE)
-  {
-    strcpy(c_gdesc1, character_get_gdesc(game_get_character_with_id(game, char_id)));
-  }
-  char_id = space_get_character(game_get_space(game, id_act));
-  if (char_id != NO_ID)
-  {
-    strcpy(c_gdesc, character_get_gdesc(game_get_character_with_id(game, char_id)));
-  }
-  char_id = space_get_character(game_get_space(game, id_east));
-  if (char_id != NO_ID && space_get_discovered(game_get_space(game, id_east)) == TRUE)
-  {
-    strcpy(c_gdesc2, character_get_gdesc(game_get_character_with_id(game, char_id)));
-  }*/
+  strcpy(ch, graphic_engine_get_characters(game, id_act, ge));
+  strcpy(ch1, graphic_engine_get_characters(game, id_east, ge));
+  strcpy(ch2, graphic_engine_get_characters(game, id_west, ge));
 
   /*OBJECT NAME*/
-  for (i = 0; i < MAC_SIZE; i++)
-  {
-    obj[i] = ' ';
-    obj[MAC_SIZE] = '\0';
-    obj1[i] = ' ';
-    obj1[MAC_SIZE] = '\0';
-    obj2[i] = ' ';
-    obj2[MAC_SIZE] = '\0';
-    obj3[i] = ' ';
-    obj3[MAC_SIZE] = '\0';
-    obj4[i] = ' ';
-    obj4[MAC_SIZE] = '\0';
-    obj5[i] = ' ';
-    obj5[MAC_SIZE] = '\0';
-  }
-  if (space_get_discovered(game_get_space(game, id_west)) == TRUE)
-  {
-    for (i = 0; i < game_get_n_objects(game); i++)
-    {
-      ob = game_get_object_at(game, i);
-      if (set_find(space_get_objects(game_get_space(game, id_west)), object_get_id(ob)) == TRUE)
-      {
-        if (obj[0] == ' ')
-        {
-          strcpy(obj, object_get_name(game_get_object_at(game, i)));
-        }
-        strcpy(obj1, object_get_name(game_get_object_at(game, i)));
-      }
-    }
-    if (strcmp(obj, obj1) == 0)
-    {
-      for (i = 0; i < MAC_SIZE; i++)
-      {
-        obj1[i] = ' ';
-      }
-    }
-    else
-    {
-      obj[strlen(obj)] = ',';
-    }
-  }
-
-  for (i = 0; i < game_get_n_objects(game); i++)
-  {
-    ob = game_get_object_at(game, i);
-    if (set_find(space_get_objects(game_get_space(game, id_act)), object_get_id(ob)) == TRUE)
-    {
-      if (obj2[0] == ' ')
-      {
-        strcpy(obj2, object_get_name(game_get_object_at(game, i)));
-      }
-      strcpy(obj3, object_get_name(game_get_object_at(game, i)));
-    }
-  }
-  if (strcmp(obj2, obj3) == 0)
-  {
-    for (i = 0; i < MAC_SIZE; i++)
-    {
-      obj3[i] = ' ';
-    }
-  }
-  else
-  {
-    obj2[strlen(obj2)] = ',';
-  }
-  if (space_get_discovered(game_get_space(game, id_east)) == TRUE)
-  {
-    for (i = 0; i < game_get_n_objects(game); i++)
-    {
-      ob = game_get_object_at(game, i);
-      if (set_find(space_get_objects(game_get_space(game, id_east)), object_get_id(ob)) == TRUE)
-      {
-        if (obj4[0] == ' ')
-        {
-          strcpy(obj4, object_get_name(game_get_object_at(game, i)));
-        }
-        strcpy(obj5, object_get_name(game_get_object_at(game, i)));
-      }
-    }
-    if (strcmp(obj4, obj5) == 0)
-    {
-      for (i = 0; i < MAC_SIZE; i++)
-      {
-        obj5[i] = ' ';
-      }
-    }
-    else
-    {
-      obj4[strlen(obj)] = ',';
-    }
-  }
+  strcpy(ob, graphic_engine_get_objects(game, id_act, ge));
+  strcpy(ob1, graphic_engine_get_objects(game, id_east, ge));
+  strcpy(ob2, graphic_engine_get_objects(game, id_west, ge));
 
   /* SPACE PRINTING*/
   /*EAST, ACT, WEST*/
@@ -344,27 +245,23 @@ void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id
     }
     sprintf(str, "  +----------------+      +----------------+     +----------------+");
     screen_area_puts(ge->map, str);
-    sprintf(str, "  |    %-3.3s       %2d|      | %s %-3.3s     %2d|     |  %-3.3s        %2d|", c_gdesc1, (int)id_west, player_get_gdesc(game_get_player(game)), c_gdesc, (int)id_act, c_gdesc2, (int)id_east);
+    sprintf(str, "  |    %-3.3s       %2d|      | %s %-3.3s     %2d|     |  %-3.3s        %2d|", ch1, (int)id_west, player_get_gdesc(game_get_player(game)), ch, (int)id_act, ch2, (int)id_east);
     screen_area_puts(ge->map, str);
-    if (space_get_discovered(game_get_space(game, id_west)) == FALSE && space_get_discovered(game_get_space(game, id_east)) == TRUE)
+    if (space_get_discovered(game_get_space(game, id_west)) == FALSE)
     {
       id_west = NUL;
     }
-    if (space_get_discovered(game_get_space(game, id_west)) == TRUE && space_get_discovered(game_get_space(game, id_east)) == FALSE)
+    if (space_get_discovered(game_get_space(game, id_east)) == FALSE)
     {
       id_east = NUL;
     }
-    if (space_get_discovered(game_get_space(game, id_west)) == FALSE && space_get_discovered(game_get_space(game, id_east)) == FALSE)
-    {
-      id_east = NUL;
-      id_west = NUL;
-    }
+
     for (i = 0; i < MAX_S; i++)
     {
       sprintf(str, "  |   %-9.9s    |      |   %-9.9s    |     |    %-9.9s   |", space_get_gdesc(game_get_space(game, id_west), i), space_get_gdesc(game_get_space(game, id_act), i), space_get_gdesc(game_get_space(game, id_east), i));
       screen_area_puts(ge->map, str);
     }
-    sprintf(str, "  | %-7.7s%-7.7s |   %c  | %-7.7s%-7.7s |  %c  | %-7.7s%-7.7s |", obj, obj1, link1, obj2, obj3, link2, obj4, obj5);
+    sprintf(str, "  | %-12.12s |   %c  | %-12.12s |  %c  | %-12.12s |", ob1, link1, ob, link2, ob2);
     screen_area_puts(ge->map, str);
     sprintf(str, "  +----------------+      +----------------+     +----------------+");
     screen_area_puts(ge->map, str);
@@ -381,7 +278,7 @@ void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id
     }
     sprintf(str, "                         +----------------+     +----------------+");
     screen_area_puts(ge->map, str);
-    sprintf(str, "                         |  %s  %-3.3s    %2d|     |       %-3.3s   %2d|", player_get_gdesc(game_get_player(game)), c_gdesc, (int)id_act, c_gdesc2, (int)id_east);
+    sprintf(str, "                         |  %s  %-3.3s    %2d|     |       %-3.3s   %2d|", player_get_gdesc(game_get_player(game)), ch, (int)id_act, ch2, (int)id_east);
     screen_area_puts(ge->map, str);
     if (space_get_discovered(game_get_space(game, id_east)) != TRUE)
     {
@@ -392,7 +289,7 @@ void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id
       sprintf(str, "                         |   %-9.9s    |     |   %-9.9s    |", space_get_gdesc(game_get_space(game, id_act), i), space_get_gdesc(game_get_space(game, id_east), i));
       screen_area_puts(ge->map, str);
     }
-    sprintf(str, "                         | %-7.7s%-7.7s |  %c  | %-7.7s%-7.7s |", obj2, obj3, link2, obj4, obj5);
+    sprintf(str, "                         | %-12.12s |  %c  | %-12.12s |", ob, link2, ob2);
     screen_area_puts(ge->map, str);
     sprintf(str, "                         +----------------+     +----------------+");
     screen_area_puts(ge->map, str);
@@ -407,7 +304,7 @@ void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id
     }
     sprintf(str, " +----------------+      +----------------+");
     screen_area_puts(ge->map, str);
-    sprintf(str, " |    %-3.3s      %2d|      | %-3.3s  %-5.5s   %2d|      ", c_gdesc1, (int)id_west, player_get_gdesc(game_get_player(game)), c_gdesc, (int)id_act);
+    sprintf(str, " |    %-3.3s      %2d|      | %-3.3s  %-5.5s   %2d|      ", ch1, (int)id_west, player_get_gdesc(game_get_player(game)), ch, (int)id_act);
     screen_area_puts(ge->map, str);
     if (space_get_discovered(game_get_space(game, id_west)) != TRUE)
     {
@@ -418,7 +315,7 @@ void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id
       sprintf(str, " | %-9.9s      |      |  %-9.9s     |", space_get_gdesc(game_get_space(game, id_west), i), space_get_gdesc(game_get_space(game, id_act), i));
       screen_area_puts(ge->map, str);
     }
-    sprintf(str, " | %-7.7s%-7.7s |  %c   | %-7.7s%-7.7s |", obj, obj1, link1, obj2, obj3);
+    sprintf(str, " | %-12.12s |  %c   | %-12.12s |", ob1, link1, ob2);
     screen_area_puts(ge->map, str);
     sprintf(str, " +----------------+      +----------------+");
     screen_area_puts(ge->map, str);
@@ -430,14 +327,14 @@ void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id
   {
     sprintf(str, "                         +----------------+      ");
     screen_area_puts(ge->map, str);
-    sprintf(str, "                         | %-3.3s %-3.3s      %2d|      ", player_get_gdesc(game_get_player(game)), c_gdesc, (int)id_act);
+    sprintf(str, "                         | %-3.3s %-3.3s      %2d|      ", player_get_gdesc(game_get_player(game)), ch, (int)id_act);
     screen_area_puts(ge->map, str);
     for (i = 0; i < MAX_S; i++)
     {
       sprintf(str, "                         |   %-9.9s    |  ", space_get_gdesc(game_get_space(game, id_act), i));
       screen_area_puts(ge->map, str);
     }
-    sprintf(str, "                         | %-7.7s%-7.7s |  ", obj2, obj3);
+    sprintf(str, "                         | %-12.12s |  ", ob);
     screen_area_puts(ge->map, str);
     sprintf(str, "                         +----------------+");
     screen_area_puts(ge->map, str);
@@ -574,6 +471,6 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
   screen_area_puts(ge->feedback, str);
 
   /* Dump to the terminal */
-  screen_paint(game_get_turn(game));
+  screen_paint(BLACK);
   printf("prompt:> ");
 }

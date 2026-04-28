@@ -2,9 +2,9 @@
  * @brief It implements the character module
  *
  * @file character.c
- * @author Jorge Torrijos de la Cruz
- * @version 0
- * @date 20-02-2026
+ * @author Álvaro Bravo González, Jorge Torrijos de la Cruz
+ * @version 7.0
+ * @date 28-04-2026
  * @copyright GNU Public License
  */
 
@@ -17,7 +17,7 @@
 /**
  * @brief Character
  *
- * This struct stores all the information of a character.
+ * This struct stores all the information related to a character.
  */
 struct _Character
 {

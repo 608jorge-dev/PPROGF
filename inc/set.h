@@ -58,25 +58,25 @@ Status set_del(Set *set, Id id);
  * @brief It finds an id in the id array of the set
  * @author Álvaro Bravo González
  *
- * @param set A pointer to the set that must be destroyed
- * @param id The id you are finding
+ * @param set A pointer to the set
+ * @param id The id you are searching for
  * @return TRUE if the id is in the set or FALSE if it is not
  */
 Bool set_find(Set *set, Id id);
 
 /**
- * @brief It finds the position in the id array of the set
+ * @brief It finds the position of an id in the id array of the set
  * @author Jorge Torrijos de la Cruz
  *
- * @param set A pointer to the set that must be destroyed
- * @param id The id you are finding
+ * @param set A pointer to the set
+ * @param id The id you are searching for
  * @return The position of the id in the id array of the set
  */
-Bool set_findpos(Set *set, Id id);
+int set_findpos(Set *set, Id id);
 
 /**
  * @brief It gets an id in the id array of the set by its position
- * @author Álvaro Bravo González
+ * @author Jorge Torrijos de la Cruz
  *
  * @param set A pointer to the set
  * @param position The position of the id in the set
@@ -88,17 +88,17 @@ Id set_get_id_at(Set *set, int position);
  * @brief It sets the amount of ids stored in the set
  * @author Álvaro Bravo González
  *
- * @param set A pointer to the set that must be destroyed
- * @param number The amount of ids that wants to be stored
+ * @param set A pointer to the set 
+ * @param n_ids The amount of ids that wants to be stored
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Status set_set_n_ids(Set *set, int number);
+Status set_set_n_ids(Set *set, int n_ids);
 
 /**
  * @brief It gets the amount of ids stored in the set
  * @author Álvaro Bravo González
  *
- * @param set A pointer to the set that must be destroyed
+ * @param set A pointer to the set
  * @return The amount of ids stored in the set
  */
 int set_get_n_ids(Set *set);
@@ -117,7 +117,7 @@ Status set_get_id_with_position(Set *set, int position);
  * @brief It prints the set information
  * @author Álvaro Bravo González
  *
- * This fucntion shows the ids and the amount of ids storedin the set
+ * This function shows the ids and the amount of ids stored in the set
  * @param set A pointer to the set
  * @return OK, if everything goes well or ERROR if there was some mistake
  */

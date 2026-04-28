@@ -1,8 +1,18 @@
+/**
+ * @brief It implements the libscreen module
+ *
+ * @file libscreen.c
+ * @author Jorge Torrijos de la Cruz
+ * @version 7.0
+ * @date 28-04-2026
+ * @copyright GNU Public License
+ */
+
+#include "libscreen.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "libscreen.h"
 
 #pragma GCC diagnostic ignored "-Wpedantic"
 

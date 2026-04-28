@@ -2,9 +2,9 @@
  * @brief It implements the game update through user actions
  *
  * @file game_actions.c
- * @author Profesores PPROG
- * @version 0
- * @date 27-01-2025
+ * @author Álvaro Bravo González, Guillermo Núñez Bravo, Iván Rodríguez Camacho, Jorge Torrijos de la Cruz
+ * @version 7.0
+ * @date 28-04-2026
  * @copyright GNU Public License
  */
 
@@ -790,6 +790,7 @@ Status game_actions_use(Game *game)
 	Character *character = NULL;
 	Command *cmd = NULL;
 	char *arg1 = NULL, *arg2 = NULL;
+	Bool found;
 
 	if (!game)
 	{
@@ -814,14 +815,27 @@ Status game_actions_use(Game *game)
 		return ERROR;
 	}
 
-	/*teammate = game_get_player_id_with_id(game, player_get_team(player));*/
-
 	for (i = 0; i < game_get_n_objects(game); i++)
 	{
 		object = game_get_object_at(game, i);
 		if (!strcasecmp(object_get_name(object), arg1))
 		{
+			found = TRUE;
 			break;
+		}
+	}
+
+	if (!found)
+	{
+		return ERROR;
+	}
+
+	teammate = game_get_player_with_id(game, player_get_team(player));
+	if (inventory_find_object(player_get_objects(player), object_get_id(object)))
+	{
+		if (!teammate || !inventory_find_object(player_get_objects(teammate), object_get_id(object)))
+		{
+			return ERROR;
 		}
 	}
 
@@ -835,13 +849,21 @@ Status game_actions_use(Game *game)
 		return OK;
 	}
 
+	found = FALSE;
+
 	for (i = 0; i < game_get_n_characters(game); i++)
 	{
 		character = game_get_character_at(game, i);
 		if (!strcasecmp(character_get_name(character), arg2))
 		{
+			found = TRUE;
 			break;
 		}
+	}
+
+	if (!found)
+	{
+		return ERROR;
 	}
 
 	if (character_set_health(character, character_get_health(character) + object_get_health(object)) == ERROR)
@@ -1032,7 +1054,6 @@ Status game_actions_collab(Game *game)
 
 	player_set_team(player, player_get_id(target));
 	player_set_team(target, player_get_id(player));
-	
 
 	return OK;
-	}
+}

@@ -1,3 +1,12 @@
+/**
+ * @brief It implements the gamerule module
+ *
+ * @file gamerule.c
+ * @author Iván Rodríguez Camacho, Guillermo Núñez Bravo
+ * @version 7.0
+ * @date 28-04-2026
+ * @copyright GNU Public License
+ */
 
 #include "gamerule.h"
 
@@ -6,6 +15,11 @@
 #include <string.h>
 #include <strings.h>
 
+/**
+ * @brief Gamerule
+ *
+ * This struct stores all the information related to a gamerule.
+ */
 struct _Gamerule
 {
     Rules rule;                       /*!< Name of the Rule */
@@ -18,28 +32,28 @@ struct _Gamerule
 Gamerule *gamerule_create()
 {
     int i, j;
-    Gamerule *newgamerule = NULL;
+    Gamerule *newGamerule = NULL;
 
-    newgamerule = (Gamerule *)calloc(1, sizeof(Gamerule)); /*calloc peligroso!!!!!!!!!!!!*/
-    if (!newgamerule)
+    newGamerule = (Gamerule *)calloc(1, sizeof(Gamerule)); /*calloc peligroso!!!!!!!!!!!!*/
+    if (!newGamerule)
     {
         return NULL;
     }
 
-    newgamerule->rule = NO_RULE;
+    newGamerule->rule = NO_RULE;
 
     for (i = 0; i < MAX_S; i++)
     {
         for (j = 0; j < MAX_C; j++)
         {
-            newgamerule->argstr[i][j] = '\0';
+            newGamerule->argstr[i][j] = '\0';
         }
     }
-    newgamerule->nArgs = 0;
-    newgamerule->status = -1;
-    newgamerule->description = '\0';
+    newGamerule->nArgs = 0;
+    newGamerule->status = -1;
+    newGamerule->description = '\0';
 
-    return newCommand;
+    return newGamerule;
 }
 
 Status gamerule_destroy(Gamerule *gamerule)
@@ -54,7 +68,7 @@ Status gamerule_destroy(Gamerule *gamerule)
     return OK;
 }
 
-Status gamerule_set_rule(Gamerule *gamerule, Rule r)
+Status gamerule_set_rule(Gamerule *gamerule, Rules r)
 {
 
     if (!gamerule)
@@ -67,13 +81,14 @@ Status gamerule_set_rule(Gamerule *gamerule, Rule r)
     return OK;
 }
 
-Rule *gamerule_get_rule(Gamerule *gamerule)
+Rules *gamerule_get_rule(Gamerule *gamerule)
 {
 
     if (!gamerule)
     {
         return NO_RULE;
     }
+
     return gamerule->rule;
 }
 
@@ -93,7 +108,7 @@ Status gamerule_get_status(Gamerule *gamerule)
 {
     if (!gamerule)
     {
-        return NO_CMD;
+        return NO_RULE;
     }
     return gamerule->status;
 }
@@ -166,44 +181,29 @@ int gamerule_get_nArgs(Gamerule *gamerule)
     return gamerule->nArgs;
 }
 
+Status gamerule_check(Gamerule *gamerule)
+{
 
-Status gamerule_check(Gamerule * gamerule){
+    if (gamerule->status == ERROR)
+    {
+        return ERROR;
+    }
 
+    if (gamerule->rule == NO_RULE)
+    {
+        return ERROR;
+    }
 
-if(gamerule->status == ERROR){
-return ERROR;
+    if (gamerule->description == NULL)
+    {
+
+        return ERROR;
+    }
+
+    if (gamerule->nArgs == -1)
+    {
+        return ERROR;
+    }
+
+    return OK;
 }
-
-if(gamerule->rule == NO_RULE){
-return ERROR;
-
-}
-
-if(gamerule->description == NULL){
-
-return ERROR;
-}
-
-if(gamerule->nArgs == -1){
-    return ERROR;
-}
-
-
-return OK;
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

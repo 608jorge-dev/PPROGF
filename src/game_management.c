@@ -1,11 +1,11 @@
 
 /**
- * @brief It implements the game reader interface
+ * @brief It implements the game management interface
  *
- * @file game_reader.c
- * @author Álvaro Bravo González
- * @version 0
- * @date 03-02-26
+ * @file game_management.c
+ * @author Guillermo Núñez Bravo, Iván Rodríguez Camacho, Jorge Torrijos de la Cruz
+ * @version 7.0
+ * @date 28-04-26
  * @copyright GNU Public License
  */
 #include "game_management.h"
@@ -47,10 +47,12 @@ Status game_management_save(Game *game, char *filename)
 
     fprintf(f, "\n");
 
+    /*esto a lo mejor da problemas a la hora de cargar el fichero de datos guerdado porque añadido nuevas cosas*/
+
     while (game_get_object_at(game, i) != NULL)
     {
         o = game_get_object_at(game, i);
-        fprintf(f, "#o:%ld|%s|%ld|%s|  \n", object_get_id(o), object_get_name(o), game_get_object_location(game, object_get_id(o)), object_get_desc(o),object_get_movable(o),object_get_dependency(o));
+        fprintf(f, "#o:%ld|%s|%ld|%s|%d|%ld|  \n", object_get_id(o), object_get_name(o), game_get_object_location(game, object_get_id(o)), object_get_desc(o), object_get_movable(o), object_get_dependency(o));
         i++;
     }
 

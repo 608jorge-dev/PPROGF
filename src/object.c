@@ -2,9 +2,9 @@
  * @brief It implements the object module
  *
  * @file object.c
- * @author Álvaro Bravo González
- * @version 0
- * @date 04-02-2026
+ * @author Álvaro Bravo González, Jorge Torrijos de la Cruz
+ * @version 7.0
+ * @date 28-04-2026
  * @copyright GNU Public License
  */
 
@@ -17,7 +17,7 @@
 /**
  * @brief Object
  *
- * This struct stores all the information of the object.
+ * This struct stores all the information related to an object.
  */
 
 struct _Object

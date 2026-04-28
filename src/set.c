@@ -2,9 +2,9 @@
  * @brief It implements the set module
  *
  * @file set.c
- * @author Álvaro Bravo González
- * @version 0
- * @date 23-02-2026
+ * @author Álvaro Bravo González, Jorge Torrijos de la Cruz
+ * @version 7.0
+ * @date 28-04-2026
  * @copyright GNU Public License
  */
 
@@ -17,7 +17,7 @@
 /**
  * @brief Set
  *
- * This struct stores all the information of a set.
+ * This struct stores all the information related to a set.
  */
 struct _Set
 {
@@ -43,8 +43,6 @@ Set *set_create()
     {
         return NULL;
     }
-
-    /* Initialization of an empty set*/
 
     for (i = 0; i < MAX_IDS; i++)
     {
@@ -88,6 +86,8 @@ Status set_add(Set *set, Id id)
     return OK;
 }
 
+/* It deletes an id from the set
+ */
 Status set_del(Set *set, Id id)
 {
     int pos;
@@ -110,6 +110,8 @@ Status set_del(Set *set, Id id)
     return OK;
 }
 
+/* It finds an id in the id array of the set
+ */
 Bool set_find(Set *set, Id id)
 {
     int i;
@@ -130,7 +132,9 @@ Bool set_find(Set *set, Id id)
     return FALSE;
 }
 
-Bool set_findpos(Set *set, Id id)
+/* It finds the position of an id in the id array of the set
+ */
+int set_findpos(Set *set, Id id)
 {
     int i;
 
@@ -148,6 +152,8 @@ Bool set_findpos(Set *set, Id id)
     return -1;
 }
 
+/* It gets an id in the id array of the set by its position
+ */
 Id set_get_id_at(Set *set, int position)
 {
     if (!set || position < 0 || position > set_get_n_ids(set))
@@ -158,30 +164,37 @@ Id set_get_id_at(Set *set, int position)
     return set->ids[position];
 }
 
-/** It sets n_ids
+/** It sets the amount of ids stored in the set
  */
-Status set_set_n_ids(Set *set, int number)
+Status set_set_n_ids(Set *set, int n_ids)
 {
-    set->n_ids = number;
+    if (!set || n_ids < 0 || n_ids > MAX_IDS)
+    {
+        return ERROR;
+    }
+
+    set->n_ids = n_ids;
 
     return OK;
 }
 
-/** It gets n_ids
+/** It gets the amount of ids stored in the set
  */
 int set_get_n_ids(Set *set)
 {
     if (!set)
     {
-        return 0;
+        return -1;
     }
 
     return set->n_ids;
 }
 
+/** It gets the id from its position
+ */
 Status set_get_id_with_position(Set *set, int position)
 {
-    if (!set)
+    if (!set || position < 0 || position > set_get_n_ids(set))
     {
         return ERROR;
     }
@@ -189,9 +202,12 @@ Status set_get_id_with_position(Set *set, int position)
     return set->ids[position];
 }
 
+/** It prints the set information
+ */
 Status set_print(Set *set)
 {
     int i;
+
     /* Error Control */
     if (!set)
     {
@@ -202,6 +218,7 @@ Status set_print(Set *set)
     {
         return NO_ID;
     }
+
     /* 1. Print the ids of the set */
     for (i = 0; i < MAX_IDS; i++)
     {

@@ -2,9 +2,9 @@
  * @brief It implements the command interpreter
  *
  * @file command.c
- * @author Profesores PPROG
- * @version 0
- * @date 24-01-2026
+ * @author Jorge Torrijos de la Cruz
+ * @version 7.0
+ * @date 28-04-2026
  * @copyright GNU Public License
  */
 
@@ -21,7 +21,7 @@
 char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"m", "Move"}, {"t", "Take"}, {"d", "Drop"}, {"at", "Attack"}, {"c", "Chat"}, {"i", "Inspect"}, {"r", "Recruit"}, {"ab", "Abandon"}, {"u", "Use"}, {"o", "Open"}, {"s", "Save"}, {"l", "load"}};
 
 /**
- * @brief Character
+ * @brief Command
  *
  * This struct stores all the information related to a command.
  */

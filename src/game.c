@@ -2,9 +2,9 @@
  * @brief It implements the game structure
  *
  * @file game.c
- * @author Profesores PPROG
- * @version 4.0
- * @date 27-01-2025
+ * @author Álvaro Bravo González, Guillermo Núñez Bravo, Iván Rodríguez Camacho, Jorge Torrijos de la Cruz
+ * @version 7.0
+ * @date 28-04-2026
  * @copyright GNU Public License
  */
 
@@ -16,9 +16,9 @@
 #include <string.h>
 
 /**
- * @brief Space
+ * @brief Game
  *
- * This struct stores all the information of a game.
+ * This struct stores all the information related to a game.
  */
 struct _Game
 {
@@ -254,7 +254,8 @@ Id game_get_player_location(Game *game)
 }
 
 /*Its get the player from its position*/
-Player *game_get_player_at(Game * game, int position){
+Player *game_get_player_at(Game *game, int position)
+{
 
   if (!game || position < 0 || position >= game_get_n_players(game))
   {
@@ -264,7 +265,44 @@ Player *game_get_player_at(Game * game, int position){
   return game->players[position];
 }
 
+Player *game_get_player_with_id(Game *game, Id id)
+{
+  int i;
+  if (!game || id == NO_ID)
+  {
+    return NULL;
+  }
+
+  for (i = 0; i < game->n_players; i++)
+  {
+    if (player_get_id(game->players[i]) == id)
+    {
+      return game->players[i];
+    }
+  }
+
+  return NULL;
+}
+
 /* OBJECT FUNCTIONS : */
+
+/* It adds the object to the game objects pointer */
+Status game_add_object(Game *game, Object *object)
+{
+  int aux_n_objects;
+
+  if (!game || !object || game_get_n_objects(game) == MAX_OBJECTS)
+  {
+    return ERROR;
+  }
+
+  aux_n_objects = game_get_n_objects(game);
+
+  game->objects[aux_n_objects] = object;
+  game_set_n_objects(game, aux_n_objects + 1);
+
+  return OK;
+}
 
 /** It returns the object pointer with the id given */
 Object *game_get_object_with_id(Game *game, Id id)
@@ -298,22 +336,45 @@ Object *game_get_object_at(Game *game, int position)
   return game->objects[position];
 }
 
-/* It adds the object to the game objects pointer */
-Status game_add_object(Game *game, Object *object)
+Status game_set_object_location(Game *game, Id space_id, Id object_id)
 {
-  int aux_n_objects;
+  int i;
 
-  if (!game || !object || game_get_n_objects(game) == MAX_OBJECTS)
+  if (!game || space_id == NO_ID || object_id == NO_ID)
   {
     return ERROR;
   }
 
-  aux_n_objects = game_get_n_objects(game);
+  for (i = 0; i < game->n_spaces; i++)
+  {
+    if (space_get_id(game->spaces[i]) == space_id)
+    {
+      space_add_object(game->spaces[i], object_id);
+      return OK;
+    }
+  }
 
-  game->objects[aux_n_objects] = object;
-  game_set_n_objects(game, aux_n_objects + 1);
+  return ERROR;
+}
 
-  return OK;
+Id game_get_object_location(Game *game, Id object_id)
+{
+  int i;
+
+  if (!game || object_id == NO_ID)
+  {
+    return NO_ID;
+  }
+
+  for (i = 0; i < game->n_objects; i++)
+  {
+    if (space_find_object(game->spaces[i], object_id))
+    {
+      return space_get_id(game->spaces[i]);
+    }
+  }
+
+  return NO_ID;
 }
 
 /*It sets the amount of objects */
@@ -340,60 +401,54 @@ int game_get_n_objects(Game *game)
   return game->n_objects;
 }
 
-/** It sets the object's location */
-Status game_set_object_location(Game *game, Id space_id, Id object_id)
+/* CHARACTER FUNCTIONS : */
+
+/** Creates more spaces at the end of the allocated pointer when called */
+Status game_add_character(Game *game, Character *character)
 {
-  Space *current_space, *new_space;
-  Id current_location;
-
-  if (!game || space_id == NO_ID || object_id == NO_ID)
+  if (!game || !character)
   {
     return ERROR;
   }
 
-  current_location = game_get_object_location(game, object_id);
-  if (current_location != NO_ID)
-  {
-    current_space = game_get_space(game, current_location);
-    if (current_space)
-    {
-      space_del_object(current_space, object_id);
-    }
-  }
-
-  new_space = game_get_space(game, space_id);
-  if (!new_space)
-  {
-    return ERROR;
-  }
-
-  space_add_object(new_space, object_id);
+  game->characters[game->n_characters] = character;
+  game->n_characters++;
 
   return OK;
 }
 
-/** It gets the id of the object's location */
-Id game_get_object_location(Game *game, Id object_id)
+/** It gets the character from an id */
+Character *game_get_character_with_id(Game *game, Id id)
 {
   int i;
 
-  if (!game || object_id == NO_ID)
+  if (!game || id == NO_ID)
   {
-    return NO_ID;
+    return NULL;
   }
 
-  for (i = 0; i < game->n_spaces; i++)
+  for (i = 0; i < id; i++)
   {
-    if (space_find_object(game->spaces[i], object_id) == TRUE)
+    if (character_get_id(game->characters[i]) == id)
     {
-      return space_get_id(game->spaces[i]);
+      return game->characters[i];
     }
   }
 
-  return NO_ID;
+  return NULL;
 }
 
-/* CHARACTER FUNCTIONS : */
+/** It gets the character from its position */
+Character *game_get_character_at(Game *game, int position)
+{
+  if (!game || position < 0 || position >= game_get_n_characters(game))
+  {
+    return NULL;
+  }
+
+  return game->characters[position];
+}
+
 /** It sets the character's location */
 Status game_set_character_location(Game *game, Id space_id, Id character_id)
 {
@@ -435,52 +490,6 @@ Id game_get_character_location(Game *game, Id character_id)
   return NO_ID;
 }
 
-/** It gets the character from an id */
-Character *game_get_character_with_id(Game *game, Id id)
-{
-  int i;
-
-  if (!game || id == NO_ID)
-  {
-    return NULL;
-  }
-
-  for (i = 0; i < id; i++)
-  {
-    if (character_get_id(game->characters[i]) == id)
-    {
-      return game->characters[i];
-    }
-  }
-
-  return NULL;
-}
-
-/** It gets the character from its position */
-Character *game_get_character_at(Game *game, int position)
-{
-  if (!game || position < 0 || position >= game_get_n_characters(game))
-  {
-    return NULL;
-  }
-
-  return game->characters[position];
-}
-
-/** Creates more spaces at the end of the allocated pointer when called */
-Status game_add_character(Game *game, Character *character)
-{
-  if (!game || !character)
-  {
-    return ERROR;
-  }
-
-  game->characters[game->n_characters] = character;
-  game->n_characters++;
-
-  return OK;
-}
-
 /** It sets n_characters */
 Status game_set_n_characters(Game *game, int number)
 {
@@ -508,18 +517,18 @@ int game_get_n_characters(Game *game)
 /* SPACE FUNCTIONS : */
 
 /** It gets the spaces */
-Space *game_get_space(Game *game, Id id)
+Space *game_get_space(Game *game, Id space_id)
 {
   int i = 0;
 
-  if (!game || id == NO_ID)
+  if (!game || space_id == NO_ID)
   {
     return NULL;
   }
 
   for (i = 0; i < game->n_spaces; i++)
   {
-    if (id == space_get_id(game->spaces[i]))
+    if (space_id == space_get_id(game->spaces[i]))
     {
       return game->spaces[i];
     }
@@ -837,8 +846,10 @@ Bool game_get_character_discovered(Game *game, Id char_id)
   return FALSE;
 }
 
-Status game_set_deterministic(Game *game, Bool deterministic){
-  if(game == NULL){
+Status game_set_deterministic(Game *game, Bool deterministic)
+{
+  if (game == NULL)
+  {
     return ERROR;
   }
 
@@ -846,13 +857,15 @@ Status game_set_deterministic(Game *game, Bool deterministic){
   return OK;
 }
 
-
-Bool game_get_deterministic(Game *game){
-  if(game == NULL){
+Bool game_get_deterministic(Game *game)
+{
+  if (game == NULL)
+  {
     return FALSE;
   }
 
-  if(game->deterministic == 1){
+  if (game->deterministic == 1)
+  {
     return TRUE;
   }
 

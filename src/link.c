@@ -3,8 +3,8 @@
  *
  * @file link.c
  * @author Jorge Torrijos de la Cruz
- * @version 4.0
- * @date 21-03-2026
+ * @version 7.0
+ * @date 28-04-2026
  * @copyright GNU Public License
  */
 
@@ -17,7 +17,7 @@
 /**
  * @brief Link
  *
- * This struct stores all the information of a link.
+ * This struct stores all the information related to a link.
  */
 struct _Link
 {

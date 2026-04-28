@@ -1,3 +1,12 @@
+/**
+ * @brief It implements the inventory structure
+ *
+ * @file inventory.c
+ * @author Álvaro Bravo González
+ * @version 7.0
+ * @date 28-04-2026
+ * @copyright GNU Public License
+ */
 
 #include "inventory.h"
 
@@ -8,7 +17,7 @@
 /**
  * @brief Inventory
  *
- * This struct stores all the information related to the inventory.
+ * This struct stores all the information related to an inventory.
  */
 struct _Inventory
 {

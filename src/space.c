@@ -2,9 +2,9 @@
  * @brief It implements the space module
  *
  * @file space.c
- * @author Profesores PPROG
- * @version 4.0
- * @date 24-01-2026
+ * @author Álvaro Bravo González, Guillermo Núñez Bravo, Iván Rodríguez Camacho, Jorge Torrijos de la Cruz
+ * @version 7.0
+ * @date 28-04-2026
  * @copyright GNU Public License
  */
 
@@ -17,7 +17,7 @@
 /**
  * @brief Space
  *
- * This struct stores all the information of a space.
+ * This struct stores all the information related to a space.
  */
 struct _Space
 {

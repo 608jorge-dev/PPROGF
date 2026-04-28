@@ -2,9 +2,9 @@
  * @brief It implements the game reader interface
  *
  * @file game_reader.c
- * @author Álvaro Bravo González
- * @version 0
- * @date 03-02-26
+ * @author Guillermo Núñez Bravo, Iván Rodríguez Camacho, Jorge Torrijos de la Cruz
+ * @version 7.0
+ * @date 28-04-26
  * @copyright GNU Public License
  */
 
@@ -14,8 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-/**
-  Loads the spaces read on the .dat file
+/** Loads the spaces read on the .dat file
 */
 Status game_reader_load_spaces(Game *game, char *filename)
 {
@@ -90,8 +89,7 @@ Status game_reader_load_spaces(Game *game, char *filename)
   return status;
 }
 
-/**
-  Loads the objects read on the .dat file
+/** Loads the objects read on the .dat file
 */
 Status game_reader_load_objects(Game *game, char *filename)
 {
@@ -153,8 +151,7 @@ Status game_reader_load_objects(Game *game, char *filename)
   return status;
 }
 
-/**
-  Loads the characters read on the .dat file
+/** Loads the characters read on the .dat file
 */
 Status game_reader_load_characters(Game *game, char *filename)
 {
@@ -227,8 +224,7 @@ Status game_reader_load_characters(Game *game, char *filename)
   return status;
 }
 
-/**
-  Loads the player read on the .dat file
+/** Loads the player read on the .dat file
 */
 Status game_reader_load_player(Game *game, char *filename)
 {
@@ -299,6 +295,8 @@ Status game_reader_load_player(Game *game, char *filename)
   return status;
 }
 
+/** Loads the link read on the .dat file
+*/
 Status game_reader_load_link(Game *game, char *filename)
 {
   FILE *file = NULL;

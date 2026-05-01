@@ -2,16 +2,16 @@
  * @brief It defines the character module interface
  *
  * @file character.h
- * @author Jorge Torrijos de la Cruz
- * @version 0
- * @date 20-02-2025
+ * @author Álvaro Bravo González, Jorge Torrijos de la Cruz
+ * @version 7.0
+ * @date 28-04-2026
  * @copyright GNU Public License
  */
 
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include "types.h"
+#include "types.h" 
 
 /** Character structure type definition
  */

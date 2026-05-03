@@ -90,7 +90,7 @@ Status character_set_gdesc(Character *character, char *gdesc);
  * @param character A pointer to the character
  * @return The id of the description of the character
  */
-const char *character_get_gdesc(Character *character);
+char *character_get_gdesc(Character *character);
 
 /**
  * @brief It sets the health of a character

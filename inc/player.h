@@ -92,7 +92,7 @@ Status player_set_gdesc(Player *player, char *gdesc);
  * @param player A pointer to the player
  * @return The id of the description of the player
  */
-const char *player_get_gdesc(Player *player);
+char *player_get_gdesc(Player *player);
 
 /**
  * @brief It adds the object to the player set

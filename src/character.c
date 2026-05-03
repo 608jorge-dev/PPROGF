@@ -138,7 +138,7 @@ Status character_set_gdesc(Character *character, char *gdesc)
 }
 
 /* It gets the character gdesc */
-const char *character_get_gdesc(Character *character)
+char *character_get_gdesc(Character *character)
 {
   if (!character)
   {

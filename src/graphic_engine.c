@@ -111,14 +111,16 @@ void graphic_engine_paint_blankspace(Graphic_engine *ge, Id id)
 char *graphic_engine_get_objects(Game *game, Id id_paint, Graphic_engine *ge)
 {
   int i;
-  char obj[MAC_SIZE + 1], *obs = NULL;
+  char *obj = NULL;
   Object *ob = NULL;
 
-  for (i = 0; i < MAC_SIZE; i++)
+  obj = (char *)malloc(255 * sizeof(char));
+  if (!obj)
   {
-    obj[i] = ' ';
+    return NULL;
   }
-  obj[MAC_SIZE] = '\0';
+
+  obj[0] = '\0';
 
   for (i = 0; i < game_get_n_objects(game); i++)
   {
@@ -126,24 +128,26 @@ char *graphic_engine_get_objects(Game *game, Id id_paint, Graphic_engine *ge)
     if (set_find(space_get_objects(game_get_space(game, id_paint)), object_get_id(ob)) == TRUE)
     {
       strcat(obj, object_get_name(ob));
+      strcat(obj, " ");
     }
   }
 
-  strcpy(obs, obj);
-  return obs;
+  return obj;
 }
 
 char *graphic_engine_get_characters(Game *game, Id id_paint, Graphic_engine *ge)
 {
   int i;
-  char charac[MAC_SIZE + 1], *chs = NULL;
+  char *charac = NULL;
   Character *ch = NULL;
 
-  for (i = 0; i < MAC_SIZE; i++)
+  charac = (char *)malloc(255 * sizeof(char));
+  if (!charac)
   {
-    charac[i] = ' ';
+    return NULL;
   }
-  charac[MAC_SIZE] = '\0';
+
+  charac[0] = '\0';
 
   for (i = 0; i < game_get_n_characters(game); i++)
   {
@@ -151,24 +155,24 @@ char *graphic_engine_get_characters(Game *game, Id id_paint, Graphic_engine *ge)
     if (set_find(space_get_characters(game_get_space(game, id_paint)), character_get_id(ch)) == TRUE)
     {
       strcat(charac, character_get_gdesc(ch));
+      strcat(charac, " ");
     }
   }
 
-  strcpy(chs, charac);
-  return chs;
+  return charac;
 }
 
 /** It paints the space on the north of the actual space
  */
 void graphic_engine_paint_northorsouthspace(Game *game, Id id_paint, Id id_act, Graphic_engine *ge, int D)
 {
-  char str[255], link1 = 'X', ob[MAC_SIZE + 1], ch[MAC_SIZE + 1];
+  char str[255], link1 = 'X', *ob = NULL, *ch = NULL;
   int i = 0;
 
   /* CHARACTER GDESC*/
-  strcpy(ch, graphic_engine_get_characters(game, id_paint, ge));
+  ch = graphic_engine_get_characters(game, id_paint, ge);
   /*OBJECT NAME*/
-  strcpy(ob, graphic_engine_get_objects(game, id_paint, ge));
+  ob = graphic_engine_get_objects(game, id_paint, ge);
 
   /* SPACE PRINTING*/
   if (id_paint != NO_ID)
@@ -190,7 +194,7 @@ void graphic_engine_paint_northorsouthspace(Game *game, Id id_paint, Id id_act, 
         sprintf(str, "                         |   %-9.9s    |  ", space_get_gdesc(game_get_space(game, id_paint), i));
         screen_area_puts(ge->map, str);
       }
-      sprintf(str, "                         | %-12.12s |  ", ob);
+      sprintf(str, "                         | %-14.14s |  ", ob);
       screen_area_puts(ge->map, str);
       sprintf(str, "                         +----------------+");
       screen_area_puts(ge->map, str);
@@ -212,24 +216,35 @@ void graphic_engine_paint_northorsouthspace(Game *game, Id id_paint, Id id_act, 
   {
     graphic_engine_paint_blank(ge);
   }
+
+  free(ch);
+  free(ob);
 }
 
 /** It paints the actual space
  */
 void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id_act, Graphic_engine *ge)
 {
-  char str[255], ch[MAC_SIZE], ch1[MAC_SIZE], ch2[MAC_SIZE], link1 = 'X', link2 = 'X', ob[MAC_SIZE], ob1[MAC_SIZE], ob2[MAC_SIZE];
+  char str[255], *ch = NULL, *ch1 = NULL, *ch2 = NULL, link1 = 'X', link2 = 'X', *ob = NULL, *ob1 = NULL, *ob2 = NULL, *p = NULL, blank[MAC_SIZE];
   int i;
 
+  /*CREATING A BLANK STRING*/
+  for (i=0; i<MAC_SIZE; i++)
+  {
+    blank[i] = ' ';
+  }
   /* CHARACTER GDESC*/
-  strcpy(ch, graphic_engine_get_characters(game, id_act, ge));
-  strcpy(ch1, graphic_engine_get_characters(game, id_east, ge));
-  strcpy(ch2, graphic_engine_get_characters(game, id_west, ge));
+  ch = graphic_engine_get_characters(game, id_act, ge);
+  ch1 = graphic_engine_get_characters(game, id_east, ge);
+  ch2 = graphic_engine_get_characters(game, id_west, ge);
+
+  /* PLAYER GDESC*/
+  p = player_get_gdesc(game_get_player(game));
 
   /*OBJECT NAME*/
-  strcpy(ob, graphic_engine_get_objects(game, id_act, ge));
-  strcpy(ob1, graphic_engine_get_objects(game, id_east, ge));
-  strcpy(ob2, graphic_engine_get_objects(game, id_west, ge));
+  ob = graphic_engine_get_objects(game, id_act, ge);
+  ob1 = graphic_engine_get_objects(game, id_east, ge);
+  ob2 = graphic_engine_get_objects(game, id_west, ge);
 
   /* SPACE PRINTING*/
   /*EAST, ACT, WEST*/
@@ -325,20 +340,37 @@ void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id
   /*ACT*/
   if (id_act != NO_ID && id_west == NO_ID && id_east == NO_ID)
   {
-    sprintf(str, "                         +----------------+      ");
+    sprintf(str, "                         +--------------------+      ");
     screen_area_puts(ge->map, str);
-    sprintf(str, "                         | %-3.3s %-3.3s      %2d|      ", player_get_gdesc(game_get_player(game)), ch, (int)id_act);
+    sprintf(str, "                         |%-17.17s%-3.3d|      ",  blank, (int)id_act);
     screen_area_puts(ge->map, str);
-    for (i = 0; i < MAX_S; i++)
+    for (i = 0; i < 3; i++)
     {
-      sprintf(str, "                         |   %-9.9s    |  ", space_get_gdesc(game_get_space(game, id_act), i));
+      sprintf(str, "                         | %-18.18s |  ", space_get_gdesc(game_get_space(game, id_act), i));
       screen_area_puts(ge->map, str);
     }
-    sprintf(str, "                         | %-12.12s |  ", ob);
+    sprintf(str, "                         | %-6.6s %-4.4s %-6.6s |      ", blank, p, blank);
     screen_area_puts(ge->map, str);
-    sprintf(str, "                         +----------------+");
+    sprintf(str, "                         | %-18.18s |      ", ch);
+    screen_area_puts(ge->map, str);
+    for (i = 0; i < 3; i++)
+    {
+      sprintf(str, "                         | %-18.18s |  ", space_get_gdesc(game_get_space(game, id_act), i));
+      screen_area_puts(ge->map, str);
+    }
+    sprintf(str, "                         | %-18.18s |  ", ob);
+    screen_area_puts(ge->map, str);
+    sprintf(str, "                         +--------------------+");
     screen_area_puts(ge->map, str);
   }
+
+
+  free(ch);
+  free(ob);
+  free(ch1);
+  free(ob1);
+  free(ch2);
+  free(ob2);
 }
 
 /** Changes the game GUI (paints in the differente graphic sections)

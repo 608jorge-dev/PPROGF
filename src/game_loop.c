@@ -103,6 +103,7 @@ int main(int argc, char *argv[])
     }
 
     actions_status = game_actions_update(game, last_cmd);
+
     if (game_get_playerinf(game) == NULL)
     {
       fprintf(stdout, "%ld", playerinf_get_id(game_get_playerinf(game)));

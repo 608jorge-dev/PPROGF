@@ -47,6 +47,10 @@ Game *game_create()
   int i;
 
   game = (Game *)malloc(sizeof(Game) * 1);
+  if (!game)
+  {
+    return NULL;
+  }
 
   for (i = 0; i < MAX_PLAYERS; i++)
   {

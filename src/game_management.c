@@ -457,6 +457,11 @@ Status game_management_load(Game *game, char *filename)
     {
         return ERROR;
     }
+  
+    if (game_management_load_characters(game, filename) == ERROR)
+    {
+        return ERROR;
+    }
 
     if (game_management_load_spaces(game, filename) == ERROR)
     {

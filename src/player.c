@@ -267,7 +267,7 @@ Status player_set_gdesc(Player *player, char *gdesc)
 
 /* It gets the player gdesc
  */
-const char *player_get_gdesc(Player *player)
+char *player_get_gdesc(Player *player)
 {
   if (!player)
   {

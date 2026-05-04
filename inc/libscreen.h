@@ -4,7 +4,7 @@
  * @file libscreen.h
  * @author Profesores PPROG
  * @version 3.5
- * @date 26-01-2024
+ * @date 28-04-2026
  * @copyright GNU Public License
  */
 

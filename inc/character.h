@@ -30,7 +30,7 @@ Character *character_create(Id id);
  * @brief It destroys a character, freeing the allocated memory
  * @author Jorge Torrijos de la Cruz
  *
- * @param character a pointer to the character that must be destroyed
+ * @param character A pointer to the character that must be destroyed
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
 Status character_destroy(Character *character);
@@ -40,7 +40,7 @@ Status character_destroy(Character *character);
  * @author Jorge Torrijos de la Cruz
  *
  * @param character A pointer to the character
- * @param id The id number of the character
+ * @param id The id of the character
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
 Status character_set_id(Character *character, Id id);
@@ -65,7 +65,7 @@ Id character_get_id(Character *character);
 Status character_set_name(Character *character, char *name);
 
 /**
- * @brief It gets the character name
+ * @brief It gets the name of a character
  * @author Jorge Torrijos de la Cruz
  *
  * @param character A pointer to the character
@@ -84,13 +84,32 @@ char *character_get_name(Character *character);
 Status character_set_gdesc(Character *character, char *gdesc);
 
 /**
- * @brief It gets the description of a  character
+ * @brief It gets the description of a character
  * @author Jorge Torrijos de la Cruz
  *
  * @param character A pointer to the character
- * @return The id of the description of the character
+ * @return The stored description of the character
  */
 char *character_get_gdesc(Character *character);
+
+/**
+ * @brief It sets the message of a character
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param character A pointer to the character
+ * @param msg A string with the message to store
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status character_set_message(Character *character, char *msg);
+
+/**
+ * @brief It gets the message of a character
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param character A pointer to the character
+ * @return The stored message of the character
+ */
+char *character_get_message(Character *character);
 
 /**
  * @brief It sets the health of a character
@@ -103,11 +122,11 @@ char *character_get_gdesc(Character *character);
 Status character_set_health(Character *character, int health);
 
 /**
- * @brief It gets  the health of a character
+ * @brief It gets the health of a character
  * @author Jorge Torrijos de la Cruz
  *
  * @param character A pointer to the character
- * @return The amount of health
+ * @return The amount of health of the character
  */
 int character_get_health(Character *character);
 
@@ -122,37 +141,18 @@ int character_get_health(Character *character);
 Status character_set_friendly(Character *character, Bool friendly);
 
 /**
- * @brief It gets  the friendly state of a character
+ * @brief It gets the friendly state of a character
  * @author Jorge Torrijos de la Cruz
  *
  * @param character A pointer to the character
  * @return A boolean, specifying if the character finishes (TRUE) or not (FALSE)
- * It also returns FALSE in case there is an error
+ * It also returns FALSE in case of error
  */
 Bool character_get_friendly(Character *character);
 
 /**
- * @brief It sets message of a character
- * @author Jorge Torrijos de la Cruz
- *
- * @param character A pointer to the character
- * @param msg A string with the message to store
- * @return OK, if everything goes well or ERROR if there was some mistake
- */
-Status character_set_message(Character *character, char *msg);
-
-/**
- * @brief It gets  the message of a character
- * @author Jorge Torrijos de la Cruz
- *
- * @param character A pointer to the character
- * @return The id of the description of the character
- */
-char *character_get_message(Character *character);
-
-/**
- * @brief It sets the id of the player being followed
- * @author Jorge Torrijos de la Cruz
+ * @brief It sets the id of the player the character follows
+ * @author Álvaro Bravo González
  *
  * @param character A pointer to the character
  * @param id The id of the player being followed
@@ -161,8 +161,8 @@ char *character_get_message(Character *character);
 Status character_set_following(Character *character, Id id);
 
 /**
- * @brief It gets the id of the player being followed
- * @author Jorge Torrijos de la Cruz
+ * @brief It gets the id of the player the character follows
+ * @author Álvaro Bravo González
  *
  * @param character A pointer to the character
  * @return The id of the player being followed

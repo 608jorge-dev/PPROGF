@@ -4,7 +4,7 @@
  * @file object.h
  * @author Álvaro Bravo González
  * @version 0
- * @date 03-02-2026
+ * @date 28-04-2026
  * @copyright GNU Public License
  */
 

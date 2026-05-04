@@ -4,7 +4,7 @@
  * @file space.h
  * @author Profesores PPROG
  * @version 0
- * @date 27-01-2025
+ * @date 28-04-2026
  * @copyright GNU Public License
  */
 

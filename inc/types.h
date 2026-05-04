@@ -2,14 +2,16 @@
  * @brief It defines common types for the whole project
  *
  * @file types.h
- * @author Profesores PPROG
- * @version 0
- * @date 27-01-2025
+ * @author Álvaro Bravo González, Guillermo Núñez Bravo, Iván Rodríguez Camacho, Jorge Torrijos de la Cruz
+ * @version 7.0
+ * @date 28-04-2026
  * @copyright GNU Public License
  */
 
 #ifndef TYPES_H
 #define TYPES_H
+
+/* BEGIN MACROS DEFINITIONS */
 
 #define WORD_SIZE 1000 /*!< Max amount of characters a word can have */
 #define MAC_SIZE 100   /*!< Macro for characters for words */
@@ -22,7 +24,7 @@
 #define CMD_LENGHT 30 /*!< Max amount of characters a command string input can have */
 #define MAX_ARGS 5    /*!< Max amount of arguments a command can have */
 #define N_CMDT 2      /*!< Max amount of characters an abreviation of a command can have */
-#define N_CMD 16      /*!< Max amount of commands there are */
+#define N_CMD 15      /*!< Max amount of commands there are */
 
 /* Game fields macros */
 #define MAX_SPACES 100    /*!< Max amount of spaces possible in the game structure */
@@ -35,10 +37,10 @@
 #define MAX_GAMERULES 6 /*!< Max amount of gamerules possible in the gamerule structure */
 
 /* Graphic engine fields macros */
-#define WIDTH_MAP 71   /*!< Width of the map area in the textual graphic engine */
-#define WIDTH_DES 90   /*!< Width of the description area in the textual graphic engine */
+#define WIDTH_MAP 85   /*!< Width of the map area in the textual graphic engine */
+#define WIDTH_DES 60   /*!< Width of the description area in the textual graphic engine */
 #define WIDTH_BAN 29   /*!< Width of the banner area in the textual graphic engine */
-#define HEIGHT_MAP 31  /*!< Height of the map area in the textual graphic engine */
+#define HEIGHT_MAP 38  /*!< Height of the map area in the textual graphic engine */
 #define HEIGHT_BAN 2   /*!< Height of the description area in the textual graphic engine */
 #define HEIGHT_HLP 3   /*!< Height of the help area in the textual graphic engine */
 #define HEIGHT_FDB 4   /*!< Height of the feedback area in the textual graphic engine */
@@ -53,6 +55,10 @@
 
 /* Set fields macros */
 #define MAX_IDS 100 /*!< Max amount of ids possible in the set structure */
+
+/* END MACROS DEFINITIONS */
+
+/* BEGIN TYPES DEFINITIONS */
 
 typedef long Id; /*!<Id type definition */
 
@@ -86,5 +92,7 @@ typedef enum
     U,
     D
 } Direction;
+
+/* END TYPES DEFINITIONS */
 
 #endif

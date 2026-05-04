@@ -252,23 +252,23 @@ void graphic_engine_paint_northorsouthspace(Game *game, Id id_paint, Id id_act, 
     }
     if (space_get_discovered(game_get_space(game, id_paint)) == TRUE)
     {
-      sprintf(str, "                               +--------------------+      ");
+      sprintf(str, "                              +--------------------+      ");
       screen_area_puts(ge->map, str);
-      sprintf(str, "                               |%-17.17s%-3.3d|      ", blank, (int)id_paint);
+      sprintf(str, "                              |%-17.17s%-3.3d|      ", blank, (int)id_paint);
       screen_area_puts(ge->map, str);
-      sprintf(str, "                               |%-20.20s|      ", blank);
+      sprintf(str, "                              |%-20.20s|      ", blank);
       screen_area_puts(ge->map, str);
       for (i = 0; i < MAX_S; i++)
       {
-        sprintf(str, "                               | %-18.18s |  ", gdesc[i]);
+        sprintf(str, "                              | %-18.18s |  ", gdesc[i]);
         screen_area_puts(ge->map, str);
       }
 
-      sprintf(str, "                               | %-18.18s |      ", ch);
+      sprintf(str, "                              | %-18.18s |      ", ch);
       screen_area_puts(ge->map, str);
-      sprintf(str, "                               | %-18.18s |  ", ob);
+      sprintf(str, "                              | %-18.18s |  ", ob);
       screen_area_puts(ge->map, str);
-      sprintf(str, "                               +--------------------+");
+      sprintf(str, "                              +--------------------+");
       screen_area_puts(ge->map, str);
     }
     else

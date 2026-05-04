@@ -41,7 +41,7 @@ Status game_management_save(Game *game, char *filename)
     while (game_get_space_at(game, i) != NULL)
     {
         s = game_get_space_at(game, i);
-        fprintf(f, "#s:%ld&%s&%s&%s&%s&%s&%s&%d& \n", space_get_id(s), space_get_name(s), space_get_gdesc(s, 0), space_get_gdesc(s, 1), space_get_gdesc(s, 2), space_get_gdesc(s, 3), space_get_gdesc(s, 4), space_get_discovered(s));
+        fprintf(f, "#s:%ld & %s & %s & %s & %s & %s & %s & %d & \n", space_get_id(s), space_get_name(s), space_get_gdesc(s, 0), space_get_gdesc(s, 1), space_get_gdesc(s, 2), space_get_gdesc(s, 3), space_get_gdesc(s, 4), space_get_discovered(s));
 
         i++;
     }
@@ -53,7 +53,7 @@ Status game_management_save(Game *game, char *filename)
     while (game_get_object_at(game, i) != NULL)
     {
         o = game_get_object_at(game, i);
-        fprintf(f, "#o:%ld&%s&%ld&%s&%d&%ld&  \n", object_get_id(o), object_get_name(o), game_get_object_location(game, object_get_id(o)), object_get_desc(o), object_get_movable(o), object_get_dependency(o));
+        fprintf(f, "#o:%ld & %s & %ld & %s & %d & %ld &  \n", object_get_id(o), object_get_name(o), game_get_object_location(game, object_get_id(o)), object_get_desc(o), object_get_movable(o), object_get_dependency(o));
         i++;
     }
 
@@ -64,7 +64,7 @@ Status game_management_save(Game *game, char *filename)
     while (game_get_character_at(game, i) != NULL)
     {
         c = game_get_character_at(game, i);
-        fprintf(f, "#c:%ld&%s&%s&%ld&%d&%hu&%s& \n", character_get_id(c), character_get_name(c), character_get_gdesc(c), game_get_character_location(game, character_get_id(c)), character_get_health(c), character_get_friendly(c), character_get_message(c));
+        fprintf(f, "#c:%ld & %s & %s & %ld & %d & %hu & %s & \n", character_get_id(c), character_get_name(c), character_get_gdesc(c), game_get_character_location(game, character_get_id(c)), character_get_health(c), character_get_friendly(c), character_get_message(c));
         i++;
     }
 
@@ -75,7 +75,7 @@ Status game_management_save(Game *game, char *filename)
     while (game_get_player_at(game, i) != NULL)
     {
         p = game_get_player_at(game, i);
-        fprintf(f, "#p:%ld&%s&%s&%d&%ld&%d& \n", player_get_id(p), player_get_name(p), player_get_gdesc(p), player_get_health(p), player_get_location(p), inventory_get_max_objs(player_get_objects(p)));
+        fprintf(f, "#p:%ld & %s & %s & %d & %ld & %d & \n", player_get_id(p), player_get_name(p), player_get_gdesc(p), player_get_health(p), player_get_location(p), inventory_get_max_objs(player_get_objects(p)));
         i++;
     }
 
@@ -88,7 +88,7 @@ Status game_management_save(Game *game, char *filename)
     {
         l = game_get_link_at(game, i);
 
-        fprintf(f, "#l:%ld&%s&%ld&%ld&%d&%d& \n", link_get_id(l), link_get_name(l), link_get_origin(l), link_get_destination(l), link_get_direction(l), link_get_open(l));
+        fprintf(f, "#l:%ld & %s & %ld & %ld & %d & %d & \n", link_get_id(l), link_get_name(l), link_get_origin(l), link_get_destination(l), link_get_direction(l), link_get_open(l));
         i++;
     }
 

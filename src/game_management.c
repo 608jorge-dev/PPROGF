@@ -27,7 +27,7 @@ Status game_management_save(Game *game, char *filename)
     Player *p = NULL;
     Link *l = NULL;
 
-    if (!filename || !game)
+    if (!filename && !game)
     {
         return ERROR;
     }
@@ -41,7 +41,7 @@ Status game_management_save(Game *game, char *filename)
     while (game_get_space_at(game, i) != NULL)
     {
         s = game_get_space_at(game, i);
-        fprintf(f, "#s:%ld|%s|%s|%s|%s|%s|%s|%d| \n", space_get_id(s), space_get_name(s), space_get_gdesc(s, 0), space_get_gdesc(s, 1), space_get_gdesc(s, 2), space_get_gdesc(s, 3), space_get_gdesc(s, 4), space_get_discovered(s));
+        fprintf(f, "#s:%ld&%s&%s&%s&%s&%s&%s&%d& \n", space_get_id(s), space_get_name(s), space_get_gdesc(s, 0), space_get_gdesc(s, 1), space_get_gdesc(s, 2), space_get_gdesc(s, 3), space_get_gdesc(s, 4), space_get_discovered(s));
 
         i++;
     }
@@ -53,7 +53,7 @@ Status game_management_save(Game *game, char *filename)
     while (game_get_object_at(game, i) != NULL)
     {
         o = game_get_object_at(game, i);
-        fprintf(f, "#o:%ld|%s|%ld|%s|%d|%ld|  \n", object_get_id(o), object_get_name(o), game_get_object_location(game, object_get_id(o)), object_get_desc(o), object_get_movable(o), object_get_dependency(o));
+        fprintf(f, "#o:%ld&%s&%ld&%s&%d&%ld&  \n", object_get_id(o), object_get_name(o), game_get_object_location(game, object_get_id(o)), object_get_desc(o), object_get_movable(o), object_get_dependency(o));
         i++;
     }
 
@@ -64,7 +64,7 @@ Status game_management_save(Game *game, char *filename)
     while (game_get_character_at(game, i) != NULL)
     {
         c = game_get_character_at(game, i);
-        fprintf(f, "#c:%ld|%s|%s|%ld|%d|%hu|%s| \n", character_get_id(c), character_get_name(c), character_get_gdesc(c), game_get_character_location(game, character_get_id(c)), character_get_health(c), character_get_friendly(c), character_get_message(c));
+        fprintf(f, "#c:%ld&%s&%s&%ld&%d&%hu&%s& \n", character_get_id(c), character_get_name(c), character_get_gdesc(c), game_get_character_location(game, character_get_id(c)), character_get_health(c), character_get_friendly(c), character_get_message(c));
         i++;
     }
 
@@ -75,7 +75,7 @@ Status game_management_save(Game *game, char *filename)
     while (game_get_player_at(game, i) != NULL)
     {
         p = game_get_player_at(game, i);
-        fprintf(f, "#p:%ld|%s|%s|%d|%ld|%d| \n", player_get_id(p), player_get_name(p), player_get_gdesc(p), player_get_health(p), player_get_location(p), inventory_get_max_objs(player_get_objects(p)));
+        fprintf(f, "#p:%ld&%s&%s&%d&%ld&%d& \n", player_get_id(p), player_get_name(p), player_get_gdesc(p), player_get_health(p), player_get_location(p), inventory_get_max_objs(player_get_objects(p)));
         i++;
     }
 
@@ -88,7 +88,7 @@ Status game_management_save(Game *game, char *filename)
     {
         l = game_get_link_at(game, i);
 
-        fprintf(f, "#l:%ld|%s|%ld|%ld|%d|%d| \n", link_get_id(l), link_get_name(l), link_get_origin(l), link_get_destination(l), link_get_direction(l), link_get_open(l));
+        fprintf(f, "#l:%ld&%s&%ld&%ld&%d&%d& \n", link_get_id(l), link_get_name(l), link_get_origin(l), link_get_destination(l), link_get_direction(l), link_get_open(l));
         i++;
     }
 
@@ -163,25 +163,25 @@ Status game_management_load_spaces(Game *game, char *filename)
     {
         if (strncmp("#s:", line, 3) == 0)
         {
-            toks = strtok(line + 3, "|");
+            toks = strtok(line + 3, "&");
             id = atol(toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             strcpy(name, toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             strcpy(g1, toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             strcpy(g2, toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             strcpy(g3, toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             strcpy(g4, toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             strcpy(g5, toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             disc = atol(toks);
 
 #ifdef DEBUG
-            printf("Leido: s:%ld|%s|\n", id, name);
+            printf("Leido: s:%ld&%s&\n", id, name);
 #endif
             space = space_create(id);
             if (space != NULL)
@@ -237,14 +237,14 @@ Status game_management_load_objects(Game *game, char *filename)
     {
         if (strncmp("#o:", line, 3) == 0)
         {
-            toks = strtok(line + 3, "|");
+            toks = strtok(line + 3, "&");
             object_id = atol(toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             strcpy(name, toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             if (toks)
                 space_id = atol(toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             strcpy(desc, toks);
 
             object = object_create(object_id);
@@ -258,7 +258,7 @@ Status game_management_load_objects(Game *game, char *filename)
         }
     }
 #ifdef DEBUG
-    printf("Leido: o:%ld|%s|%ld\n", object_id, name, space_id);
+    printf("Leido: o:%ld&%s&%ld\n", object_id, name, space_id);
 #endif
 
     if (ferror(file))
@@ -302,19 +302,19 @@ Status game_management_load_characters(Game *game, char *filename)
     {
         if (strncmp("#c:", line, 3) == 0)
         {
-            toks = strtok(line + 3, "|");
+            toks = strtok(line + 3, "&");
             character_id = atol(toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             strcpy(name, toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             strcpy(gdesc, toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             space_id = atol(toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             health = atol(toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             friendly = atol(toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             strcpy(message, toks);
 
             character = character_create(character_id);
@@ -331,7 +331,7 @@ Status game_management_load_characters(Game *game, char *filename)
         }
     }
 #ifdef DEBUG
-    printf("Leido: c:%ld|%s|%ld|%s\n", object_id, name, space_id, message);
+    printf("Leido: c:%ld&%s&%ld&%s\n", object_id, name, space_id, message);
 #endif
 
     if (ferror(file))
@@ -374,17 +374,17 @@ Status game_management_load_player(Game *game, char *filename)
     {
         if (strncmp("#p:", line, 3) == 0)
         {
-            toks = strtok(line + 3, "|");
+            toks = strtok(line + 3, "&");
             player_id = atol(toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             strcpy(name, toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             strcpy(gdesc, toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             health = atol(toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             space_id = atol(toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             max_inventory = atol(toks);
 
             player = player_create(player_id);
@@ -401,7 +401,7 @@ Status game_management_load_player(Game *game, char *filename)
         }
     }
 #ifdef DEBUG
-    printf("Leido: p:%ld|%s|%ld|%ld\n", player_id, name, space_id, inventory);
+    printf("Leido: p:%ld&%s&%ld&%ld\n", player_id, name, space_id, inventory);
 #endif
 
     if (ferror(file))
@@ -444,17 +444,17 @@ Status game_management_load_link(Game *game, char *filename)
     {
         if (strncmp("#l:", line, 3) == 0)
         {
-            toks = strtok(line + 3, "|");
+            toks = strtok(line + 3, "&");
             link_id = atol(toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             strcpy(name, toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             space_id_orig = atol(toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             space_id_dest = atol(toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             dt = atol(toks);
-            toks = strtok(NULL, "|");
+            toks = strtok(NULL, "&");
             openst = atol(toks);
 
             link = link_create(link_id);
@@ -470,7 +470,7 @@ Status game_management_load_link(Game *game, char *filename)
         }
     }
 #ifdef DEBUG
-    printf("Leido: l:%ld|%s|%ld|%ld\n", link_id, name, space_id_orig, space_id_dest);
+    printf("Leido: l:%ld&%s&%ld&%ld\n", link_id, name, space_id_orig, space_id_dest);
 #endif
 
     if (ferror(file))

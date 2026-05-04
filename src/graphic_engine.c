@@ -72,8 +72,106 @@ void graphic_engine_destroy(Graphic_engine *ge)
   free(ge);
 }
 
-void graphic_engine_items_destroy(Graphic_engine *ge)
+void graphic_engine_items_destroy(char *s1, char *s2, char *s3, char *s4, char *s5, char *s6, char **g1, char **g2, char **g3)
 {
+  int i;
+  free(s1);
+  free(s2);
+  free(s3);
+  free(s4);
+  free(s5);
+  free(s6);
+  for (i = 0; i < MAX_S; i++)
+  {
+    free(g1[i]);
+    free(g2[i]);
+    free(g3[i]);
+  }
+}
+
+char *graphic_engine_get_characters(Game *game, Id id_paint, Graphic_engine *ge)
+{
+  int i;
+  char *charac = NULL;
+  Character *ch = NULL;
+
+  charac = (char *)malloc(255 * sizeof(char));
+  if (!charac)
+  {
+    return NULL;
+  }
+
+  charac[0] = '\0';
+
+  if (space_get_discovered(game_get_space(game, id_paint)) == FALSE)
+  {
+    return charac;
+  }
+  for (i = 0; i < game_get_n_characters(game); i++)
+  {
+    ch = game_get_character_at(game, i);
+    if (set_find(space_get_characters(game_get_space(game, id_paint)), character_get_id(ch)) == TRUE)
+    {
+      strcat(charac, character_get_gdesc(ch));
+      strcat(charac, " ");
+    }
+  }
+
+  return charac;
+}
+
+char *graphic_engine_get_gdesc(Game *game, Id id_paint, Graphic_engine *ge, int position)
+{
+  char *gdesc = NULL;
+  Space *s = NULL;
+
+  gdesc = (char *)malloc(255 * sizeof(char));
+  if (!gdesc)
+  {
+    return NULL;
+  }
+  gdesc[0] = '\0';
+
+  s = game_get_space(game, id_paint);
+  if (!s || space_get_discovered(s) == FALSE)
+  {
+    return gdesc;
+  }
+
+  strcpy(gdesc, space_get_gdesc(s, position));
+
+  return gdesc;
+}
+
+char *graphic_engine_get_objects(Game *game, Id id_paint, Graphic_engine *ge)
+{
+  int i;
+  char *obj = NULL;
+  Object *ob = NULL;
+
+  obj = (char *)malloc(255 * sizeof(char));
+  if (!obj)
+  {
+    return NULL;
+  }
+
+  obj[0] = '\0';
+
+  if (space_get_discovered(game_get_space(game, id_paint)) == FALSE)
+  {
+    return obj;
+  }
+  for (i = 0; i < game_get_n_objects(game); i++)
+  {
+    ob = game_get_object_at(game, i);
+    if (set_find(space_get_objects(game_get_space(game, id_paint)), object_get_id(ob)) == TRUE)
+    {
+      strcat(obj, object_get_name(ob));
+      strcat(obj, " ");
+    }
+  }
+
+  return obj;
 }
 
 /** It paints a blank space in the map
@@ -115,83 +213,6 @@ void graphic_engine_paint_blankspace(Graphic_engine *ge, Id id)
   }
   sprintf(str, "                              +--------------------+");
   screen_area_puts(ge->map, str);
-}
-
-char *graphic_engine_get_objects(Game *game, Id id_paint, Graphic_engine *ge)
-{
-  int i;
-  char *obj = NULL;
-  Object *ob = NULL;
-
-  obj = (char *)malloc(255 * sizeof(char));
-  if (!obj)
-  {
-    return NULL;
-  }
-
-  obj[0] = '\0';
-
-  for (i = 0; i < game_get_n_objects(game); i++)
-  {
-    ob = game_get_object_at(game, i);
-    if (set_find(space_get_objects(game_get_space(game, id_paint)), object_get_id(ob)) == TRUE)
-    {
-      strcat(obj, object_get_name(ob));
-      strcat(obj, " ");
-    }
-  }
-
-  return obj;
-}
-
-char *graphic_engine_get_characters(Game *game, Id id_paint, Graphic_engine *ge)
-{
-  int i;
-  char *charac = NULL;
-  Character *ch = NULL;
-
-  charac = (char *)malloc(255 * sizeof(char));
-  if (!charac)
-  {
-    return NULL;
-  }
-
-  charac[0] = '\0';
-
-  for (i = 0; i < game_get_n_characters(game); i++)
-  {
-    ch = game_get_character_at(game, i);
-    if (set_find(space_get_characters(game_get_space(game, id_paint)), character_get_id(ch)) == TRUE)
-    {
-      strcat(charac, character_get_gdesc(ch));
-      strcat(charac, " ");
-    }
-  }
-
-  return charac;
-}
-
-char *graphic_engine_get_gdesc(Game *game, Id id_paint, Graphic_engine *ge, int position)
-{
-  char *gdesc = NULL;
-  Space *s = NULL;
-
-  gdesc = (char *)malloc(255 * sizeof(char));
-  if (!gdesc)
-  {
-    return NULL;
-  }
-  gdesc[0] = '\0';
-
-  s = game_get_space(game, id_paint);
-  if (!s)
-  {
-    return gdesc;
-  }
-
-  strcpy(gdesc, space_get_gdesc(s, position));
-
-  return gdesc;
 }
 
 /** It paints the space on the north of the actual space
@@ -270,6 +291,10 @@ void graphic_engine_paint_northorsouthspace(Game *game, Id id_paint, Id id_act, 
 
   free(ch);
   free(ob);
+  for (i = 0; i < MAX_S; i++)
+  {
+    free(gdesc[i]);
+  }
 }
 
 /** It paints the actual space
@@ -347,7 +372,7 @@ void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id
     screen_area_puts(ge->map, str);
     sprintf(str, "                           |%-17.17s%-3.3d|      |%-17.17s%-3.3d|     ", blank, (int)id_act, blank, (int)id_east);
     screen_area_puts(ge->map, str);
-    sprintf(str, "                           | %-18.18s |      | %-18.18s |     ", blank, p);
+    sprintf(str, "                           | %-18.18s |      | %-18.18s |     ", p, blank);
     screen_area_puts(ge->map, str);
     for (i = 0; i < MAX_S; i++)
     {
@@ -399,30 +424,20 @@ void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id
     screen_area_puts(ge->map, str);
     sprintf(str, "                               | %-6.6s %-4.4s %-6.6s |", blank, p, blank);
     screen_area_puts(ge->map, str);
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < MAX_S; i++)
     {
       sprintf(str, "                               | %-18.18s |", space_get_gdesc(game_get_space(game, id_act), i));
       screen_area_puts(ge->map, str);
     }
     sprintf(str, "                               | %-18.18s |", ch);
     screen_area_puts(ge->map, str);
-    for (i = 0; i < 3; i++)
-    {
-      sprintf(str, "                               | %-18.18s |", space_get_gdesc(game_get_space(game, id_act), i));
-      screen_area_puts(ge->map, str);
-    }
     sprintf(str, "                               | %-18.18s |", ob);
     screen_area_puts(ge->map, str);
     sprintf(str, "                               +--------------------+");
     screen_area_puts(ge->map, str);
   }
 
-  free(ch);
-  free(ob);
-  free(ch1);
-  free(ob1);
-  free(ch2);
-  free(ob2);
+  graphic_engine_items_destroy(ch, ch1, ch2, ob, ob1, ob2, gdesc, gdesc1, gdesc2);
 }
 
 /** Changes the game GUI (paints in the differente graphic sections)

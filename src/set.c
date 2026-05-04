@@ -26,7 +26,7 @@ struct _Set
 };
 
 /* It creates a new set, allocating memory
- *  and initializing its members
+ * and initializing its members
  */
 Set *set_create()
 {

@@ -24,13 +24,15 @@ struct _Character
   Id id;                       /*!< Id number of the character, it must be unique */
   char name[WORD_SIZE + 1];    /*!< Name of the character */
   char gdesc[WORD_SIZE + 1];   /*!< Description of the character */
+  char message[WORD_SIZE + 1]; /*!< The message the character says */
   int health;                  /*!< Amount of health the character has */
   Bool friendly;               /*!< Wether the character is friendly or not */
-  char message[WORD_SIZE + 1]; /*!< The message the character says */
   Id following;                /*!< The id of the player the character follows */
 };
 
-/* It creates a new character, allocating memory and initializing its members */
+/* It creates a new character, allocating memory
+ * and initializing its members
+ */
 Character *character_create(Id id)
 {
   Character *newCharacter = NULL;
@@ -46,7 +48,6 @@ Character *character_create(Id id)
     return NULL;
   }
 
-  /* Initialization of an empty character*/
   newCharacter->id = id;
   newCharacter->name[0] = '\0';
   newCharacter->gdesc[0] = '\0';
@@ -58,7 +59,8 @@ Character *character_create(Id id)
   return newCharacter;
 }
 
-/* It destroys a character, freeing the allocated memory */
+/* It destroys a character, freeing the allocated memory
+ */
 Status character_destroy(Character *character)
 {
   if (!character)
@@ -70,7 +72,8 @@ Status character_destroy(Character *character)
   return OK;
 }
 
-/* It sets the id of a character */
+/* It sets the id of a character
+ */
 Status character_set_id(Character *character, Id id)
 {
   if (!character || id == NO_ID)
@@ -83,7 +86,8 @@ Status character_set_id(Character *character, Id id)
   return OK;
 }
 
-/* It gets the id of a character */
+/* It gets the id of a character
+ */
 Id character_get_id(Character *character)
 {
   if (!character)
@@ -94,7 +98,8 @@ Id character_get_id(Character *character)
   return character->id;
 }
 
-/* It sets the name of a character */
+/* It sets the name of a character
+ */
 Status character_set_name(Character *character, char *name)
 {
   if (!character || !name)
@@ -110,7 +115,8 @@ Status character_set_name(Character *character, char *name)
   return OK;
 }
 
-/* It gets the character name */
+/* It sets the name of a character
+ */
 char *character_get_name(Character *character)
 {
   if (!character)
@@ -121,7 +127,8 @@ char *character_get_name(Character *character)
   return character->name;
 }
 
-/* It sets the gdesc of a character */
+/* It sets the gdesc of a character
+ */
 Status character_set_gdesc(Character *character, char *gdesc)
 {
   if (!character || !gdesc)
@@ -137,7 +144,8 @@ Status character_set_gdesc(Character *character, char *gdesc)
   return OK;
 }
 
-/* It gets the character gdesc */
+/* It gets the gdesc of a character
+ */
 char *character_get_gdesc(Character *character)
 {
   if (!character)
@@ -148,55 +156,8 @@ char *character_get_gdesc(Character *character)
   return character->gdesc;
 }
 
-/* It sets the health of a character */
-Status character_set_health(Character *character, int health)
-{
-  if (!character)
-  {
-    return ERROR;
-  }
-
-  character->health = health;
-
-  return OK;
-}
-
-/* It gets the health of a character */
-int character_get_health(Character *character)
-{
-  if (!character)
-  {
-    return NO_ID;
-  }
-
-  return character->health;
-}
-
-/* It sets the friendly status of a character*/
-Status character_set_friendly(Character *character, Bool friendly)
-{
-  if (!character)
-  {
-    return ERROR;
-  }
-
-  character->friendly = friendly;
-
-  return OK;
-}
-
-/* It gets the friendly status of a character */
-Bool character_get_friendly(Character *character)
-{
-  if (!character)
-  {
-    return FALSE;
-  }
-
-  return character->friendly;
-}
-
-/* It sets the message of a character */
+/* It sets the message of a character
+ */
 Status character_set_message(Character *character, char *msg)
 {
   if (!character || !msg)
@@ -212,7 +173,8 @@ Status character_set_message(Character *character, char *msg)
   return OK;
 }
 
-/* It gets the character msg */
+/* It gets the message of a character
+ */
 char *character_get_message(Character *character)
 {
   if (!character)
@@ -223,7 +185,60 @@ char *character_get_message(Character *character)
   return character->message;
 }
 
-/* It sets the id of the player the character follows */
+/* It sets the health of a character
+ */
+Status character_set_health(Character *character, int health)
+{
+  if (!character)
+  {
+    return ERROR;
+  }
+
+  character->health = health;
+
+  return OK;
+}
+
+/* It gets the health of a character
+ */
+int character_get_health(Character *character)
+{
+  if (!character)
+  {
+    return NO_ID;
+  }
+
+  return character->health;
+}
+
+/* It sets the friendly status of a character
+ */
+Status character_set_friendly(Character *character, Bool friendly)
+{
+  if (!character)
+  {
+    return ERROR;
+  }
+
+  character->friendly = friendly;
+
+  return OK;
+}
+
+/* It gets the friendly status of a character
+ */
+Bool character_get_friendly(Character *character)
+{
+  if (!character)
+  {
+    return FALSE;
+  }
+
+  return character->friendly;
+}
+
+/* It sets the id of the player the character follows
+ */
 Status character_set_following(Character *character, Id following)
 {
   if (!character || following == NO_ID)
@@ -236,7 +251,8 @@ Status character_set_following(Character *character, Id following)
   return OK;
 }
 
-/* It gets the id of the player the character follows */
+/* It gets the id of the player the character follows
+ */
 Id character_get_following(Character *character)
 {
   if (!character)
@@ -247,7 +263,8 @@ Id character_get_following(Character *character)
   return character->following;
 }
 
-/* It prints the character information */
+/* It prints the character information
+ */
 Status character_print(Character *character)
 {
   /* Error Control */

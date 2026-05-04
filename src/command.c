@@ -2,7 +2,7 @@
  * @brief It implements the command interpreter
  *
  * @file command.c
- * @author Jorge Torrijos de la Cruz
+ * @author Álvaro Bravo González, Guillermo Núñez Bravo, Jorge Torrijos de la Cruz
  * @version 7.0
  * @date 28-04-2026
  * @copyright GNU Public License
@@ -18,7 +18,7 @@
 /**
  * String that stores all the commands that can be used
  */
-char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"m", "Move"}, {"t", "Take"}, {"d", "Drop"}, {"at", "Attack"}, {"c", "Chat"}, {"i", "Inspect"}, {"r", "Recruit"}, {"ab", "Abandon"}, {"u", "Use"}, {"o", "Open"}, {"s", "Save"}, {"l", "load"}, {"co", "Collab"}};
+char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"m", "Move"}, {"t", "Take"}, {"d", "Drop"}, {"at", "Attack"}, {"c", "Chat"}, {"i", "Inspect"}, {"r", "Recruit"}, {"ab", "Abandon"}, {"u", "Use"}, {"o", "Open"}, {"s", "Save"}, {"l", "load"}};
 
 /**
  * @brief Command

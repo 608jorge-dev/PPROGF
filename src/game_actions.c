@@ -16,27 +16,128 @@
 #include <strings.h>
 #include <time.h>
 
-/* Private functions
+/**
+ * @brief Executes the unknown command
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
  */
 void game_actions_unknown(Game *game);
-void game_actions_exit(Game *game);
-Status game_actions_move(Game *game);
-Status game_actions_take(Game *game);
-Status game_actions_drop(Game *game);
-Status game_actions_attack(Game *game);
-Status game_actions_chat(Game *game);
-Status game_actions_inspect(Game *game);
-Status game_actions_recruit(Game *game);
-Status game_actions_abandon(Game *game);
-Status game_actions_use(Game *game);
-Status game_actions_open(Game *game);
-Status game_actions_save(Game *game);
-Status game_actions_load(Game *game);
-Status game_actions_collab(Game *game);
 
 /**
-   Transfers the actual command state to the game function and calls the respective command function
-*/
+ * @brief Executes the exit command
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ */
+void game_actions_exit(Game *game);
+
+/**
+ * @brief Executes the move command
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ */
+Status game_actions_move(Game *game);
+
+/**
+ * @brief Executes the take command
+ * @author Álvaro Bravo González, Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ */
+Status game_actions_take(Game *game);
+
+/**
+ * @brief Executes the drop command
+ * @author Álvaro Bravo González, Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ */
+Status game_actions_drop(Game *game);
+
+/**
+ * @brief Executes the attack command
+ * @author Álvaro Bravo González, Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ */
+Status game_actions_attack(Game *game);
+
+/**
+ * @brief Executes the chat command
+ * @author Álvaro Bravo González, Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ */
+Status game_actions_chat(Game *game);
+
+/**
+ * @brief Executes the inspect command
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ */
+Status game_actions_inspect(Game *game);
+
+/**
+ * @brief Executes the recruit command
+ * @author Álvaro Bravo González
+ *
+ * @param game A pointer to the game data
+ */
+Status game_actions_recruit(Game *game);
+
+/**
+ * @brief Executes the abandon command
+ * @author Álvaro Bravo González
+ *
+ * @param game A pointer to the game data
+ */
+Status game_actions_abandon(Game *game);
+
+/**
+ * @brief Executes the use command
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ */
+Status game_actions_use(Game *game);
+
+/**
+ * @brief Executes the open command
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ */
+Status game_actions_open(Game *game);
+
+/**
+ * @brief Executes the save command
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ */
+Status game_actions_save(Game *game);
+
+/**
+ * @brief Executes the load command
+ * @author Jorge Torrijos de la Cruz
+ *
+ * @param game A pointer to the game data
+ */
+Status game_actions_load(Game *game);
+
+/**
+ * @brief Executes the inspect command
+ * @author Guillermo Núñez Bravo
+ *
+ * @param game A pointer to the game data
+ */
+Status game_actions_collab(Game *game);
+
+/* Transfers the actual command state to the game functions
+ */
 Status game_actions_update(Game *game, Command *command)
 {
 	CommandCode cmd;
@@ -155,28 +256,10 @@ Status game_actions_update(Game *game, Command *command)
 	return OK;
 }
 
-/**
- * @brief Executes the unknow command
- * @author Profesores PPROG
- *
- * @param game A pointer to the game data
- */
 void game_actions_unknown(Game *game) { return; }
 
-/**
- * @brief Executes the exit command
- * @author Profesores PPROG
- *
- * @param game A pointer to the game data
- */
 void game_actions_exit(Game *game) { return; }
 
-/**
- * @brief Executes the move command depending on the string sent
- * @author Jorge Torrijos de la Cruz
- *
- * @param game A pointer to the game data
- */
 Status game_actions_move(Game *game)
 {
 	Id player_space_id = NO_ID, current_id = NO_ID;
@@ -251,12 +334,6 @@ Status game_actions_move(Game *game)
 	return ERROR;
 }
 
-/**
- * @brief Executes the take command
- * @author Jorge Torrijos de la Cruz
- *
- * @param game A pointer to the game data
- */
 Status game_actions_take(Game *game)
 {
 	int i;
@@ -334,12 +411,6 @@ Status game_actions_take(Game *game)
 	return OK;
 }
 
-/**
- * @brief Executes the drop command
- * @author Jorge Torrijos de la Cruz
- *
- * @param game A pointer to the game data
- */
 Status game_actions_drop(Game *game)
 {
 	int i;
@@ -401,12 +472,6 @@ Status game_actions_drop(Game *game)
 	;
 }
 
-/**
- * @brief Executes the attack command
- * @author Jorge Torrijos de la Cruz
- *
- * @param game A pointer to the game data
- */
 Status game_actions_attack(Game *game)
 {
 	Player *player = NULL, *p = NULL;
@@ -462,7 +527,7 @@ Status game_actions_attack(Game *game)
 
 			p = game_get_player_at(game, i);
 			if (p != player &&
-				player_get_team(p) == player_get_id(player) &&
+				player_get_team(p) == player_get_team(player) &&
 				player_get_location(p) == player_space_id &&
 				player_get_health(p) > 0)
 			{
@@ -519,12 +584,6 @@ Status game_actions_attack(Game *game)
 	return ERROR;
 }
 
-/**
- * @brief Executes the chat command
- * @author Álvaro Bravo González
- *
- * @param game A pointer to the game data
- */
 Status game_actions_chat(Game *game)
 {
 	int i;
@@ -601,12 +660,6 @@ Status game_actions_chat(Game *game)
 	return ERROR;
 }
 
-/**
- * @brief Executes the inspect command depending on the string sent
- * @author Jorge Torrijos de la Cruz
- *
- * @param game A pointer to the game data
- */
 Status game_actions_inspect(Game *game)
 {
 	int i;
@@ -1021,7 +1074,7 @@ Status game_actions_collab(Game *game)
 	}
 
 	name = command_get_argstr(cmd, 0);
-	if (!name || name[0] == '\0')
+	if (!name)
 	{
 		return ERROR;
 	}

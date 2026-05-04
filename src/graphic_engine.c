@@ -72,6 +72,10 @@ void graphic_engine_destroy(Graphic_engine *ge)
   free(ge);
 }
 
+void graphic_engine_items_destroy(Graphic_engine *ge)
+{
+}
+
 /** It paints a blank space in the map
  */
 void graphic_engine_paint_blank(Graphic_engine *ge)
@@ -81,7 +85,7 @@ void graphic_engine_paint_blank(Graphic_engine *ge)
 
   sprintf(str, "                                         ");
   screen_area_puts(ge->map, str);
-  for (i = 0; i < HEIGHT_BLANK; i++)
+  for (i = 0; i < 14; i++)
   {
     sprintf(str, "                                         ");
     screen_area_puts(ge->map, str);
@@ -93,18 +97,23 @@ void graphic_engine_paint_blank(Graphic_engine *ge)
 void graphic_engine_paint_blankspace(Graphic_engine *ge, Id id)
 {
   int i;
-  char str[255];
+  char str[255], blank[MAC_SIZE];
 
-  sprintf(str, "                         +----------------+");
-  screen_area_puts(ge->map, str);
-  sprintf(str, "                         |              %2d|", (int)id);
-  screen_area_puts(ge->map, str);
-  for (i = 0; i < MAX_S + 1; i++)
+  /*CREATING A BLANK STRING*/
+  for (i = 0; i < MAC_SIZE; i++)
   {
-    sprintf(str, "                         |                |  ");
+    blank[i] = ' ';
+  }
+  sprintf(str, "                              +--------------------+");
+  screen_area_puts(ge->map, str);
+  sprintf(str, "                              |%-17.17s%3d|", blank, (int)id);
+  screen_area_puts(ge->map, str);
+  for (i = 0; i < 8 + 1; i++)
+  {
+    sprintf(str, "                              |%-20.20s|  ", blank);
     screen_area_puts(ge->map, str);
   }
-  sprintf(str, "                         +----------------+");
+  sprintf(str, "                              +--------------------+");
   screen_area_puts(ge->map, str);
 }
 
@@ -162,17 +171,54 @@ char *graphic_engine_get_characters(Game *game, Id id_paint, Graphic_engine *ge)
   return charac;
 }
 
+char *graphic_engine_get_gdesc(Game *game, Id id_paint, Graphic_engine *ge, int position)
+{
+  char *gdesc = NULL;
+  Space *s = NULL;
+
+  gdesc = (char *)malloc(255 * sizeof(char));
+  if (!gdesc)
+  {
+    return NULL;
+  }
+  gdesc[0] = '\0';
+
+  s = game_get_space(game, id_paint);
+  if (!s)
+  {
+    return gdesc;
+  }
+
+  strcpy(gdesc, space_get_gdesc(s, position));
+
+  return gdesc;
+}
+
 /** It paints the space on the north of the actual space
  */
 void graphic_engine_paint_northorsouthspace(Game *game, Id id_paint, Id id_act, Graphic_engine *ge, int D)
 {
-  char str[255], link1 = 'X', *ob = NULL, *ch = NULL;
+  char str[255], link1 = 'X', *ob = NULL, *ch = NULL, blank[MAC_SIZE], *gdesc[MAX_S];
   int i = 0;
 
+  if (!game || !ge)
+  {
+    return;
+  }
+  /*CREATING A BLANK STRING*/
+  for (i = 0; i < MAC_SIZE; i++)
+  {
+    blank[i] = ' ';
+  }
   /* CHARACTER GDESC*/
   ch = graphic_engine_get_characters(game, id_paint, ge);
   /*OBJECT NAME*/
   ob = graphic_engine_get_objects(game, id_paint, ge);
+  /*SPACE GDESC*/
+  for (i = 0; i < MAX_S; i++)
+  {
+    gdesc[i] = graphic_engine_get_gdesc(game, id_paint, ge, i);
+  }
 
   /* SPACE PRINTING*/
   if (id_paint != NO_ID)
@@ -180,23 +226,28 @@ void graphic_engine_paint_northorsouthspace(Game *game, Id id_paint, Id id_act, 
     if (game_connection_is_open(game, id_act, S) == TRUE && D == 0)
     {
       link1 = 'v';
-      sprintf(str, "                                %c", link1);
+      sprintf(str, "                                        %c", link1);
       screen_area_puts(ge->map, str);
     }
     if (space_get_discovered(game_get_space(game, id_paint)) == TRUE)
     {
-      sprintf(str, "                         +----------------+");
+      sprintf(str, "                               +--------------------+      ");
       screen_area_puts(ge->map, str);
-      sprintf(str, "                         |      %-3.3s     %2d|", ch, (int)id_paint);
+      sprintf(str, "                               |%-17.17s%-3.3d|      ", blank, (int)id_paint);
+      screen_area_puts(ge->map, str);
+      sprintf(str, "                               |%-20.20s|      ", blank);
       screen_area_puts(ge->map, str);
       for (i = 0; i < MAX_S; i++)
       {
-        sprintf(str, "                         |   %-9.9s    |  ", space_get_gdesc(game_get_space(game, id_paint), i));
+        sprintf(str, "                               | %-18.18s |  ", gdesc[i]);
         screen_area_puts(ge->map, str);
       }
-      sprintf(str, "                         | %-14.14s |  ", ob);
+
+      sprintf(str, "                               | %-18.18s |      ", ch);
       screen_area_puts(ge->map, str);
-      sprintf(str, "                         +----------------+");
+      sprintf(str, "                               | %-18.18s |  ", ob);
+      screen_area_puts(ge->map, str);
+      sprintf(str, "                               +--------------------+");
       screen_area_puts(ge->map, str);
     }
     else
@@ -207,7 +258,7 @@ void graphic_engine_paint_northorsouthspace(Game *game, Id id_paint, Id id_act, 
     if (game_connection_is_open(game, id_act, N) == TRUE && D == 1)
     {
       link1 = '^';
-      sprintf(str, "                                %c", link1);
+      sprintf(str, "                                         %c", link1);
       screen_area_puts(ge->map, str);
     }
   }
@@ -225,11 +276,11 @@ void graphic_engine_paint_northorsouthspace(Game *game, Id id_paint, Id id_act, 
  */
 void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id_act, Graphic_engine *ge)
 {
-  char str[255], *ch = NULL, *ch1 = NULL, *ch2 = NULL, link1 = 'X', link2 = 'X', *ob = NULL, *ob1 = NULL, *ob2 = NULL, *p = NULL, blank[MAC_SIZE];
+  char str[255], *ch = NULL, *ch1 = NULL, *ch2 = NULL, link1 = 'X', link2 = 'X', *ob = NULL, *ob1 = NULL, *ob2 = NULL, *p = NULL, blank[MAC_SIZE], *gdesc[MAX_S], *gdesc1[MAX_S], *gdesc2[MAX_S];
   int i;
 
   /*CREATING A BLANK STRING*/
-  for (i=0; i<MAC_SIZE; i++)
+  for (i = 0; i < MAC_SIZE; i++)
   {
     blank[i] = ' ';
   }
@@ -246,6 +297,13 @@ void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id
   ob1 = graphic_engine_get_objects(game, id_east, ge);
   ob2 = graphic_engine_get_objects(game, id_west, ge);
 
+  /*SPACE GDESC*/
+  for (i = 0; i < MAX_S; i++)
+  {
+    gdesc[i] = graphic_engine_get_gdesc(game, id_act, ge, i);
+    gdesc1[i] = graphic_engine_get_gdesc(game, id_west, ge, i);
+    gdesc2[i] = graphic_engine_get_gdesc(game, id_east, ge, i);
+  }
   /* SPACE PRINTING*/
   /*EAST, ACT, WEST*/
   if (id_act != NO_ID && id_east != NO_ID && id_west != NO_ID)
@@ -258,30 +316,24 @@ void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id
     {
       link2 = '>';
     }
-    sprintf(str, "  +----------------+      +----------------+     +----------------+");
+    sprintf(str, "  +--------------------+      +--------------------+     +--------------------+");
     screen_area_puts(ge->map, str);
-    sprintf(str, "  |    %-3.3s       %2d|      | %s %-3.3s     %2d|     |  %-3.3s        %2d|", ch1, (int)id_west, player_get_gdesc(game_get_player(game)), ch, (int)id_act, ch2, (int)id_east);
+    sprintf(str, "  |%-17.17s%-3.3d|      |%-17.17s%-3.3d|     |%-17.17s%-3.3d|", blank, (int)id_west, blank, (int)id_act, blank, (int)id_east);
     screen_area_puts(ge->map, str);
-    if (space_get_discovered(game_get_space(game, id_west)) == FALSE)
-    {
-      id_west = NUL;
-    }
-    if (space_get_discovered(game_get_space(game, id_east)) == FALSE)
-    {
-      id_east = NUL;
-    }
-
+    sprintf(str, "  | %-18.18s |      | %-18.18s |     | %-18.18s |", blank, p, blank);
+    screen_area_puts(ge->map, str);
     for (i = 0; i < MAX_S; i++)
     {
-      sprintf(str, "  |   %-9.9s    |      |   %-9.9s    |     |    %-9.9s   |", space_get_gdesc(game_get_space(game, id_west), i), space_get_gdesc(game_get_space(game, id_act), i), space_get_gdesc(game_get_space(game, id_east), i));
+      sprintf(str, "  | %-18.18s |      | %-18.18s |     | %-18.18s |", gdesc1[i], gdesc[i], gdesc2[i]);
       screen_area_puts(ge->map, str);
     }
-    sprintf(str, "  | %-12.12s |   %c  | %-12.12s |  %c  | %-12.12s |", ob1, link1, ob, link2, ob2);
+
+    sprintf(str, "  | %-18.18s |   %c  | %-18.18s |  %c  | %-18.18s |", ch1, link1, ch, link2, ch2);
     screen_area_puts(ge->map, str);
-    sprintf(str, "  +----------------+      +----------------+     +----------------+");
+    sprintf(str, "  | %-18.18s |      | %-18.18s |     | %-18.18s |", ob1, ob, ob2);
     screen_area_puts(ge->map, str);
-    id_west = game_get_connection(game, id_act, 3);
-    id_east = game_get_connection(game, id_act, 2);
+    sprintf(str, "  +--------------------+      +--------------------+     +--------------------+");
+    screen_area_puts(ge->map, str);
   }
 
   /*ACT, WEST*/
@@ -291,22 +343,23 @@ void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id
     {
       link2 = '>';
     }
-    sprintf(str, "                         +----------------+     +----------------+");
+    sprintf(str, "                           +--------------------+      +--------------------+     ");
     screen_area_puts(ge->map, str);
-    sprintf(str, "                         |  %s  %-3.3s    %2d|     |       %-3.3s   %2d|", player_get_gdesc(game_get_player(game)), ch, (int)id_act, ch2, (int)id_east);
+    sprintf(str, "                           |%-17.17s%-3.3d|      |%-17.17s%-3.3d|     ", blank, (int)id_act, blank, (int)id_east);
     screen_area_puts(ge->map, str);
-    if (space_get_discovered(game_get_space(game, id_east)) != TRUE)
-    {
-      id_east = NUL;
-    }
+    sprintf(str, "                           | %-18.18s |      | %-18.18s |     ", blank, p);
+    screen_area_puts(ge->map, str);
     for (i = 0; i < MAX_S; i++)
     {
-      sprintf(str, "                         |   %-9.9s    |     |   %-9.9s    |", space_get_gdesc(game_get_space(game, id_act), i), space_get_gdesc(game_get_space(game, id_east), i));
+      sprintf(str, "                           | %-18.18s |      | %-18.18s |     ", gdesc[i], gdesc2[i]);
       screen_area_puts(ge->map, str);
     }
-    sprintf(str, "                         | %-12.12s |  %c  | %-12.12s |", ob, link2, ob2);
+
+    sprintf(str, "                           | %-18.18s |      | %-18.18s |      ", ch, ch2);
     screen_area_puts(ge->map, str);
-    sprintf(str, "                         +----------------+     +----------------+");
+    sprintf(str, "                           | %-18.18s |   %c  | %-18.18s |      ", ob, link2, ob2);
+    screen_area_puts(ge->map, str);
+    sprintf(str, "                           +--------------------+      +--------------------+  ");
     screen_area_puts(ge->map, str);
   }
 
@@ -317,53 +370,52 @@ void graphic_engine_paint_currentspace(Game *game, Id id_west, Id id_east, Id id
     {
       link1 = '<';
     }
-    sprintf(str, " +----------------+      +----------------+");
+    sprintf(str, "  +--------------------+      +--------------------+     ");
     screen_area_puts(ge->map, str);
-    sprintf(str, " |    %-3.3s      %2d|      | %-3.3s  %-5.5s   %2d|      ", ch1, (int)id_west, player_get_gdesc(game_get_player(game)), ch, (int)id_act);
+    sprintf(str, "  |%-17.17s%-3.3d|      |%-17.17s%-3.3d|     ", blank, (int)id_west, blank, (int)id_act);
     screen_area_puts(ge->map, str);
-    if (space_get_discovered(game_get_space(game, id_west)) != TRUE)
-    {
-      id_west = NUL;
-    }
+    sprintf(str, "  | %-18.18s |      | %-18.18s |     ", blank, p);
+    screen_area_puts(ge->map, str);
     for (i = 0; i < MAX_S; i++)
     {
-      sprintf(str, " | %-9.9s      |      |  %-9.9s     |", space_get_gdesc(game_get_space(game, id_west), i), space_get_gdesc(game_get_space(game, id_act), i));
+      sprintf(str, "  | %-18.18s |      | %-18.18s |     ", gdesc1[i], gdesc[i]);
       screen_area_puts(ge->map, str);
     }
-    sprintf(str, " | %-12.12s |  %c   | %-12.12s |", ob1, link1, ob2);
+
+    sprintf(str, "  | %-18.18s |  %c   | %-18.18s |     ", ch1, link1, ch);
     screen_area_puts(ge->map, str);
-    sprintf(str, " +----------------+      +----------------+");
+    sprintf(str, "  | %-18.18s |      | %-18.18s |      ", ob1, ob);
     screen_area_puts(ge->map, str);
-    id_west = game_get_connection(game, id_act, 3);
+    sprintf(str, "  +--------------------+      +--------------------+   ");
+    screen_area_puts(ge->map, str);
   }
 
   /*ACT*/
   if (id_act != NO_ID && id_west == NO_ID && id_east == NO_ID)
   {
-    sprintf(str, "                         +--------------------+      ");
+    sprintf(str, "                               +--------------------+      ");
     screen_area_puts(ge->map, str);
-    sprintf(str, "                         |%-17.17s%-3.3d|      ",  blank, (int)id_act);
+    sprintf(str, "                               |%-17.17s%-3.3d|", blank, (int)id_act);
     screen_area_puts(ge->map, str);
-    for (i = 0; i < 3; i++)
-    {
-      sprintf(str, "                         | %-18.18s |  ", space_get_gdesc(game_get_space(game, id_act), i));
-      screen_area_puts(ge->map, str);
-    }
-    sprintf(str, "                         | %-6.6s %-4.4s %-6.6s |      ", blank, p, blank);
-    screen_area_puts(ge->map, str);
-    sprintf(str, "                         | %-18.18s |      ", ch);
+    sprintf(str, "                               | %-6.6s %-4.4s %-6.6s |", blank, p, blank);
     screen_area_puts(ge->map, str);
     for (i = 0; i < 3; i++)
     {
-      sprintf(str, "                         | %-18.18s |  ", space_get_gdesc(game_get_space(game, id_act), i));
+      sprintf(str, "                               | %-18.18s |", space_get_gdesc(game_get_space(game, id_act), i));
       screen_area_puts(ge->map, str);
     }
-    sprintf(str, "                         | %-18.18s |  ", ob);
+    sprintf(str, "                               | %-18.18s |", ch);
     screen_area_puts(ge->map, str);
-    sprintf(str, "                         +--------------------+");
+    for (i = 0; i < 3; i++)
+    {
+      sprintf(str, "                               | %-18.18s |", space_get_gdesc(game_get_space(game, id_act), i));
+      screen_area_puts(ge->map, str);
+    }
+    sprintf(str, "                               | %-18.18s |", ob);
+    screen_area_puts(ge->map, str);
+    sprintf(str, "                               +--------------------+");
     screen_area_puts(ge->map, str);
   }
-
 
   free(ch);
   free(ob);
@@ -481,7 +533,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game)
   screen_area_clear(ge->help);
   sprintf(str, " The commands you can use are:");
   screen_area_puts(ge->help, str);
-  sprintf(str, "    move or m (north, south, west, east), take or t, drop or d, attack or a, chat or c, inspect or i, recruit or r, abandon or ab, use or u, open or o, exit or e");
+  sprintf(str, "    move or m (north, south, west, east, up or down), take or t, drop or d, attack or a, chat or c, inspect or i, recruit or r, abandon or ab, use or u, open or o, exit or e");
   screen_area_puts(ge->help, str);
 
   /* Paint in the feedback area */

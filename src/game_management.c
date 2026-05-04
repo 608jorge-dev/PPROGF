@@ -8,12 +8,15 @@
  * @date 28-04-26
  * @copyright GNU Public License
  */
+
 #include "game_management.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+/* Saves in a file the game progress data
+ */
 Status game_management_save(Game *game, char *filename)
 {
     FILE *f = NULL;
@@ -46,8 +49,6 @@ Status game_management_save(Game *game, char *filename)
     i = 0;
 
     fprintf(f, "\n");
-
-    /*esto a lo mejor da problemas a la hora de cargar el fichero de datos guerdado porque añadido nuevas cosas*/
 
     while (game_get_object_at(game, i) != NULL)
     {
@@ -96,6 +97,45 @@ Status game_management_save(Game *game, char *filename)
     return OK;
 }
 
+/* Loads the whole game read on file
+ */
+Status game_management_load(Game *game, char *filename)
+{
+    if (game_management_load_spaces(game, filename) == ERROR)
+    {
+        return ERROR;
+    }
+
+    if (game_management_load_objects(game, filename) == ERROR)
+    {
+        return ERROR;
+    }
+  
+    if (game_management_load_characters(game, filename) == ERROR)
+    {
+        return ERROR;
+    }
+
+    if (game_management_load_spaces(game, filename) == ERROR)
+    {
+        return ERROR;
+    }
+
+    if (game_management_load_player(game, filename) == ERROR)
+    {
+        return ERROR;
+    }
+
+    if (game_management_load_link(game, filename) == ERROR)
+    {
+        return ERROR;
+    }
+
+    return OK;
+}
+
+/* Loads the spaces read on file
+ */
 Status game_management_load_spaces(Game *game, char *filename)
 {
     FILE *file = NULL;
@@ -169,9 +209,8 @@ Status game_management_load_spaces(Game *game, char *filename)
     return status;
 }
 
-/**
-  Loads the objects read on the .dat file
-*/
+/* Loads the objects read on file
+ */
 Status game_management_load_objects(Game *game, char *filename)
 {
     FILE *file = NULL;
@@ -232,9 +271,8 @@ Status game_management_load_objects(Game *game, char *filename)
     return status;
 }
 
-/**
-  Loads the characters read on the .dat file
-*/
+/* Loads the characters read on file
+ */
 Status game_management_load_characters(Game *game, char *filename)
 {
     FILE *file = NULL;
@@ -306,9 +344,8 @@ Status game_management_load_characters(Game *game, char *filename)
     return status;
 }
 
-/**
-  Loads the player read on the .dat file
-*/
+/* Loads the players read on file
+ */
 Status game_management_load_player(Game *game, char *filename)
 {
     FILE *file = NULL;
@@ -378,6 +415,8 @@ Status game_management_load_player(Game *game, char *filename)
     return status;
 }
 
+/* Loads the links read on file
+ */
 Status game_management_load_link(Game *game, char *filename)
 {
     FILE *file = NULL;
@@ -442,41 +481,4 @@ Status game_management_load_link(Game *game, char *filename)
     fclose(file);
 
     return status;
-}
-
-/** It creates a new game data structure, allocating memory and initializing its members starting from the .dat file
- */
-Status game_management_load(Game *game, char *filename)
-{
-    if (game_management_load_spaces(game, filename) == ERROR)
-    {
-        return ERROR;
-    }
-
-    if (game_management_load_objects(game, filename) == ERROR)
-    {
-        return ERROR;
-    }
-  
-    if (game_management_load_characters(game, filename) == ERROR)
-    {
-        return ERROR;
-    }
-
-    if (game_management_load_spaces(game, filename) == ERROR)
-    {
-        return ERROR;
-    }
-
-    if (game_management_load_player(game, filename) == ERROR)
-    {
-        return ERROR;
-    }
-
-    if (game_management_load_link(game, filename) == ERROR)
-    {
-        return ERROR;
-    }
-
-    return OK;
 }

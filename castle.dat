@@ -1,34 +1,34 @@
-#s:1|Barbican| | | | |0|
-#s:2|Main_entrance| | | | |0|
-#s:3|Corridor| | | | |0|
-#s:4|Hall| | | | |0|
-#s:5|Hall2| | | | |0|
-#s:6|Hall3| | | | |0|
-#s:7|Dining_hall| | | | |0|
-#s:8|Kitchen| | | | |0|
-#s:9|Chapel| | | | |0|
-#s:10|Armor_room| | | | |0|
-#s:11|Room_corridor| | | | |0|
-#s:12|Room_corridor2| | | | |0|
-#s:13|Room1| | | | |0|
-#s:14|Room2| | | | |0|
-#s:15|Room3| | | | |0|
-#s:16|Room4| | | | |0|
-#s:17|Room5| | | | |0|
-#s:18|Tower1| | | | |0|
-#s:19|Tower2| | | | |0|
-#s:20|Tower3| | | | |0|
-#s:21|Tower4| | | | |0|
-#s:22|Tower1Up| | | | |0|
-#s:23|Tower2Up| | | | |0|
-#s:24|Tower3Up| | | | |0|
-#s:25|Tower4Up| | | | |0|
-#s:26|Cript1| | | | |0|
-#s:27|Cript2| | | | |0|
-#s:28|Cript3| | | | |0|
-#s:29|Garden1| | | | |0|
-#s:30|Garden2| | | | |0|
-#s:0|NULL| | | | | |0|
+#s:1|Barbican| | | | | |0|
+#s:2|Main_entrance| | | | | |0|
+#s:3|Corridor| | | | | |0|
+#s:4|Hall| | | | | |0|
+#s:5|Hall2| | | | | |0|
+#s:6|Hall3| | | | | |0|
+#s:7|Dining_hall| | | | | |0|
+#s:8|Kitchen| | | | | |0|
+#s:9|Chapel| | | | | |0|
+#s:10|Armor_room| | | | | |0|
+#s:11|Room_corridor| | | | | |0|
+#s:12|Room_corridor2| | | | | |0|
+#s:13|Room1| | | | | |0|
+#s:14|Room2| | | | | |0|
+#s:15|Room3| | | | | |0|
+#s:16|Room4| | | | | |0|
+#s:17|Room5| | | | | |0|
+#s:18|Tower1| | | | | |0|
+#s:19|Tower2| | | | | |0|
+#s:20|Tower3| | | | | |0|
+#s:21|Tower4| | | | | |0|
+#s:22|Tower1Up| | | | | |0|
+#s:23|Tower2Up| | | | | |0|
+#s:24|Tower3Up| | | | | |0|
+#s:25|Tower4Up| | | | | |0|
+#s:26|Cript1| | | | | |0|
+#s:27|Cript2| | | | | |0|
+#s:28|Cript3| | | | | |0|
+#s:29|Garden1| | | | | |0|
+#s:30|Garden2| | | | | |0|
+#s:0|NULL| | | | | | |0|
 
 #o:1|Sword|11| Just a normal sword |
 #o:2|Knife|14| A knife to cut some onions |

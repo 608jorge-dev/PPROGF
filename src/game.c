@@ -673,7 +673,7 @@ Bool game_get_finished(Game *game)
 Id game_get_connection(Game *game, Id actual_space, Direction link_dir)
 {
   int i;
-  if (!game || actual_space == NO_ID || link_dir > 3 || link_dir < 0)
+  if (!game || actual_space == NO_ID || link_dir > 5 || link_dir < 0)
   {
     return NO_ID;
   }
@@ -692,7 +692,7 @@ Id game_get_connection(Game *game, Id actual_space, Direction link_dir)
 Bool game_connection_is_open(Game *game, Id actual_space, Direction link_dir)
 {
   int i;
-  if (!game || actual_space == NO_ID || link_dir > 3 || link_dir < 0)
+  if (!game || actual_space == NO_ID || link_dir > 5 || link_dir < 0)
   {
     return FALSE;
   }

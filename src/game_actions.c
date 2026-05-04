@@ -462,7 +462,7 @@ Status game_actions_attack(Game *game)
 
 			p = game_get_player_at(game, i);
 			if (p != player &&
-				player_get_team(p) == player_get_team(player) &&
+				player_get_team(p) == player_get_id(player) &&
 				player_get_location(p) == player_space_id &&
 				player_get_health(p) > 0)
 			{
@@ -1021,7 +1021,7 @@ Status game_actions_collab(Game *game)
 	}
 
 	name = command_get_argstr(cmd, 0);
-	if (!name)
+	if (!name || name[0] == '\0')
 	{
 		return ERROR;
 	}
